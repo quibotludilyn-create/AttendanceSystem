@@ -1,0 +1,35 @@
+# ============================================================
+#  AttendanceSystem — .gitignore
+#  These files are EXCLUDED from Git (not deleted, just hidden
+#  from version control). Your code is NOT affected.
+# ============================================================
+
+# --- Database credentials & Google OAuth secrets ---
+config/database.php
+config/google.php
+
+# --- SQL dump files (contain your real data) ---
+*.sql
+
+# --- Debug / utility scripts (not for production) ---
+fix_password.php
+fix_*.php
+
+# --- SSL certificate files generated for XAMPP ---
+openssl-san.cnf
+apache/conf/ssl.crt/server.crt
+apache/conf/ssl.key/server.key
+
+# --- OS / editor junk ---
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log
+
+# --- PHP error logs ---
+error_log
+php_errorlog
+
+# --- Node / Composer (if added later) ---
+node_modules/
+vendor/

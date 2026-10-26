@@ -1,0 +1,30 @@
+# AttendEase — Apache Configuration
+
+# Content Security Policy
+<IfModule mod_headers.c>
+    Header always set Content-Security-Policy "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https:; connect-src 'self' blob: data: https: http://localhost http://10.157.195.129; img-src 'self' data: blob: https:; media-src 'self' blob:; worker-src 'self' blob:;"
+</IfModule>
+
+# MIME types for face-api.js model files
+<IfModule mod_mime.c>
+    AddType application/json .json
+    AddType application/octet-stream .bin
+</IfModule>
+
+# Force correct MIME for model shard files (extensionless binary files)
+<FilesMatch "shard[0-9]+$">
+    <IfModule mod_headers.c>
+        Header set Content-Type "application/octet-stream"
+    </IfModule>
+</FilesMatch>
+
+# Enable URL rewriting
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+</IfModule>
+
+# Prevent directory listing
+Options -Indexes
+
+# Default charset
+AddDefaultCharset UTF-8

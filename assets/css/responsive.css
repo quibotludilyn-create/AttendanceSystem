@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════
+   RESPONSIVE / MOBILE IMPROVEMENTS
+   Applies to all pages
+═══════════════════════════════════════════ */
+
+/* ── Mobile sidebar collapse ── */
+@media (max-width: 768px) {
+    .wrapper { flex-direction: column; }
+
+    .sidebar {
+        width: 100% !important;
+        height: auto !important;
+        position: relative !important;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+    }
+
+    .sidebar-header {
+        padding: 10px 16px;
+        flex-shrink: 0;
+        min-width: 160px;
+    }
+
+    .sidebar-header h3 { font-size: 0.72rem; }
+    .sidebar-icon      { font-size: 1.4rem !important; }
+
+    .sidebar nav ul {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0;
+        flex: 1;
+        scrollbar-width: none;
+    }
+
+    .sidebar nav ul::-webkit-scrollbar { display: none; }
+
+    .sidebar nav ul li a {
+        padding: 12px 14px;
+        border-left: none !important;
+        border-bottom: 3px solid transparent;
+        white-space: nowrap;
+        font-size: 0.78rem;
+    }
+
+    .sidebar nav ul li a.active,
+    .sidebar nav ul li a:hover {
+        border-left: none !important;
+        border-bottom-color: #64b5f6 !important;
+    }
+
+    .sidebar-footer {
+        position: relative;
+        bottom: auto;
+        width: auto;
+        padding: 8px 12px;
+        flex-shrink: 0;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 14px !important;
+    }
+
+    /* Topbar */
+    .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 12px 14px;
+    }
+
+    .topbar-user { font-size: 0.75rem; }
+
+    /* Stats grid */
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    /* Grid 2 → 1 column */
+    .grid-2 {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Table scroll */
+    .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    /* Buttons full width on mobile */
+    .btn-block-mobile {
+        width: 100%;
+        display: block;
+        text-align: center;
+    }
+}
+
+/* ── Tablet (768–1024px) ── */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .sidebar { width: 200px !important; }
+    .main-content { margin-left: 200px !important; padding: 16px !important; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+/* ── Print styles ── */
+@media print {
+    .sidebar, .topbar, .btn, .modal-overlay,
+    .sidebar-footer, nav, .s-nav, .s-tabs { display: none !important; }
+    .main-content { margin: 0 !important; padding: 0 !important; }
+    body { background: white !important; }
+    table { font-size: 11px; }
+    thead th { background: #333 !important; color: white !important; -webkit-print-color-adjust: exact; }
+}
+
+/* ── Touch-friendly ── */
+@media (hover: none) and (pointer: coarse) {
+    .btn, .nav-menu a, .s-tab, .sidebar nav ul li a {
+        min-height: 44px;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    input, select, textarea {
+        font-size: 16px !important; /* prevent iOS zoom */
+    }
+}
+
+/* ── Student side mobile ── */
+@media (max-width: 600px) {
+    .s-nav { padding: 0 14px; height: 54px; }
+    .s-nav-user { display: none; }
+    .s-tabs { padding: 0 8px; }
+    .s-tab  { padding: 8px 12px; font-size: 0.66rem; }
+    .s-tab .tab-icon { font-size: 1.15rem; }
+    .s-main { padding: 12px 12px 36px; }
+    .s-page-title { font-size: 1rem; }
+}
