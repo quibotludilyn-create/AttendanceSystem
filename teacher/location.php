@@ -376,6 +376,19 @@ function cancelEdit() {
 window.addEventListener('load', function () {
     locMap = L.map('map', { zoomControl: true }).setView([<?= $defLat ?>, <?= $defLon ?>], <?= $defZoom ?>);
 
+    <?php
+    // Load .env if not already loaded
+    if (empty($_ENV['MAPBOX_PUBLIC_TOKEN'])) {
+        $envFile = dirname(__DIR__) . '/.env';
+        if (file_exists($envFile)) {
+            foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+                if (str_starts_with(trim($line), '#') || !str_contains($line, '=')) continue;
+                [$k, $v] = explode('=', $line, 2);
+                $_ENV[trim($k)] = trim($v);
+            }
+        }
+    }
+    ?>
     const MAPBOX_TOKEN = '<?= htmlspecialchars($_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '') ?>';
 
     /* Primary tile layer — Mapbox Streets (updated, with labels) */
@@ -427,7 +440,7 @@ window.addEventListener('load', function () {
         const r   = parseInt(el.dataset.radius);
         const nm  = el.dataset.name;
         const m   = L.map(el, { zoomControl:false, attributionControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false });
-        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=' + encodeURIComponent(MAPBOX_TOKEN), { maxZoom:22, tileSize:512, zoomOffset:-1 }).addTo(m);
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=<?= htmlspecialchars($_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '') ?>', { maxZoom:22, tileSize:512, zoomOffset:-1 }).addTo(m);
         m.setView([la, lo], 18);
         L.marker([la, lo], { icon: greenIcon() }).addTo(m).bindPopup('<b>' + nm + '</b>').openPopup();
         L.circle([la, lo], { radius:r, color:'#2e7d32', fillColor:'#4caf50', fillOpacity:0.15, weight:2, dashArray:'6,4' }).addTo(m);
