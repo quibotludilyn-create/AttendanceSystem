@@ -1,5 +1,18 @@
 <?php
-require_once 'layout.php';
+<?php
+// Load .env early so MAPBOX_PUBLIC_TOKEN is available
+if (empty($_ENV['MAPBOX_PUBLIC_TOKEN'])) {
+    $envFile = dirname(__DIR__) . '/.env';
+    if (file_exists($envFile)) {
+        foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+            if (str_starts_with(trim($line), '#') || !str_contains($line, '=')) continue;
+            [$k, $v] = explode('=', $line, 2);
+            $_ENV[trim($k)] = trim($v);
+        }
+    }
+}
+?>
+<?php require_once 'layout.php'; ?>
 $msg = ''; $err = '';
 
 if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['save_location'])) {
