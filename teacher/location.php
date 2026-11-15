@@ -48,6 +48,7 @@ $defLoc  = $conn->query("SELECT latitude,longitude FROM teacher_locations WHERE 
 $defLat  = $defLoc ? floatval($defLoc['latitude'])  : 14.599512;   /* default: Manila */
 $defLon  = $defLoc ? floatval($defLoc['longitude']) : 120.984222;
 $defZoom = $defLoc ? 18 : 13;
+$mapboxToken = $_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '';
 ?>
 
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
@@ -376,18 +377,24 @@ function cancelEdit() {
 window.addEventListener('load', function () {
     locMap = L.map('map', { zoomControl: true }).setView([<?= $defLat ?>, <?= $defLon ?>], <?= $defZoom ?>);
 
-    /* Primary tile layer — OSM standard */
-    const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    const MAPBOX_TOKEN = <?= json_encode($mapboxToken, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+
+    /* Primary tile layer — Mapbox Streets (updated, with labels) */
+    const osmLayer = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_TOKEN, {
         maxZoom: 22,
-        maxNativeZoom: 19,
-        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        maxNativeZoom: 20,
+        tileSize: 512,
+        zoomOffset: -1,
+        attribution: '© <a href="https://www.mapbox.com/">Mapbox</a>'
     });
 
-    /* Fallback — CartoDB Voyager (different CDN, often works when OSM doesn't) */
-    const cartoLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+    /* Fallback — Mapbox Satellite Streets */
+    const cartoLayer = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v12/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_TOKEN, {
         maxZoom: 22,
-        maxNativeZoom: 19,
-        attribution: '© <a href="https://carto.com/">CARTO</a>'
+        maxNativeZoom: 20,
+        tileSize: 512,
+        zoomOffset: -1,
+        attribution: '© <a href="https://www.mapbox.com/">Mapbox</a>'
     });
 
     osmLayer.addTo(locMap);
@@ -421,7 +428,7 @@ window.addEventListener('load', function () {
         const r   = parseInt(el.dataset.radius);
         const nm  = el.dataset.name;
         const m   = L.map(el, { zoomControl:false, attributionControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false });
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom:22 }).addTo(m);
+        L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=' + encodeURIComponent(MAPBOX_TOKEN), { maxZoom:22, tileSize:512, zoomOffset:-1 }).addTo(m);
         m.setView([la, lo], 18);
         L.marker([la, lo], { icon: greenIcon() }).addTo(m).bindPopup('<b>' + nm + '</b>').openPopup();
         L.circle([la, lo], { radius:r, color:'#2e7d32', fillColor:'#4caf50', fillOpacity:0.15, weight:2, dashArray:'6,4' }).addTo(m);

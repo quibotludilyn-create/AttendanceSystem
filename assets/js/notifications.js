@@ -113,7 +113,7 @@
                 <div style="font-size:0.82rem;color:#555;line-height:1.5;">${escHtml(notif.message.length > 90 ? notif.message.slice(0, 90) + '...' : notif.message)}</div>
                 <div style="font-size:0.7rem;color:#aaa;margin-top:5px;">🕐 Just now · Click to view</div>
             </div>
-            <button style="background:none;border:none;cursor:pointer;color:#bbb;font-size:1.1rem;padding:0 0 0 8px;flex-shrink:0;align-self:flex-start;" onclick="this.parentElement.remove()">✕</button>
+            <button style="background:none;border:none;cursor:pointer;color:#bbb;font-size:1.1rem;padding:0 0 0 8px;flex-shrink:0;align-self:flex-start;" onclick="event.stopPropagation(); this.closest('[id^=toast-]') ? this.closest('[id^=toast-]').remove() : this.parentElement.remove();">✕</button>
         `;
 
         const toastId = 'toast-' + Date.now();

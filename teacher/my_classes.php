@@ -136,7 +136,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
 </div>
 
 <?php if ($view_data): ?>
-<div class="card">
+<div class="card" id="enrolled-card">
     <div class="card-title">
         👥 Students in: <?= htmlspecialchars($view_data['subject_name']) ?> — Section <?= htmlspecialchars($view_data['section']) ?>
         <a href="my_classes.php" style="margin-left:auto;font-size:0.78rem;color:#aaa;font-weight:400;">✕ Close</a>
@@ -160,38 +160,53 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
         <button type="submit" name="enroll_student" class="btn btn-success">➕ Enroll</button>
     </form>
 
-    <?php
-    $enrolled = $conn->query("
-        SELECT e.id as eid, st.student_id, st.full_name, st.course, st.year_level,
-               (SELECT COUNT(*) FROM attendance a WHERE a.student_id=st.id AND a.subject_id=$view_subject AND a.status='present') as present_count
-        FROM enrollments e JOIN students st ON e.student_id=st.id
-        WHERE e.subject_id=$view_subject ORDER BY st.full_name
-    ");
-    ?>
-    <?php if ($enrolled->num_rows > 0): ?>
-    <div class="table-responsive">
-        <table>
-            <thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Course</th><th>Attendance</th><th>Action</th></tr></thead>
-            <tbody>
-            <?php $i=1; while($e = $enrolled->fetch_assoc()): ?>
-            <tr>
-                <td><?= $i++ ?></td>
-                <td><?= htmlspecialchars($e['student_id']) ?></td>
-                <td><?= htmlspecialchars($e['full_name']) ?></td>
-                <td><?= htmlspecialchars($e['course']) ?> Yr<?= $e['year_level'] ?></td>
-                <td><span class="badge badge-present"><?= $e['present_count'] ?> present</span></td>
-                <td>
-                    <a href="?view=<?= $view_subject ?>&unenroll=<?= $e['eid'] ?>" onclick="return confirm('Remove student?')" class="btn btn-danger btn-sm">Remove</a>
-                </td>
-            </tr>
-            <?php endwhile; ?>
-            </tbody>
-        </table>
+    <!-- Attendance counts loaded via AJAX so they always show latest data -->
+    <div id="attendance-table-wrap">
+        <div style="text-align:center;padding:20px;color:#888;">⏳ Loading attendance...</div>
     </div>
-    <?php else: ?>
-    <div class="empty-state" style="padding:20px 0;"><div class="empty-icon">👥</div><p>No students enrolled yet.</p></div>
-    <?php endif; ?>
 </div>
+
+<script>
+// Load attendance counts fresh via AJAX — no caching issue
+function loadAttendanceCounts() {
+    fetch('get_class_attendance.php?subject_id=<?= $view_subject ?>&_='+Date.now())
+        .then(r => r.json())
+        .then(data => {
+            const wrap = document.getElementById('attendance-table-wrap');
+            if (!data.students || data.students.length === 0) {
+                wrap.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div class="empty-icon">👥</div><p>No students enrolled yet.</p></div>';
+                return;
+            }
+            let html = `<div class="table-responsive"><table>
+                <thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Course</th><th>Attendance</th><th>Action</th></tr></thead>
+                <tbody>`;
+            data.students.forEach((s, i) => {
+                html += `<tr>
+                    <td>${i+1}</td>
+                    <td>${s.student_id}</td>
+                    <td>${s.full_name}</td>
+                    <td>${s.course} Yr${s.year_level}</td>
+                    <td style="white-space:nowrap;">
+                        <span class="badge badge-present">✅ ${s.present_count} present</span>
+                        <span class="badge badge-late">⏰ ${s.late_count} late</span>
+                        <span class="badge badge-absent">❌ ${s.absent_count} absent</span>
+                    </td>
+                    <td><a href="?view=<?= $view_subject ?>&unenroll=${s.eid}" onclick="return confirm('Remove student?')" class="btn btn-danger btn-sm">Remove</a></td>
+                </tr>`;
+            });
+            html += '</tbody></table></div>';
+            wrap.innerHTML = html;
+        })
+        .catch(() => {
+            document.getElementById('attendance-table-wrap').innerHTML =
+                '<div style="color:#e53935;padding:12px;">❌ Failed to load attendance. Please refresh.</div>';
+        });
+}
+
+// Load on page open, then auto-refresh every 5 seconds
+loadAttendanceCounts();
+setInterval(loadAttendanceCounts, 5000);
+</script>
 <?php endif; ?>
 
 </main>

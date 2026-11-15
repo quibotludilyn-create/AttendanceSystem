@@ -1,5 +1,6 @@
 <?php
 header('Content-Type: application/json');
+session_start();
 require_once '../config/database.php';
 $conn = getConnection();
 
@@ -8,6 +9,9 @@ $name    = $conn->real_escape_string(trim($input['name']    ?? ''));
 $role    = in_array($input['role'] ?? '', ['student','teacher','admin','other']) ? $input['role'] : 'other';
 $rating  = max(1, min(5, intval($input['rating'] ?? 5)));
 $message = $conn->real_escape_string(trim($input['message'] ?? ''));
+
+// Get student_id from session if logged in as student
+$student_id = isset($_SESSION['student_id']) ? intval($_SESSION['student_id']) : 'NULL';
 
 if (!$name || !$message) {
     echo json_encode(['success' => false, 'message' => 'Gmail and message are required.']);
@@ -22,8 +26,9 @@ if (strlen($message) < 10) {
     exit;
 }
 
-// Save feedback
-$conn->query("INSERT INTO feedbacks (name, role, rating, message) VALUES ('$name','$role',$rating,'$message')");
+// Save feedback with student_id
+$conn->query("INSERT INTO feedbacks (name, student_id, role, rating, message) VALUES ('$name',$student_id,'$role',$rating,'$message')");
+$feedback_id = $conn->insert_id;
 $feedback_id = $conn->insert_id;
 
 // ── Notify ALL admins ───────────────────────────────

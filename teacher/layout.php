@@ -1,5 +1,9 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) { session_start(); }
+// No-cache: always serve fresh data (attendance counts, notifications, etc.)
+header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+header('Pragma: no-cache');
+header('Expires: Thu, 01 Jan 1970 00:00:00 GMT');
 if (!isset($_SESSION['teacher_id'])) {
     header('Location: ../teacher_login.php');
     exit;
@@ -66,6 +70,89 @@ $notif_count = $conn->query("
             padding: 3px 10px; border-radius: 20px;
             font-size: 0.72rem; font-weight: 800;
             margin-right: 8px;
+        }
+
+        /* ── Hamburger button ── */
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 8px;
+            margin-left: auto;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block !important; }
+
+            .sidebar {
+                width: 260px !important;
+                height: 100vh !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: -260px !important;
+                z-index: 9999 !important;
+                transition: left 0.3s ease !important;
+                flex-direction: column !important;
+                overflow-y: auto !important;
+            }
+
+            .sidebar.open { left: 0 !important; }
+
+            .sidebar nav ul {
+                flex-direction: column !important;
+                overflow-x: unset !important;
+            }
+
+            .sidebar nav ul li a {
+                border-left: 3px solid transparent !important;
+                border-bottom: none !important;
+                padding: 14px 20px !important;
+                white-space: nowrap !important;
+            }
+
+            .sidebar-footer {
+                width: 100% !important;
+                padding: 16px !important;
+                position: relative !important;
+                bottom: auto !important;
+            }
+
+            .main-content {
+                margin-left: 0 !important;
+                padding: 12px !important;
+                width: 100% !important;
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0,0,0,0.5);
+                z-index: 9998;
+            }
+            .sidebar-overlay.show { display: block !important; }
+
+            .topbar {
+                display: flex !important;
+                flex-direction: row !important;
+                align-items: center !important;
+                justify-content: space-between !important;
+                padding: 12px 16px !important;
+                position: sticky !important;
+                top: 0 !important;
+                z-index: 100 !important;
+                background: white !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+            }
+
+            .topbar-user { display: none !important; }
+
+            .stats-grid { grid-template-columns: repeat(2,1fr) !important; }
+            .grid-2     { grid-template-columns: 1fr !important; }
+            .table-responsive { overflow-x: auto !important; }
         }
     </style>
 </head>
@@ -137,6 +224,7 @@ $notif_count = $conn->query("
     <!-- ── MAIN CONTENT ── -->
     <main class="main-content">
         <div class="topbar">
+            <button class="hamburger" onclick="toggleSidebar()" id="hamburger-btn">☰</button>
             <h4>
                 <?php
                 $titles = [
@@ -151,6 +239,7 @@ $notif_count = $conn->query("
                 ];
                 echo $titles[$current_page] ?? ucfirst($current_page);
                 ?>
+                
             </h4>
             <div class="topbar-user">
                 <span class="topbar-badge">👨‍🏫 TEACHER</span>
@@ -159,4 +248,29 @@ $notif_count = $conn->query("
                 <?= date('F d, Y') ?>
             </div>
         </div>
+
+<!-- Sidebar overlay for mobile -->
+<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
+
 <script src="../assets/js/notifications.js"></script>
+<script>
+function toggleSidebar() {
+    const sidebar  = document.querySelector('.sidebar');
+    const overlay  = document.getElementById('sidebar-overlay');
+    const isOpen   = sidebar.classList.contains('open');
+    if (isOpen) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.getElementById('hamburger-btn').textContent = '☰';
+    } else {
+        sidebar.classList.add('open');
+        overlay.classList.add('show');
+        document.getElementById('hamburger-btn').textContent = '✕';
+    }
+}
+function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebar-overlay').classList.remove('show');
+    document.getElementById('hamburger-btn').textContent = '☰';
+}
+</script>

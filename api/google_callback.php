@@ -72,9 +72,10 @@ if (empty($googleUser['email'])) {
     fail('Could not retrieve email from Google.');
 }
 
-$googleEmail = strtolower(trim($googleUser['email']));
-$googleId    = $googleUser['sub'] ?? '';
-$googleName  = $googleUser['name'] ?? '';
+$googleEmail   = strtolower(trim($googleUser['email']));
+$googleId      = $googleUser['sub'] ?? '';
+$googleName    = $googleUser['name'] ?? '';
+$googlePicture = $googleUser['picture'] ?? '';
 
 // ── 5. Find student by Google email or Google ID ──
 $conn = getConnection();
@@ -110,10 +111,17 @@ if (!$res || $res->num_rows === 0) {
 
 $student = $res->fetch_assoc();
 
-// Save google_email & google_id if not set
-if (empty($student['google_email']) || empty($student['google_id'])) {
-    $conn->query("UPDATE students SET google_email='$safeEmail', google_id='$safeGoogleId' WHERE id=" . $student['id']);
+if (empty($student['email_verified_at'])) {
+    $_SESSION['google_error'] = 'Please verify your email using the link we sent you.';
+    header('Location: ../student_login.php');
+    exit;
 }
+
+
+// Save google_email, google_id & google_picture — always update picture
+$safePicture = $conn->real_escape_string($googlePicture);
+$conn->query("UPDATE students SET google_email='$safeEmail', google_id='$safeGoogleId', google_picture='$safePicture' WHERE id=" . $student['id']);
+$student['google_picture'] = $googlePicture;
 
 // Check face is registered
 if (!$student['face_descriptor']) {

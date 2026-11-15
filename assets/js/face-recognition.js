@@ -187,3 +187,28 @@ function addToLog(name, subject, time, status) {
 }
 
 init();
+
+// ─── STOP CAMERA ──────────────────────────────
+function stopCamera() {
+    // Stop video stream
+    if (video.srcObject) {
+        video.srcObject.getTracks().forEach(function(track) { track.stop(); });
+        video.srcObject = null;
+    }
+    // Clear canvas
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // Update status
+    setStatus('loading', '⏹ Camera stopped.');
+    // Hide detected card
+    hideDetectedCard();
+    currentStudent = null;
+    // Update button
+    var btn = document.getElementById('btn-stop-camera');
+    if (btn) {
+        btn.textContent = '▶ Restart Camera';
+        btn.onclick = function() { window.location.reload(); };
+        btn.className = 'btn btn-primary btn-block';
+        btn.style.marginTop = '10px';
+    }
+}

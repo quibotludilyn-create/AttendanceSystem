@@ -12,7 +12,36 @@ $error   = '';
 $res     = $conn->query("SELECT * FROM students WHERE id=$sid_db");
 $student = $res->fetch_assoc();
 
-// ── Change Password ──
+// ── Upload Profile Picture ──
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['profile_pic'])) {
+    $file = $_FILES['profile_pic'];
+    $allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if ($file['error'] === 0 && in_array($file['type'], $allowed) && $file['size'] <= 2 * 1024 * 1024) {
+        $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = 'student_' . $sid_db . '_' . time() . '.' . $ext;
+        $destDir  = __DIR__ . '/../uploads/profiles/';
+        $dest     = $destDir . $filename;
+        if (move_uploaded_file($file['tmp_name'], $dest)) {
+            // Delete old uploaded pic if exists
+            if (!empty($student['profile_picture'])) {
+                $oldFile = $destDir . basename($student['profile_picture']);
+                if (file_exists($oldFile)) @unlink($oldFile);
+            }
+            $picPath = '../uploads/profiles/' . $filename;
+            $safePic = $conn->real_escape_string($picPath);
+            $conn->query("UPDATE students SET profile_picture='$safePic' WHERE id=$sid_db");
+            $success = "Profile picture updated!";
+            $res = $conn->query("SELECT * FROM students WHERE id=$sid_db");
+            $student = $res->fetch_assoc();
+        } else {
+            $error = "Failed to upload. Try again.";
+        }
+    } else {
+        $error = "Invalid file. Use JPG/PNG/GIF/WEBP, max 2MB.";
+    }
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     $cur  = $_POST['current_password'];
     $new  = $_POST['new_password'];
@@ -53,16 +82,47 @@ $stats = $conn->query("
 <!-- Profile card -->
 <div class="s-card">
     <div style="display:flex; align-items:center; gap:20px; flex-wrap:wrap;">
-        <div style="
-            width: 72px; height: 72px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #00b4d8, #1565c0);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; color: white; flex-shrink:0;
-            box-shadow: 0 6px 20px rgba(0,180,216,0.3);
-        ">
-            <?= mb_substr($student['full_name'], 0, 1) ?>
+        <?php
+            $picUrl = !empty($student['profile_picture'])
+                ? $student['profile_picture']
+                : (!empty($student['google_picture']) ? $student['google_picture'] : '');
+        ?>
+        <div style="position:relative; flex-shrink:0;">
+            <div style="
+                width: 72px; height: 72px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #00b4d8, #1565c0);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 2rem; color: white;
+                box-shadow: 0 6px 20px rgba(0,180,216,0.3);
+                overflow: hidden;
+            ">
+                <?php if ($picUrl): ?>
+                    <img src="<?= htmlspecialchars($picUrl) ?>"
+                         alt="Profile"
+                         style="width:72px;height:72px;object-fit:cover;"
+                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <span style="display:none; width:100%; height:100%; align-items:center; justify-content:center; font-size:2rem;">
+                        <?= mb_substr($student['full_name'], 0, 1) ?>
+                    </span>
+                <?php else: ?>
+                    <?= mb_substr($student['full_name'], 0, 1) ?>
+                <?php endif; ?>
+            </div>
+            <label for="pic-upload" title="Change photo" style="
+                position:absolute; bottom:0; right:0;
+                width:22px; height:22px;
+                background:#1565c0; color:white;
+                border-radius:50%; cursor:pointer;
+                display:flex; align-items:center; justify-content:center;
+                font-size:0.7rem; box-shadow:0 2px 6px rgba(0,0,0,0.3);
+                border: 2px solid white;
+            ">📷</label>
         </div>
+        <form method="POST" enctype="multipart/form-data" id="pic-form" style="display:none;">
+            <input type="file" id="pic-upload" name="profile_pic" accept="image/*"
+                   onchange="document.getElementById('pic-form').submit();">
+        </form>
         <div style="flex:1;">
             <h2 style="font-size:1.2rem; font-weight:800; color:var(--navy); margin-bottom:4px;">
                 <?= htmlspecialchars($student['full_name']) ?>

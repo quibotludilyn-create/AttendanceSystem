@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'config/database.php';
+require_once 'config/mailer.php';
 $conn = getConnection();
 
 // Must come from signup flow
@@ -12,6 +13,23 @@ if (!isset($_SESSION['signup_done_student_id']) && !isset($_SESSION['signup_stud
 $sid_db = intval($_SESSION['signup_done_student_id'] ?? $_SESSION['signup_student_id']);
 $res    = $conn->query("SELECT * FROM students WHERE id=$sid_db");
 $student = ($res && $res->num_rows > 0) ? $res->fetch_assoc() : null;
+
+// Send welcome email
+if ($student && !empty($student['email'])) {
+    $html = buildWelcomeEmail(
+        $student['full_name'],
+        $student['student_id'],
+        $student['course'] ?? '',
+        intval($student['year_level'] ?? 1)
+    );
+    sendMail(
+        $student['email'],
+        $student['full_name'],
+        'Welcome to AttendEase – Registration Complete!',
+        $html
+    );
+}
+
 
 // Clear all signup session keys
 unset($_SESSION['signup_student_id'], $_SESSION['signup_pw_done'], $_SESSION['signup_done_student_id']);

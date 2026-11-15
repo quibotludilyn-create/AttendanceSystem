@@ -14,6 +14,16 @@ config/google.php
 # --- Debug / utility scripts (not for production) ---
 fix_password.php
 fix_*.php
+_diag*.php
+_test_api.php
+_diag2.php
+_diag3.php
+check_db.php
+test_mail.php
+*.bak
+
+# --- Uploads folder (user files, too large) ---
+uploads/
 
 # --- SSL certificate files generated for XAMPP ---
 openssl-san.cnf
@@ -33,3 +43,6 @@ php_errorlog
 # --- Node / Composer (if added later) ---
 node_modules/
 vendor/
+
+# Environment file — NEVER commit this
+.env

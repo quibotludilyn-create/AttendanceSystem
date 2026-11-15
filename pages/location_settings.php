@@ -147,12 +147,13 @@ $loc = ($current && $current->num_rows > 0) ? $current->fetch_assoc() : null;
                     </tr>
                 </table>
 
-                <!-- OpenStreetMap preview -->
+                <!-- Google Maps preview -->
                 <div style="margin-top:14px; border-radius:10px; overflow:hidden; height:220px;">
                     <iframe
-                        src="https://www.openstreetmap.org/export/embed.html?bbox=<?= ($loc['longitude']-0.003) ?>,<?= ($loc['latitude']-0.003) ?>,<?= ($loc['longitude']+0.003) ?>,<?= ($loc['latitude']+0.003) ?>&layer=mapnik&marker=<?= $loc['latitude'] ?>,<?= $loc['longitude'] ?>"
+                        src="https://maps.google.com/maps?q=<?= $loc['latitude'] ?>,<?= $loc['longitude'] ?>&z=18&output=embed"
                         style="width:100%; height:100%; border:none;"
-                        loading="lazy">
+                        loading="lazy"
+                        allowfullscreen>
                     </iframe>
                 </div>
                 <p style="text-align:center; font-size:0.75rem; color:#aaa; margin-top:6px;">

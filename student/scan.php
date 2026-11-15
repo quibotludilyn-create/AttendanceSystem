@@ -239,6 +239,9 @@ require_once 'layout.php';
 
 </div>
 
+<a href="home.php" class="s-btn s-btn-primary" style="margin-bottom:16px; display:inline-block;">← Back</a>
+
+
 <!-- Clock -->
 <div style="text-align:center; color:#aaa; font-size:0.78rem; margin-top:14px;" id="clock"></div>
 
@@ -689,7 +692,46 @@ async function saveAttendance() {
     const now    = new Date();
     const timeIn = now.toTimeString().slice(0,8);
     const h = now.getHours(), m = now.getMinutes();
-    const status = (h > 8 || (h === 8 && m > 15)) ? 'late' : 'present';
+    const nowMins = h * 60 + m;
+
+    // Get schedule start/end time from selected subject
+    const selData = JSON.parse(sel.options[sel.selectedIndex].dataset.subject || '{}');
+    const startTime = selData.start_time || null;
+    const endTime   = selData.end_time   || null;
+
+    let status = 'present';
+
+    if (startTime) {
+        const [sH, sM] = startTime.split(':').map(Number);
+        const startMins = sH * 60 + sM;
+        const earlyMins = startMins - 30; // 30 mins before = earliest allowed
+        const graceMins = startMins + 15; // 15 mins grace = still present
+
+        // Check end time
+        if (endTime) {
+            const [eH, eM] = endTime.split(':').map(Number);
+            const endMins = eH * 60 + eM;
+            if (nowMins >= endMins) {
+                setSbar(document.getElementById('face-status'), 'sb-fail', '❌ Class has already ended. Time-in is no longer allowed.');
+                scanDone = false;
+                return;
+            }
+        }
+
+        // Too early
+        if (nowMins < earlyMins) {
+            const diff = earlyMins - nowMins;
+            setSbar(document.getElementById('face-status'), 'sb-fail', `❌ Too early. You can time-in ${diff} minute(s) before class starts.`);
+            scanDone = false;
+            return;
+        }
+
+        // Late or present
+        status = nowMins > graceMins ? 'late' : 'present';
+    } else {
+        // No schedule — fallback: late if after 8:15 AM
+        status = (h > 8 || (h === 8 && m > 15)) ? 'late' : 'present';
+    }
 
     try {
         const res    = await fetch('../api/student_attendance.php', {

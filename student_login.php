@@ -13,6 +13,11 @@ if (isset($_GET['cancel'])) {
 
 $error = '';
 
+if (!empty($_SESSION['google_error'])) {
+    $error = $_SESSION['google_error'];
+    unset($_SESSION['google_error']);
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_once 'config/database.php';
     $conn  = getConnection();
@@ -27,7 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $error = "Gmail not found. Please sign up first or contact your admin.";
         } else {
             $student = $res->fetch_assoc();
-            if (!$student['password'])                           { $error = "Account has no password. Please sign up first."; }
+
+            if (empty($student['email_verified_at'])) {
+                $error = 'Please verify your email using the link we sent you.';
+            }
+
+
+
+            elseif (!$student['password'])                           { $error = "Account has no password. Please sign up first."; }
             elseif (!password_verify($pass,$student['password'])){ $error = "Incorrect Gmail or password."; }
             elseif (!$student['face_descriptor'])                { $error = "Face not registered. Please complete sign up."; }
             else {

@@ -631,7 +631,7 @@ function startLoop() {
 
         prevPos = curPos;
         isProc  = false;
-    }, 280);
+    }, 120);
 }
 
 // ── Show current challenge ────────────────────────────
@@ -669,10 +669,10 @@ function detectGesture(id, pos, prev) {
             }
 
             case 'blink': {
-                // Eye Aspect Ratio — blink when EAR < 0.25
+                // Eye Aspect Ratio — blink when EAR < 0.30 (more lenient)
                 const leftEAR  = earValue(pos.slice(36, 42));
                 const rightEAR = earValue(pos.slice(42, 48));
-                return (leftEAR + rightEAR) / 2 < 0.25;
+                return (leftEAR + rightEAR) / 2 < 0.30;
             }
 
             case 'smile': {

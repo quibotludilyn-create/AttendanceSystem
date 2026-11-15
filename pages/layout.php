@@ -30,9 +30,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                     </a>
                 </li>
                 <li>
+                    <?php /* Take Attendance hidden from admin sidebar
                     <a href="attendance.php" class="<?= $current_page === 'attendance' ? 'active' : '' ?>">
                         <span class="nav-icon">📷</span> Take Attendance
                     </a>
+                    */ ?>
                 </li>
                 <li>
                     <a href="students.php" class="<?= $current_page === 'students' ? 'active' : '' ?>">

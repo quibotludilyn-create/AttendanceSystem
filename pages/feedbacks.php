@@ -22,8 +22,13 @@ if (isset($_GET['delete'])) {
 }
 
 $filter = $_GET['filter'] ?? 'all';
-$where  = $filter === 'visible' ? "WHERE is_visible=1" : ($filter === 'hidden' ? "WHERE is_visible=0" : "");
-$feedbacks = $conn->query("SELECT * FROM feedbacks $where ORDER BY created_at DESC");
+$where  = $filter === 'visible' ? "WHERE f.is_visible=1" : ($filter === 'hidden' ? "WHERE f.is_visible=0" : "");
+$feedbacks = $conn->query("
+    SELECT f.*, s.profile_picture, s.google_picture, s.full_name as student_full_name
+    FROM feedbacks f
+    LEFT JOIN students s ON f.student_id = s.id
+    $where ORDER BY f.created_at DESC
+");
 
 $total   = $conn->query("SELECT COUNT(*) as c FROM feedbacks")->fetch_assoc()['c'];
 $visible = $conn->query("SELECT COUNT(*) as c FROM feedbacks WHERE is_visible=1")->fetch_assoc()['c'];
@@ -64,9 +69,30 @@ $role_icons = ['student'=>'👨‍🎓','teacher'=>'👨‍🏫','admin'=>'🛡�
                 <tr><th>Name</th><th>Role</th><th>Rating</th><th>Message</th><th>Date</th><th>Status</th><th>Actions</th></tr>
             </thead>
             <tbody>
-            <?php while($f = $feedbacks->fetch_assoc()): ?>
+            <?php while($f = $feedbacks->fetch_assoc()): 
+                $fpic = !empty($f['profile_picture']) ? $f['profile_picture'] : ($f['google_picture'] ?? '');
+                $fname = $f['student_full_name'] ?: $f['name'];
+                $finitial = mb_substr($fname, 0, 1);
+            ?>
             <tr>
-                <td style="font-weight:600;"><?= htmlspecialchars($f['name']) ?></td>
+                <td>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <?php if ($fpic): ?>
+                            <img src="<?= htmlspecialchars($fpic) ?>"
+                                 style="width:36px;height:36px;border-radius:50%;object-fit:cover;border:2px solid #e3f2fd;"
+                                 onerror="this.outerHTML='<div style=\'width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00b4d8,#1565c0);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;\'><?= $finitial ?></div>'"
+                                 alt="pic">
+                        <?php else: ?>
+                            <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#00b4d8,#1565c0);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.9rem;flex-shrink:0;">
+                                <?= $finitial ?>
+                            </div>
+                        <?php endif; ?>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;"><?= htmlspecialchars($f['student_full_name'] ?: '—') ?></div>
+                            <div style="font-size:0.76rem;color:#aaa;"><?= htmlspecialchars($f['name']) ?></div>
+                        </div>
+                    </div>
+                </td>
                 <td>
                     <span style="font-size:1.2rem;"><?= $role_icons[$f['role']] ?? '👤' ?></span>
                     <span style="font-size:0.82rem;color:#888;margin-left:4px;"><?= ucfirst($f['role']) ?></span>

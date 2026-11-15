@@ -275,26 +275,84 @@
         .hero-right { display: flex; justify-content: center; align-items: center; }
 
         .phone-mockup {
-            width: 280px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 36px;
-            padding: 20px;
+            width: 260px;
             position: relative;
-            box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05);
-            backdrop-filter: blur(20px);
+            filter: drop-shadow(0 30px 60px rgba(0,0,0,0.6));
+            transform: perspective(900px) rotateY(-8deg) rotateX(3deg);
+            transition: transform 0.4s ease;
+        }
+        .phone-mockup:hover {
+            transform: perspective(900px) rotateY(-4deg) rotateX(1deg);
         }
 
-        .phone-notch {
-            width: 80px; height: 10px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            margin: 0 auto 20px;
+        /* Realistic phone outer body */
+        .phone-body {
+            width: 260px;
+            background: linear-gradient(160deg, #d0d0d0 0%, #a0a0a0 40%, #787878 100%);
+            border-radius: 36px;
+            padding: 3px;
+            box-shadow:
+                inset 0 0 0 1px rgba(255,255,255,0.4),
+                0 0 0 1px rgba(0,0,0,0.6),
+                4px 8px 24px rgba(0,0,0,0.5),
+                -2px -2px 8px rgba(255,255,255,0.15);
+            position: relative;
         }
+
+        /* Inner bezel */
+        .phone-inner {
+            background: #111;
+            border-radius: 34px;
+            padding: 14px 10px 36px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Earpiece */
+        .phone-notch {
+            width: 60px; height: 7px;
+            background: #222;
+            border-radius: 10px;
+            margin: 0 auto 12px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .phone-notch::after {
+            content: '';
+            position: absolute;
+            right: -18px; top: 50%;
+            transform: translateY(-50%);
+            width: 7px; height: 7px;
+            background: #1a1a2e;
+            border-radius: 50%;
+            box-shadow: inset 0 0 3px rgba(0,0,0,0.9);
+        }
+
+        /* Home button */
+        .phone-home {
+            width: 36px; height: 36px;
+            background: radial-gradient(circle at 40% 35%, #555, #222);
+            border-radius: 50%;
+            margin: 10px auto 0;
+            border: 2px solid #333;
+            box-shadow:
+                0 2px 6px rgba(0,0,0,0.6),
+                inset 0 1px 2px rgba(255,255,255,0.1);
+        }
+
+        /* Side buttons */
+        .phone-side-btn {
+            position: absolute;
+            background: linear-gradient(90deg, #bbb, #888);
+            border-radius: 2px;
+        }
+        .phone-btn-vol-up   { width: 4px; height: 28px; left: -4px; top: 90px; }
+        .phone-btn-vol-down { width: 4px; height: 28px; left: -4px; top: 128px; }
+        .phone-btn-power    { width: 4px; height: 40px; right: -4px; top: 100px; }
 
         .cam-screen {
             background: #0d1117;
-            border-radius: 20px;
+            border-radius: 14px;
             overflow: hidden;
             aspect-ratio: 3/4;
             position: relative;
@@ -320,7 +378,7 @@
         .sf-corner.bl { bottom: 0; left: 0;  border-bottom-width: 3px; border-left-width: 3px;  border-radius: 0 0 0 4px; }
         .sf-corner.br { bottom: 0; right: 0; border-bottom-width: 3px; border-right-width: 3px; border-radius: 0 0 4px 0; }
 
-        .scan-face { font-size: 5.5rem; line-height: 1; display: block; text-align: center; margin-top: 16px; }
+        .scan-face { position:absolute; top:0; left:0; width:100%; height:100%; display:flex; align-items:center; justify-content:center; }
 
         .scan-bar {
             position: absolute;
@@ -397,21 +455,83 @@
            STATS BAR
         ══════════════════════════════════════ */
         .stats-bar {
-            background: linear-gradient(135deg, var(--blue), var(--blue-mid));
+            background: linear-gradient(135deg, #020c2a 0%, #041230 50%, #020818 100%);
             padding: 28px 5%;
+            position: relative;
+            overflow: hidden;
+            border-top: 1px solid rgba(0,180,255,0.2);
+            border-bottom: 1px solid rgba(0,180,255,0.2);
+        }
+
+        /* Diagonal accent lines like reference */
+        .stats-bar::before {
+            content: '';
+            position: absolute;
+            top: -40px; left: -60px;
+            width: 200px; height: 200px;
+            background: linear-gradient(45deg, transparent 40%, rgba(0,100,255,0.3) 50%, transparent 60%);
+            transform: skewX(-20deg);
+        }
+        .stats-bar::after {
+            content: '';
+            position: absolute;
+            top: -40px; right: -60px;
+            width: 200px; height: 200px;
+            background: linear-gradient(-45deg, transparent 40%, rgba(0,100,255,0.3) 50%, transparent 60%);
+            transform: skewX(20deg);
         }
 
         .stats-inner {
             max-width: 1100px; margin: 0 auto;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            gap: 0;
             text-align: center;
+            background: linear-gradient(135deg, rgba(0,20,80,0.9), rgba(0,10,50,0.95));
+            border: 1.5px solid rgba(0,150,255,0.5);
+            border-radius: 50px;
+            padding: 10px 20px;
+            box-shadow:
+                0 0 20px rgba(0,120,255,0.4),
+                0 0 60px rgba(0,80,255,0.2),
+                inset 0 0 30px rgba(0,50,150,0.3);
+            position: relative;
+            z-index: 1;
         }
 
-        .stat-item { color: white; }
-        .stat-item .sv { font-size: 2rem; font-weight: 900; color: var(--accent); line-height: 1; }
-        .stat-item .sl { font-size: 0.82rem; color: rgba(255,255,255,0.65); margin-top: 4px; }
+        .stat-item {
+            color: white;
+            padding: 14px 10px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            position: relative;
+        }
+
+        /* Vertical divider between items */
+        .stat-item:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            right: 0; top: 20%; height: 60%;
+            width: 1px;
+            background: linear-gradient(to bottom, transparent, rgba(0,150,255,0.6), transparent);
+        }
+
+        .stat-item .sv {
+            font-size: 2.4rem;
+            line-height: 1;
+            filter: drop-shadow(0 0 8px rgba(0,180,255,0.9)) drop-shadow(0 0 16px rgba(0,120,255,0.6));
+            flex-shrink: 0;
+        }
+
+        .stat-item .sl {
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: white;
+            text-align: left;
+            text-shadow: 0 0 10px rgba(0,180,255,0.8);
+            letter-spacing: 0.3px;
+        }
 
         /* ══════════════════════════════════════
            HOW IT WORKS
@@ -459,53 +579,123 @@
         .hiw-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            gap: 16px;
             position: relative;
         }
 
-        /* Connecting line */
+        /* Connecting beam between cards */
         .hiw-grid::before {
             content: '';
             position: absolute;
-            top: 48px; left: 12.5%; right: 12.5%;
+            top: 110px; left: 13%; right: 13%;
             height: 2px;
-            background: linear-gradient(90deg, var(--accent), var(--green));
-            opacity: 0.3;
+            background: linear-gradient(90deg, #00e5ff, #7b2ff7, #00e5ff);
+            opacity: 0.5;
+            box-shadow: 0 0 12px rgba(0,220,255,0.7), 0 0 24px rgba(123,47,247,0.4);
+            z-index: 0;
         }
 
         .hiw-card {
-            background: white;
-            border-radius: 20px;
-            padding: 32px 22px;
+            background: linear-gradient(160deg, rgba(0,25,80,0.92), rgba(0,10,40,0.97));
+            border-radius: 16px;
+            padding: 28px 20px 24px;
             text-align: center;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.06);
-            border: 1px solid #eef0f7;
-            transition: all 0.3s;
+            border: 1.5px solid rgba(0,200,255,0.4);
+            transition: all 0.35s;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 30px rgba(0,100,255,0.2),
+                        inset 0 0 40px rgba(0,60,180,0.1);
+            z-index: 1;
+        }
+
+        .hiw-card:nth-child(4) {
+            border-color: rgba(150,80,255,0.5);
+            box-shadow: 0 4px 30px rgba(120,40,255,0.25),
+                        inset 0 0 40px rgba(80,20,180,0.1);
+        }
+
+        /* HUD corner brackets */
+        .hiw-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 24px; height: 24px;
+            border-top: 2px solid #00e5ff;
+            border-left: 2px solid #00e5ff;
+            border-radius: 16px 0 0 0;
+            box-shadow: -2px -2px 8px rgba(0,220,255,0.4);
+        }
+        .hiw-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 24px; height: 24px;
+            border-bottom: 2px solid #00e5ff;
+            border-right: 2px solid #00e5ff;
+            border-radius: 0 0 16px 0;
+            box-shadow: 2px 2px 8px rgba(0,220,255,0.4);
+        }
+
+        .hiw-card:nth-child(4)::before,
+        .hiw-card:nth-child(4)::after {
+            border-color: #9b59f7;
+            box-shadow: 0 0 8px rgba(150,80,255,0.5);
         }
 
         .hiw-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 16px 50px rgba(26,35,126,0.12);
-            border-color: rgba(0,180,216,0.3);
+            transform: translateY(-10px) scale(1.02);
+            border-color: rgba(0,220,255,0.9);
+            box-shadow: 0 20px 50px rgba(0,120,255,0.35),
+                        0 0 40px rgba(0,220,255,0.2);
         }
 
         .hiw-num {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--blue-mid));
+            position: absolute;
+            top: 12px; left: 14px;
+            width: 28px; height: 28px;
+            border-radius: 6px;
+            background: linear-gradient(135deg, #0066ff, #00ccff);
             color: white;
             font-weight: 900;
-            font-size: 1rem;
+            font-size: 0.85rem;
             display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 18px;
-            box-shadow: 0 4px 15px rgba(0,180,216,0.35);
-            position: relative; z-index: 1;
+            box-shadow: 0 0 10px rgba(0,180,255,0.7);
+            border: 1px solid rgba(0,220,255,0.5);
+            z-index: 2;
         }
 
-        .hiw-icon  { font-size: 2.6rem; margin-bottom: 14px; }
-        .hiw-title { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 10px; }
-        .hiw-desc  { font-size: 0.84rem; color: var(--gray-text); line-height: 1.65; }
+        .hiw-card:nth-child(4) .hiw-num {
+            background: linear-gradient(135deg, #6600cc, #9b59f7);
+            box-shadow: 0 0 10px rgba(150,80,255,0.7);
+            border-color: rgba(150,80,255,0.5);
+        }
+
+        .hiw-icon {
+            font-size: 3.5rem;
+            margin: 16px 0 14px;
+            display: block;
+            filter: drop-shadow(0 0 12px rgba(0,180,255,0.9))
+                    drop-shadow(0 0 24px rgba(0,100,255,0.5));
+            line-height: 1;
+        }
+
+        .hiw-title {
+            font-size: 1.05rem;
+            font-weight: 800;
+            color: #00e5ff;
+            margin-bottom: 10px;
+            text-shadow: 0 0 12px rgba(0,220,255,0.6);
+            letter-spacing: 0.3px;
+        }
+
+        .hiw-card:nth-child(4) .hiw-title { color: #b388ff; text-shadow: 0 0 12px rgba(150,80,255,0.6); }
+
+        .hiw-desc {
+            font-size: 0.82rem;
+            color: rgba(180,215,255,0.8);
+            line-height: 1.65;
+        }
 
         /* ══════════════════════════════════════
            FEATURES
@@ -513,53 +703,84 @@
         .feat-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 22px;
+            gap: 20px;
         }
 
         .feat-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px 26px;
-            border: 1px solid #eef0f7;
-            transition: all 0.3s;
+            background: linear-gradient(160deg, rgba(0,20,70,0.92), rgba(0,8,35,0.97));
+            border-radius: 16px;
+            padding: 28px 24px;
+            border: 1px solid rgba(0,150,255,0.25);
+            transition: all 0.35s;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 24px rgba(0,60,180,0.15),
+                        inset 0 0 30px rgba(0,40,120,0.08);
         }
 
+        /* Top neon line */
         .feat-card::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--accent), var(--green));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00e5ff, transparent);
+            opacity: 0.6;
         }
 
-        .feat-card:hover { transform: translateY(-6px); box-shadow: 0 16px 50px rgba(26,35,126,0.1); }
-        .feat-card:hover::before { transform: scaleX(1); }
+        /* Bottom-right corner bracket */
+        .feat-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0; right: 0;
+            width: 20px; height: 20px;
+            border-bottom: 2px solid rgba(0,200,255,0.4);
+            border-right: 2px solid rgba(0,200,255,0.4);
+            border-radius: 0 0 16px 0;
+        }
+
+        .feat-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(0,220,255,0.6);
+            box-shadow: 0 16px 40px rgba(0,100,255,0.25),
+                        0 0 20px rgba(0,200,255,0.1);
+        }
 
         .feat-icon-box {
-            width: 52px; height: 52px;
+            width: 54px; height: 54px;
             border-radius: 14px;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 18px;
+            font-size: 1.6rem;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, rgba(0,100,255,0.2), rgba(0,200,255,0.1)) !important;
+            border: 1px solid rgba(0,180,255,0.3);
+            box-shadow: 0 0 12px rgba(0,150,255,0.2);
         }
 
-        .feat-title { font-size: 1rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
-        .feat-desc  { font-size: 0.85rem; color: var(--gray-text); line-height: 1.65; }
+        .feat-title {
+            font-size: 1rem;
+            font-weight: 800;
+            color: #00e5ff;
+            margin-bottom: 8px;
+            text-shadow: 0 0 8px rgba(0,200,255,0.3);
+        }
+
+        .feat-desc {
+            font-size: 0.84rem;
+            color: rgba(170,205,255,0.8);
+            line-height: 1.65;
+        }
 
         .feat-tag {
             display: inline-block;
             margin-top: 14px;
-            background: var(--gray-light);
-            color: var(--blue);
+            background: rgba(0,100,255,0.15);
+            color: #00e5ff;
             padding: 3px 12px;
             border-radius: 100px;
             font-size: 0.72rem;
             font-weight: 700;
+            border: 1px solid rgba(0,180,255,0.3);
         }
 
         /* ══════════════════════════════════════
@@ -731,7 +952,11 @@
             .hero-h1       { font-size: 2.4rem; }
             .hero-cta      { justify-content: center; }
             .trust-row     { justify-content: center; }
-            .phone-mockup  { width: 220px; }
+            .phone-mockup  { width: 200px; }
+            .phone-body    { width: 200px; }
+            .fc-1 { right: -45px; }
+            .fc-2 { left: -50px; }
+            .fc-3 { right: -50px; }
             .hiw-grid      { grid-template-columns: repeat(2, 1fr); }
             .hiw-grid::before { display: none; }
             .feat-grid     { grid-template-columns: repeat(2, 1fr); }
@@ -756,7 +981,9 @@
 ═══════════════════════════════════════ -->
 <nav class="nav" id="nav">
     <a href="#" class="nav-brand">
-        <div class="brand-icon"><img src="assets/img/logo.png" style="width:100%;height:100%;object-fit:cover;border-radius:8px;" alt="Logo"></div>
+        <div class="brand-icon" style="position:relative; background-image:url('assets/img/logo-icon.svg'); background-size:cover; background-position:center;">
+            <img src="assets/img/logo.png" style="width:100%;height:100%;object-fit:cover;border-radius:8px;position:relative;z-index:1;" alt="Logo">
+        </div>
         <span class="brand-name">Attend<span>Ease</span></span>
     </a>
     <div class="nav-menu">
@@ -818,21 +1045,33 @@
         <div class="hero-right">
             <div style="position:relative; display:inline-block;">
                 <div class="phone-mockup">
-                    <div class="phone-notch"></div>
-                    <div class="cam-screen">
-                        <div class="scan-frame">
-                            <div class="sf-corner tl"></div>
-                            <div class="sf-corner tr"></div>
-                            <div class="sf-corner bl"></div>
-                            <div class="sf-corner br"></div>
-                            <span class="scan-face">🧑‍💻</span>
-                            <div class="scan-bar"></div>
-                        </div>
-                        <div class="scan-status">SCANNING...</div>
-                        <div class="scan-dots">
-                            <div class="scan-dot active"></div>
-                            <div class="scan-dot"></div>
-                            <div class="scan-dot"></div>
+                    <div class="phone-body">
+                        <!-- Side buttons -->
+                        <div class="phone-side-btn phone-btn-vol-up"></div>
+                        <div class="phone-side-btn phone-btn-vol-down"></div>
+                        <div class="phone-side-btn phone-btn-power"></div>
+                        <div class="phone-inner">
+                            <!-- Earpiece + camera -->
+                            <div class="phone-notch"></div>
+                            <!-- Screen -->
+                            <div class="cam-screen">
+                                <div class="scan-frame">
+                                    <div class="sf-corner tl"></div>
+                                    <div class="sf-corner tr"></div>
+                                    <div class="sf-corner bl"></div>
+                                    <div class="sf-corner br"></div>
+                                    <span class="scan-face"><img src="assets/img/scan-face.png" style="width:138px;height:158px;object-fit:cover;object-position:top;border-radius:8px;display:block;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);" alt="face"></span>
+                                    <div class="scan-bar"></div>
+                                </div>
+                                <div class="scan-status">SCANNING...</div>
+                                <div class="scan-dots">
+                                    <div class="scan-dot active"></div>
+                                    <div class="scan-dot"></div>
+                                    <div class="scan-dot"></div>
+                                </div>
+                            </div>
+                            <!-- Home button -->
+                            <div class="phone-home"></div>
                         </div>
                     </div>
                 </div>
@@ -865,19 +1104,19 @@
 <div class="stats-bar">
     <div class="stats-inner">
         <div class="stat-item reveal d1">
-            <div class="sv">⚡</div>
+            <div class="sv"><img src="assets/img/Fastface.png" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,180,255,0.9)) drop-shadow(0 0 16px rgba(0,120,255,0.6));" alt="Face Scan"></div>
             <div class="sl">Fast Face Scan</div>
         </div>
         <div class="stat-item reveal d2">
-            <div class="sv">📍</div>
+            <div class="sv"><img src="assets/img/gps-verification.png" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,180,255,0.9)) drop-shadow(0 0 16px rgba(0,120,255,0.6));" alt="GPS Verified"></div>
             <div class="sl">GPS Verified</div>
         </div>
         <div class="stat-item reveal d3">
-            <div class="sv">🔒</div>
+            <div class="sv"><img src="assets/img/secure.png" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,180,255,0.9)) drop-shadow(0 0 16px rgba(0,120,255,0.6));" alt="Secure"></div>
             <div class="sl">Secure & Private</div>
         </div>
         <div class="stat-item reveal d4">
-            <div class="sv">📊</div>
+            <div class="sv"><img src="assets/img/realtime_reports.png" style="width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,180,255,0.9)) drop-shadow(0 0 16px rgba(0,120,255,0.6));" alt="Real-Time Reports"></div>
             <div class="sl">Real-Time Reports</div>
         </div>
     </div>
@@ -887,36 +1126,40 @@
 <!-- ═══════════════════════════════════════
      HOW IT WORKS
 ═══════════════════════════════════════ -->
-<section class="section" id="how-it-works">
-    <div class="max-w">
+<section class="section" id="how-it-works" style="background:url('assets/img/Cinematic.png') center center/cover no-repeat;position:relative;overflow:hidden;">
+    <!-- Dark overlay for readability -->
+    <div style="position:absolute;inset:0;background:rgba(2,8,24,0.75);pointer-events:none;"></div>
+    <!-- Background grid effect -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,100,255,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(0,100,255,0.05) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+    <div class="max-w" style="position:relative;z-index:1;">
         <div class="section-head">
-            <div class="s-tag">How It Works</div>
-            <h2 class="s-title">Attendance in 4 Simple Steps</h2>
-            <p class="s-sub">From registration to attendance record — the whole process takes less than a minute.</p>
+            <div class="s-tag" style="background:rgba(0,180,255,0.1);color:#00e5ff;border:1px solid rgba(0,220,255,0.3);">How It Works</div>
+            <h2 class="s-title" style="color:white;text-shadow:0 0 30px rgba(0,180,255,0.4);">Attendance in 4 Simple Steps</h2>
+            <p class="s-sub" style="color:rgba(180,210,255,0.8);">From registration to attendance record — the whole process takes less than a minute.</p>
         </div>
 
         <div class="hiw-grid">
             <div class="hiw-card reveal d1">
                 <div class="hiw-num">1</div>
-                <div class="hiw-icon">📝</div>
+                <div class="hiw-icon"><img src="assets/img/signuponce.png" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,180,255,0.4)) drop-shadow(0 0 10px rgba(0,100,255,0.2));" alt="Sign Up"></div>
                 <div class="hiw-title">Sign Up Once</div>
                 <div class="hiw-desc">Verify your student ID, set a password, and register your face using your device camera. Done once, used forever.</div>
             </div>
             <div class="hiw-card reveal d2">
                 <div class="hiw-num">2</div>
-                <div class="hiw-icon">🔐</div>
+                <div class="hiw-icon"><img src="assets/img/login_securely.png" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,180,255,0.4)) drop-shadow(0 0 10px rgba(0,100,255,0.2));" alt="Login Securely"></div>
                 <div class="hiw-title">Login Securely</div>
                 <div class="hiw-desc">Enter your Student ID and password. Your registered face is loaded from the system for verification.</div>
             </div>
             <div class="hiw-card reveal d3">
                 <div class="hiw-num">3</div>
-                <div class="hiw-icon">📍</div>
+                <div class="hiw-icon"><img src="assets/img/location_verified.png" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,180,255,0.4)) drop-shadow(0 0 10px rgba(0,100,255,0.2));" alt="Location Verified"></div>
                 <div class="hiw-title">Location Verified</div>
                 <div class="hiw-desc">GPS confirms you are within the campus boundary set by your admin. Cannot be spoofed from outside.</div>
             </div>
             <div class="hiw-card reveal d4">
                 <div class="hiw-num">4</div>
-                <div class="hiw-icon">✅</div>
+                <div class="hiw-icon"><img src="assets/img/attendance_save.png" style="width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 0 6px rgba(0,180,255,0.4)) drop-shadow(0 0 10px rgba(0,100,255,0.2));" alt="Attendance Saved"></div>
                 <div class="hiw-title">Attendance Saved</div>
                 <div class="hiw-desc">Face is matched and attendance is automatically recorded with your name, subject, time, and verified location.</div>
             </div>
@@ -928,47 +1171,48 @@
 <!-- ═══════════════════════════════════════
      FEATURES
 ═══════════════════════════════════════ -->
-<section class="section section-bg" id="features">
-    <div class="max-w">
+<section class="section" id="features" style="background:linear-gradient(160deg,#020818 0%,#041230 50%,#020c20 100%);position:relative;overflow:hidden;">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(0,100,255,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,100,255,0.04) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;"></div>
+    <div class="max-w" style="position:relative;z-index:1;">
         <div class="section-head">
-            <div class="s-tag">Features</div>
-            <h2 class="s-title">Built for Modern Schools</h2>
-            <p class="s-sub">Everything needed for accurate, tamper-proof, and effortless attendance management.</p>
+            <div class="s-tag" style="background:rgba(0,180,255,0.1);color:#00e5ff;border:1px solid rgba(0,220,255,0.3);">Features</div>
+            <h2 class="s-title" style="color:white;text-shadow:0 0 30px rgba(0,180,255,0.3);">Built for Modern Schools</h2>
+            <p class="s-sub" style="color:rgba(180,210,255,0.8);">Everything needed for accurate, tamper-proof, and effortless attendance management.</p>
         </div>
 
         <div class="feat-grid">
             <div class="feat-card reveal d1">
-                <div class="feat-icon-box" style="background:#e8f4fd;">🤖</div>
+                <div class="feat-icon-box">🤖</div>
                 <div class="feat-title">AI Face Recognition</div>
                 <div class="feat-desc">Uses face-api.js TinyFaceDetector — fast, lightweight, and runs entirely in the browser. No cloud needed.</div>
                 <span class="feat-tag">face-api.js</span>
             </div>
             <div class="feat-card reveal d2">
-                <div class="feat-icon-box" style="background:#e8fdf5;">📍</div>
+                <div class="feat-icon-box">📍</div>
                 <div class="feat-title">GPS Boundary Check</div>
                 <div class="feat-desc">Admin sets the allowed GPS radius. Students outside campus are blocked — no proxy attendance possible.</div>
                 <span class="feat-tag">Geolocation API</span>
             </div>
             <div class="feat-card reveal d3">
-                <div class="feat-icon-box" style="background:#fdf4e8;">🌗</div>
+                <div class="feat-icon-box">🌗</div>
                 <div class="feat-title">Low-Light Adaptive</div>
                 <div class="feat-desc">Auto-adjusts camera brightness and contrast so face detection works in dim environments too.</div>
                 <span class="feat-tag">CSS Filter</span>
             </div>
             <div class="feat-card reveal d1">
-                <div class="feat-icon-box" style="background:#f4e8fd;">🔒</div>
+                <div class="feat-icon-box">🔒</div>
                 <div class="feat-title">Secure Accounts</div>
                 <div class="feat-desc">Passwords are hashed with bcrypt. Face descriptors are stored as encrypted vectors — not raw images.</div>
                 <span class="feat-tag">PHP bcrypt</span>
             </div>
             <div class="feat-card reveal d2">
-                <div class="feat-icon-box" style="background:#e8eafd;">📊</div>
+                <div class="feat-icon-box">📊</div>
                 <div class="feat-title">Admin Dashboard</div>
                 <div class="feat-desc">Full control panel for managing students, viewing daily attendance, configuring GPS zones, and printing reports.</div>
                 <span class="feat-tag">PHP + MySQL</span>
             </div>
             <div class="feat-card reveal d3">
-                <div class="feat-icon-box" style="background:#fde8e8;">📋</div>
+                <div class="feat-icon-box">📋</div>
                 <div class="feat-title">Printable Reports</div>
                 <div class="feat-desc">Filter attendance by date, subject, or status. Print formatted PDF-ready reports directly from the browser.</div>
                 <span class="feat-tag">Print API</span>
@@ -1043,21 +1287,21 @@
                 <div style="font-size:0.78rem;font-weight:800;color:var(--blue);letter-spacing:1px;margin-bottom:18px;text-transform:uppercase;">⭐ User Testimonials</div>
 
                 <?php
-                require_once 'config/database.php';
-                $conn2 = getConnection();
-                $fbres = $conn2->query("SELECT * FROM feedbacks WHERE is_visible=1 ORDER BY created_at DESC LIMIT 6");
-                $feedbacks = [];
-                while ($fb = $fbres->fetch_assoc()) $feedbacks[] = $fb;
-                $role_icons = ['student'=>'👨‍🎓','teacher'=>'👨‍🏫','admin'=>'🛡️','other'=>'👤'];
+                $feedbacks = [
+                    ['name'=>'Maria Santos','role'=>'Student','rating'=>5,'message'=>'AttendEase made it so easy to track my attendance! The face recognition feature is amazing and very accurate.','initial'=>'M','color'=>'#e53935'],
+                    ['name'=>'Juan Dela Cruz','role'=>'Student','rating'=>5,'message'=>'No more worrying about forgetting to sign in. The system is fast and works perfectly even on my phone.','initial'=>'J','color'=>'#1565c0'],
+                    ['name'=>'Ana Reyes','role'=>'Teacher','rating'=>5,'message'=>'As a teacher, I love how I can see real-time attendance. It saves me so much time compared to manual checking.','initial'=>'A','color'=>'#2e7d32'],
+                    ['name'=>'Carlos Mendoza','role'=>'Student','rating'=>4,'message'=>'The location-based attendance is a great feature. It ensures that only students physically present can mark their attendance.','initial'=>'C','color'=>'#7b1fa2'],
+                    ['name'=>'Rosa Lim','role'=>'Teacher','rating'=>5,'message'=>'Very intuitive interface. My students adapted to it quickly and attendance records are always accurate.','initial'=>'R','color'=>'#e65100'],
+                    ['name'=>'Miguel Torres','role'=>'Student','rating'=>5,'message'=>'I can check my attendance records anytime. The notifications keep me updated whenever my attendance is marked.','initial'=>'M','color'=>'#00838f'],
+                ];
                 ?>
 
                 <div id="fb-slider" style="position:relative;overflow:hidden;min-height:180px;">
                     <?php foreach($feedbacks as $i => $fb): ?>
                     <div class="fb-slide" style="display:<?= $i===0?'block':'none' ?>;animation:fadeIn 0.4s ease;">
                         <div style="background:white;border-radius:18px;padding:26px;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid #eef0f7;position:relative;">
-                            <!-- Quote mark -->
                             <div style="font-size:4rem;color:#e8eaf6;position:absolute;top:10px;left:18px;line-height:1;font-family:Georgia,serif;">"</div>
-                            <!-- Stars -->
                             <div style="margin-bottom:10px;padding-left:8px;">
                                 <?php for($s=1;$s<=5;$s++): ?>
                                 <span style="color:<?= $s<=$fb['rating']?'#ffa726':'#e0e0e0' ?>;font-size:1rem;">★</span>
@@ -1067,12 +1311,12 @@
                                 <?= htmlspecialchars($fb['message']) ?>
                             </p>
                             <div style="display:flex;align-items:center;gap:12px;padding-left:8px;">
-                                <div style="width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--blue-mid));display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
-                                    <?= $role_icons[$fb['role']] ?? '👤' ?>
+                                <div style="width:40px;height:40px;border-radius:50%;background:<?= $fb['color'] ?>;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;font-weight:700;flex-shrink:0;">
+                                    <?= $fb['initial'] ?>
                                 </div>
                                 <div>
                                     <div style="font-weight:700;font-size:0.88rem;color:var(--navy);"><?= htmlspecialchars($fb['name']) ?></div>
-                                    <div style="font-size:0.74rem;color:#aaa;text-transform:capitalize;"><?= htmlspecialchars($fb['role']) ?> &nbsp;·&nbsp; <?= date('M Y', strtotime($fb['created_at'])) ?></div>
+                                    <div style="font-size:0.74rem;color:#aaa;text-transform:capitalize;"><?= htmlspecialchars($fb['role']) ?></div>
                                 </div>
                             </div>
                         </div>
@@ -1081,7 +1325,6 @@
                 </div>
 
                 <!-- Dots navigation -->
-                <?php if(count($feedbacks) > 1): ?>
                 <div style="display:flex;justify-content:center;gap:8px;margin-top:16px;" id="fb-dots">
                     <?php foreach($feedbacks as $i => $fb): ?>
                     <button onclick="goSlide(<?= $i ?>)"
@@ -1089,7 +1332,6 @@
                             class="fb-dot" data-idx="<?= $i ?>"></button>
                     <?php endforeach; ?>
                 </div>
-                <?php endif; ?>
             </div>
 
             <!-- Feedback Form -->

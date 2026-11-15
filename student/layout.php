@@ -44,7 +44,7 @@ $cur = basename($_SERVER['PHP_SELF'], '.php');
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: var(--gray);
+            background: url('../assets/img/background.png') center center/cover no-repeat fixed;
             color: var(--text);
             min-height: 100vh;
             display: flex;
@@ -143,8 +143,8 @@ $cur = basename($_SERVER['PHP_SELF'], '.php');
         /* ── MAIN CONTENT ── */
         .s-main {
             flex: 1;
-            padding: 20px 20px 40px;
-            max-width: 780px;
+            padding: 20px 24px 40px;
+            max-width: 1200px;
             width: 100%;
             margin: 0 auto;
         }
@@ -258,6 +258,15 @@ $cur = basename($_SERVER['PHP_SELF'], '.php');
 </head>
 <body>
 
+<?php
+// Fetch profile picture for nav
+$nav_pic = '';
+$nav_res = $conn->query("SELECT profile_picture, google_picture FROM students WHERE id={$_SESSION['student_id']}");
+if ($nav_res) {
+    $nav_row = $nav_res->fetch_assoc();
+    $nav_pic = !empty($nav_row['profile_picture']) ? $nav_row['profile_picture'] : ($nav_row['google_picture'] ?? '');
+}
+?>
 <!-- TOP NAV -->
 <nav class="s-nav">
     <a href="home.php" class="s-nav-brand">
@@ -265,10 +274,19 @@ $cur = basename($_SERVER['PHP_SELF'], '.php');
         <span>Attend<em>Ease</em></span>
     </a>
     <div class="s-nav-right">
-        <div class="s-nav-user">
-            👤 <strong><?= htmlspecialchars($student_name) ?></strong>
-            &nbsp;·&nbsp; <?= htmlspecialchars($student_sid) ?>
-        </div>
+        <a href="profile.php" class="s-nav-user" style="display:flex;align-items:center;gap:8px;text-decoration:none;">
+            <?php if ($nav_pic): ?>
+                <img src="<?= htmlspecialchars($nav_pic) ?>"
+                     style="width:28px;height:28px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,0.4);"
+                     onerror="this.outerHTML='<span style=\'width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#00b4d8,#1565c0);display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;\'><?= mb_substr($student_name,0,1) ?></span>'"
+                     alt="pic">
+            <?php else: ?>
+                <span style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#00b4d8,#1565c0);display:inline-flex;align-items:center;justify-content:center;font-size:0.85rem;color:white;">
+                    <?= mb_substr($student_name, 0, 1) ?>
+                </span>
+            <?php endif; ?>
+            <strong><?= htmlspecialchars($student_name) ?></strong>
+        </a>
         <a href="../student_logout.php" class="s-logout">🚪 Logout</a>
     </div>
 </nav>

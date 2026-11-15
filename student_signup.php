@@ -62,7 +62,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['set_password'])) {
             $hashed = $conn->real_escape_string(password_hash($pw, PASSWORD_DEFAULT));
             $sid_db = intval($_SESSION['signup_student_id']);
             $gmail  = $conn->real_escape_string($_SESSION['signup_gmail'] ?? '');
-            $conn->query("UPDATE students SET password='$hashed', google_email='$gmail', email='$gmail' WHERE id=$sid_db");
+            // if($conn->query("UPDATE students SET password='$hashed', google_email='$gmail', email='$gmail' WHERE id=$sid_db")){
+            //     $error = 'Dili ma-save ang account details.';
+            //     $step = 2;
+            // } else {
+            //     try {
+            //         require_once __DIR__ . '/config/send_student_verification.php';
+            //         sendStudentVerificationEmail($conn, $sid_db, $_SESSION['signup_gmail']);
+
+            //         $_SESSION['signup_pw_done'] = true;
+            //         $step = 3;
+            //     } catch (RuntimeException $e) {
+            //         error_log('Student verification email error: ' . $e->getMessage());
+            //         $error = 'Na-save ang account pero wala napadala ang verification email. Susiha ang SMTP settings.';
+            //         $step = 2;
+            //     }
+            // }
+
+            if (!$conn->query("UPDATE students SET password='$hashed', google_email='$gmail', email='$gmail' WHERE id=$sid_db")) {
+    $error = 'Could not save the account details.';
+    $step = 2;
+} else {
+    try {
+        require_once __DIR__ . '/config/send_student_verification.php';
+        sendStudentVerificationEmail($conn, $sid_db, $_SESSION['signup_gmail']);
+
+        $_SESSION['signup_pw_done'] = true;
+        $step = 3;
+    } catch (RuntimeException $e) {
+        error_log('Student verification email error: ' . $e->getMessage());
+        $error = 'Account saved, but the verification email could not be sent. Check the SMTP settings.';
+        $step = 2;
+    }
+}
+
+
+                  
+               // ;
             $_SESSION['signup_pw_done'] = true;
             $step = 3;  // go to face registration
         }
@@ -495,7 +531,7 @@ window.addEventListener('load', async () => {
         banner.textContent  = '🔒 Camera not available (HTTPS required for LAN access)';
         return;
     }
-    videoStream = await navigator.mediaDevices.getUserMedia(({
+    videoStream = await navigator.mediaDevices.getUserMedia({
             video: { width: 320, height: 240, facingMode: 'user' }
         });
         video.srcObject = videoStream;
