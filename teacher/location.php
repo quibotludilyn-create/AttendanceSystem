@@ -1,5 +1,4 @@
 <?php
-<?php
 // Load .env early so MAPBOX_PUBLIC_TOKEN is available
 if (empty($_ENV['MAPBOX_PUBLIC_TOKEN'])) {
     $envFile = dirname(__DIR__) . '/.env';
@@ -11,8 +10,7 @@ if (empty($_ENV['MAPBOX_PUBLIC_TOKEN'])) {
         }
     }
 }
-?>
-<?php require_once 'layout.php'; ?>
+require_once 'layout.php';
 $msg = ''; $err = '';
 
 if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['save_location'])) {
