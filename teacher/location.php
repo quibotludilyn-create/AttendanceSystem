@@ -48,7 +48,6 @@ $defLoc  = $conn->query("SELECT latitude,longitude FROM teacher_locations WHERE 
 $defLat  = $defLoc ? floatval($defLoc['latitude'])  : 14.599512;   /* default: Manila */
 $defLon  = $defLoc ? floatval($defLoc['longitude']) : 120.984222;
 $defZoom = $defLoc ? 18 : 13;
-$mapboxToken = $_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '';
 ?>
 
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
@@ -377,7 +376,7 @@ function cancelEdit() {
 window.addEventListener('load', function () {
     locMap = L.map('map', { zoomControl: true }).setView([<?= $defLat ?>, <?= $defLon ?>], <?= $defZoom ?>);
 
-    const MAPBOX_TOKEN = <?= json_encode($mapboxToken, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT) ?>;
+    const MAPBOX_TOKEN = '<?= htmlspecialchars($_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '') ?>';
 
     /* Primary tile layer — Mapbox Streets (updated, with labels) */
     const osmLayer = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=' + MAPBOX_TOKEN, {
