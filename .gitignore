@@ -9,7 +9,8 @@ config/database.php
 config/google.php
 
 # --- SQL dump files (contain your real data) ---
-*.sql
+# *.sql  ← commented out so database.sql can be pushed
+!database.sql
 
 # --- Debug / utility scripts (not for production) ---
 fix_password.php
