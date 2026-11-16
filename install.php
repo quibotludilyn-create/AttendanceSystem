@@ -1,14 +1,14 @@
 <?php
 /**
  * One-time database installer
- * Visit: https://your-railway-url/install.php
+ * Visit: https://attendancesystem-production-b562738.up.railway.app/install.php
  * DELETE this file after running!
  */
 
 require_once __DIR__ . '/config/database.php';
 $conn = getConnection();
 
-$sql = file_get_contents(__DIR__ . '/database.sql');
+$sql = file_get_contents(__DIR__ . '/attendance_db.sql');
 
 // Split by semicolon and run each statement
 $statements = array_filter(array_map('trim', explode(';', $sql)));
