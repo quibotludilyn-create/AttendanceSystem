@@ -49,6 +49,7 @@ if (is_file($file)) {
 if (is_dir($file)) {
     $index = rtrim($file, '/') . '/index.php';
     if (is_file($index)) {
+        chdir(dirname($index));
         require $index;
         return true;
     }
