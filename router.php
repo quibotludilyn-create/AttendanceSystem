@@ -55,4 +55,10 @@ if (is_dir($file)) {
 }
 
 // All other requests — serve the PHP file
+// Set working directory to the file's directory for relative includes
+if (is_file(__DIR__ . $path)) {
+    chdir(dirname(__DIR__ . $path));
+    require __DIR__ . $path;
+    return true;
+}
 return false;
