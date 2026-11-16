@@ -8,6 +8,9 @@ RUN apt-get update && apt-get install -y libzip-dev libpng-dev libonig-dev && \
 WORKDIR /app
 COPY . .
 
+# Create uploads directory
+RUN mkdir -p /app/uploads/profiles && chmod 777 /app/uploads/profiles
+
 EXPOSE 8080
 
 CMD ["php", "-S", "0.0.0.0:8080", "router.php"]
