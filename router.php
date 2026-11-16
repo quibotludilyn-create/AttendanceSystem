@@ -62,3 +62,5 @@ if (is_file(__DIR__ . $path)) {
     return true;
 }
 return false;
+
+// v2 - chdir fix applied
