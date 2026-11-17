@@ -2,7 +2,7 @@
 require_once 'layout.php';
 
 // Handle AJAX manual attendance POST
-if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance']) && isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance']) && (isset($_SERVER['HTTP_X_REQUESTED_WITH']) || isset($_POST['ajax']))) {
     header('Content-Type: application/json');
     $stu_id  = intval($_POST['student_id']);
     $sub_id  = intval($_POST['subject_id']);
@@ -328,6 +328,7 @@ function saveManual() {
     const msgEl  = document.getElementById('manual-msg');
     const btn    = form.querySelector('button');
     const data   = new FormData(form);
+    data.append('ajax', '1');
 
     // Basic validation
     if (!data.get('student_id')) { alert('Please select a student.'); return; }
