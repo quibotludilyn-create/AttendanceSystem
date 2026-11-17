@@ -268,10 +268,14 @@ function loadOverride() {
 
 // Auto-refresh attendance table every 5 seconds
 let autoRefreshInterval = null;
+let isFormActive = false;
 
 function startAutoRefresh() {
     stopAutoRefresh();
     autoRefreshInterval = setInterval(() => {
+        // Pause refresh if teacher is filling the form
+        if (isFormActive) return;
+
         const subject = document.getElementById('override-subject')?.value;
         const date    = document.querySelector('input[name="date"]')?.value;
         if (!subject) return;
@@ -280,15 +284,17 @@ function startAutoRefresh() {
         fetch(url)
             .then(r => r.text())
             .then(html => {
+                if (isFormActive) return; // double check
                 const parser = new DOMParser();
                 const doc    = parser.parseFromString(html, 'text/html');
                 const newContent = doc.getElementById('override-results');
                 if (newContent) {
                     document.getElementById('override-results').innerHTML = newContent.innerHTML;
+                    attachFormListeners();
                 }
             })
             .catch(() => {});
-    }, 5000); // every 5 seconds
+    }, 5000);
 }
 
 function stopAutoRefresh() {
@@ -298,10 +304,23 @@ function stopAutoRefresh() {
     }
 }
 
+function attachFormListeners() {
+    // Pause refresh when teacher interacts with the form
+    const form = document.getElementById('manual-form');
+    if (!form) return;
+    form.querySelectorAll('select, input, textarea').forEach(el => {
+        el.addEventListener('focus',  () => { isFormActive = true;  });
+        el.addEventListener('change', () => { isFormActive = true;  });
+    });
+}
+
 // Start auto-refresh if subject already loaded
 document.addEventListener('DOMContentLoaded', () => {
     const subject = document.getElementById('override-subject')?.value;
-    if (subject) startAutoRefresh();
+    if (subject) {
+        startAutoRefresh();
+        attachFormListeners();
+    }
 });
 
 function saveManual() {
@@ -332,7 +351,7 @@ function saveManual() {
 
         if (res.success) {
             form.reset();
-            // Refresh the attendance list
+            isFormActive = false; // resume auto-refresh after save
             loadOverride();
             setTimeout(() => { msgEl.style.display = 'none'; }, 4000);
         }
