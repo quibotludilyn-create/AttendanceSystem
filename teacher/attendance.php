@@ -12,14 +12,18 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance'])) {
     $time_in = date('H:i:s');
     $date    = $conn->real_escape_string($_POST['date'] ?? date('Y-m-d'));
 
+    // Get subject name so both subject + subject_id are saved
+    $subRes  = $conn->query("SELECT subject_name FROM subjects WHERE id=$sub_id");
+    $subName = $subRes ? $conn->real_escape_string($subRes->fetch_assoc()['subject_name'] ?? '') : '';
+
     $chk = $conn->query("SELECT id FROM attendance WHERE student_id=$stu_id AND date='$date' AND subject_id=$sub_id");
     if ($chk && $chk->num_rows > 0) {
         $existing = $chk->fetch_assoc();
-        $conn->query("UPDATE attendance SET status='$status',is_manual=1,manual_by=$teacher_id,manual_reason='$reason',time_in='$time_in' WHERE id={$existing['id']}");
+        $conn->query("UPDATE attendance SET status='$status',is_manual=1,manual_by=$teacher_id,manual_reason='$reason',time_in='$time_in',subject='$subName' WHERE id={$existing['id']}");
         $msg = "Attendance updated successfully.";
     } else {
-        $conn->query("INSERT INTO attendance (student_id,date,time_in,status,subject_id,teacher_id,is_manual,manual_by,manual_reason,location_verified)
-                      VALUES ($stu_id,'$date','$time_in','$status',$sub_id,$teacher_id,1,$teacher_id,'$reason',0)");
+        $conn->query("INSERT INTO attendance (student_id,date,time_in,status,subject,subject_id,teacher_id,is_manual,manual_by,manual_reason,location_verified)
+                      VALUES ($stu_id,'$date','$time_in','$status','$subName',$sub_id,$teacher_id,1,$teacher_id,'$reason',0)");
         $msg = "Manual attendance recorded successfully.";
     }
     $conn->query("INSERT INTO notifications (recipient_type,recipient_id,title,message,type)
