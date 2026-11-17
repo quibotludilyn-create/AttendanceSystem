@@ -1,7 +1,34 @@
 <?php
 require_once 'layout.php';
 
-// Handle manual attendance POST
+// Handle AJAX manual attendance POST
+if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance']) && isset($_SERVER['HTTP_X_REQUESTED_WITH'])) {
+    header('Content-Type: application/json');
+    $stu_id  = intval($_POST['student_id']);
+    $sub_id  = intval($_POST['subject_id']);
+    $status  = in_array($_POST['status'],['present','late','absent']) ? $_POST['status'] : 'present';
+    $reason  = $conn->real_escape_string(trim($_POST['reason'] ?? ''));
+    $time_in = date('H:i:s');
+    $date    = $conn->real_escape_string($_POST['date'] ?? date('Y-m-d'));
+
+    $chk = $conn->query("SELECT id FROM attendance WHERE student_id=$stu_id AND date='$date' AND subject_id=$sub_id");
+    if ($chk && $chk->num_rows > 0) {
+        $existing = $chk->fetch_assoc();
+        $conn->query("UPDATE attendance SET status='$status',is_manual=1,manual_by=$teacher_id,manual_reason='$reason',time_in='$time_in' WHERE id={$existing['id']}");
+        $msg = "Attendance updated successfully.";
+    } else {
+        $conn->query("INSERT INTO attendance (student_id,date,time_in,status,subject_id,teacher_id,is_manual,manual_by,manual_reason,location_verified)
+                      VALUES ($stu_id,'$date','$time_in','$status',$sub_id,$teacher_id,1,$teacher_id,'$reason',0)");
+        $msg = "Manual attendance recorded successfully.";
+    }
+    $conn->query("INSERT INTO notifications (recipient_type,recipient_id,title,message,type)
+                  VALUES ('student',$stu_id,'Attendance Updated',
+                  'Your attendance was manually marked as $status by your teacher for ".date('F d, Y', strtotime($date))."','manual')");
+    echo json_encode(['success' => true, 'message' => $msg]);
+    exit;
+}
+
+// Handle regular manual attendance POST (non-AJAX)
 $msg = ''; $err = '';
 $today = date('Y-m-d');
 
@@ -175,8 +202,10 @@ if ($selected_subject) {
             <div class="card-title">✏️ Manual Attendance Override
                 <span style="margin-left:8px;background:#fff3e0;color:#e65100;padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;">For face recognition failures</span>
             </div>
-            <form method="POST">
+            <div id="manual-msg" style="display:none;padding:10px 14px;border-radius:8px;margin-bottom:12px;font-size:0.88rem;font-weight:600;"></div>
+            <form id="manual-form">
                 <input type="hidden" name="subject_id" value="<?= $selected_subject ?>">
+                <input type="hidden" name="manual_attendance" value="1">
                 <div class="form-group">
                     <label>Student *</label>
                     <select name="student_id" class="form-control" required>
@@ -204,7 +233,7 @@ if ($selected_subject) {
                     <label>Reason *</label>
                     <input type="text" name="reason" class="form-control" placeholder="e.g. Face recognition failed due to poor lighting" required>
                 </div>
-                <button type="submit" name="manual_attendance" class="btn btn-warning btn-block">✏️ Save Manual Attendance</button>
+                <button type="button" onclick="saveManual()" class="btn btn-warning btn-block">✏️ Save Manual Attendance</button>
             </form>
         </div>
     </div>
@@ -225,7 +254,6 @@ function loadOverride() {
     fetch(url)
         .then(r => r.text())
         .then(html => {
-            // Extract only the override-results section from response
             const parser = new DOMParser();
             const doc    = parser.parseFromString(html, 'text/html');
             const newContent = doc.getElementById('override-results');
@@ -234,6 +262,69 @@ function loadOverride() {
             }
         })
         .catch(err => console.error(err));
+}
+
+function saveManual() {
+    const form   = document.getElementById('manual-form');
+    const msgEl  = document.getElementById('manual-msg');
+    const btn    = form.querySelector('button');
+    const data   = new FormData(form);
+
+    // Basic validation
+    if (!data.get('student_id')) { alert('Please select a student.'); return; }
+    if (!data.get('reason').trim()) { alert('Please enter a reason.'); return; }
+
+    btn.disabled    = true;
+    btn.textContent = '⏳ Saving...';
+
+    fetch('attendance.php', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: data
+    })
+    .then(r => r.json())
+    .then(res => {
+        msgEl.style.display     = 'block';
+        msgEl.style.background  = res.success ? '#e8f5e9' : '#ffebee';
+        msgEl.style.color       = res.success ? '#2e7d32' : '#c62828';
+        msgEl.style.border      = res.success ? '1px solid #a5d6a7' : '1px solid #ffcdd2';
+        msgEl.textContent       = (res.success ? '✅ ' : '❌ ') + res.message;
+
+        if (res.success) {
+            form.reset();
+            // Refresh the attendance list
+            loadOverride();
+            setTimeout(() => { msgEl.style.display = 'none'; }, 4000);
+        }
+    })
+    .catch(err => {
+        msgEl.style.display    = 'block';
+        msgEl.style.background = '#ffebee';
+        msgEl.style.color      = '#c62828';
+        msgEl.textContent      = '❌ Network error. Please try again.';
+    })
+    .finally(() => {
+        btn.disabled    = false;
+        btn.textContent = '✏️ Save Manual Attendance';
+    });
+}
+
+function stopCamera() {
+    const video = document.getElementById('video');
+    if (video && video.srcObject) {
+        video.srcObject.getTracks().forEach(t => t.stop());
+        video.srcObject = null;
+    }
+    const statusEl = document.getElementById('status');
+    if (statusEl) {
+        statusEl.textContent  = '⏹ Camera stopped.';
+        statusEl.className    = 'recognition-status status-loading';
+    }
+    const btn = document.getElementById('btn-stop-camera');
+    if (btn) {
+        btn.textContent = '▶ Restart Camera';
+        btn.onclick     = () => location.reload();
+    }
 }
 </script>
 
