@@ -259,10 +259,49 @@ function loadOverride() {
             const newContent = doc.getElementById('override-results');
             if (newContent) {
                 document.getElementById('override-results').innerHTML = newContent.innerHTML;
+                startAutoRefresh(); // start polling after load
             }
         })
         .catch(err => console.error(err));
 }
+
+// Auto-refresh attendance table every 5 seconds
+let autoRefreshInterval = null;
+
+function startAutoRefresh() {
+    stopAutoRefresh();
+    autoRefreshInterval = setInterval(() => {
+        const subject = document.getElementById('override-subject')?.value;
+        const date    = document.querySelector('input[name="date"]')?.value;
+        if (!subject) return;
+
+        const url = 'attendance.php?subject=' + encodeURIComponent(subject) + '&date=' + encodeURIComponent(date);
+        fetch(url)
+            .then(r => r.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc    = parser.parseFromString(html, 'text/html');
+                const newContent = doc.getElementById('override-results');
+                if (newContent) {
+                    document.getElementById('override-results').innerHTML = newContent.innerHTML;
+                }
+            })
+            .catch(() => {});
+    }, 5000); // every 5 seconds
+}
+
+function stopAutoRefresh() {
+    if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+    }
+}
+
+// Start auto-refresh if subject already loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const subject = document.getElementById('override-subject')?.value;
+    if (subject) startAutoRefresh();
+});
 
 function saveManual() {
     const form   = document.getElementById('manual-form');
