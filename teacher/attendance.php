@@ -116,10 +116,10 @@ if ($selected_subject) {
     <!-- Filter -->
     <div class="card">
         <div class="card-title">🔍 View & Manual Override</div>
-        <form method="GET" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
+        <form method="GET" id="override-form" style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;">
             <div class="form-group" style="margin:0;flex:2;min-width:200px;">
                 <label>Subject / Class</label>
-                <select name="subject" class="form-control" onchange="this.form.submit()">
+                <select name="subject" class="form-control" id="override-subject">
                     <option value="">— Choose a subject —</option>
                     <?php $subjects->data_seek(0); while($s = $subjects->fetch_assoc()): ?>
                     <option value="<?= $s['id'] ?>" <?= $selected_subject==$s['id']?'selected':'' ?>>
@@ -132,10 +132,11 @@ if ($selected_subject) {
                 <label>Date</label>
                 <input type="date" name="date" class="form-control" value="<?= htmlspecialchars($selected_date) ?>">
             </div>
-            <div><button type="submit" class="btn btn-primary">🔍 Load</button></div>
+            <div><button type="button" onclick="loadOverride()" class="btn btn-primary">🔍 Load</button></div>
         </form>
     </div>
 
+    <div id="override-results">
     <?php if ($selected_subject && $enrolled_students): ?>
     <div class="grid-2">
         <!-- Attendance List -->
@@ -208,8 +209,31 @@ if ($selected_subject) {
         </div>
     </div>
     <?php endif; ?>
+    </div><!-- end override-results -->
 </div>
 
 <script src="../assets/js/face-api.min.js"></script>
 <script src="../assets/js/face-recognition.js"></script>
+<script>
+function loadOverride() {
+    const subject = document.getElementById('override-subject').value;
+    const date    = document.querySelector('input[name="date"]').value;
+    if (!subject) { alert('Please select a subject.'); return; }
+
+    const url = 'attendance.php?subject=' + encodeURIComponent(subject) + '&date=' + encodeURIComponent(date);
+
+    fetch(url)
+        .then(r => r.text())
+        .then(html => {
+            // Extract only the override-results section from response
+            const parser = new DOMParser();
+            const doc    = parser.parseFromString(html, 'text/html');
+            const newContent = doc.getElementById('override-results');
+            if (newContent) {
+                document.getElementById('override-results').innerHTML = newContent.innerHTML;
+            }
+        })
+        .catch(err => console.error(err));
+}
+</script>
 
