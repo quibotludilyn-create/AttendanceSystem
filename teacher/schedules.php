@@ -80,31 +80,23 @@ while ($s = $schedules->fetch_assoc()) $sched_by_day[$s['day_of_week']][] = $s;
         </div>
         <div class="form-group">
             <label>Days *</label>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:6px;">
-                <?php 
-                $day_presets = [
-                    'MWF' => ['Monday','Wednesday','Friday'],
-                    'TTH' => ['Tuesday','Thursday'],
-                    'Daily' => ['Monday','Tuesday','Wednesday','Thursday','Friday'],
-                    'Sat' => ['Saturday'],
-                ];
-                foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $d): ?>
-                <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;cursor:pointer;background:#f4f6fb;padding:6px 10px;border-radius:8px;border:1.5px solid #eee;transition:all 0.2s;" 
-                       onmouseover="this.style.borderColor='#2e7d32'" onmouseout="this.style.borderColor='#eee'">
-                    <input type="checkbox" name="days_of_week[]" value="<?= $d ?>" 
-                           style="accent-color:#2e7d32;width:15px;height:15px;">
-                    <?= substr($d, 0, 3) ?>
-                </label>
-                <?php endforeach; ?>
-            </div>
-            <!-- Quick select presets -->
-            <div style="display:flex;gap:6px;margin-top:8px;flex-wrap:wrap;">
-                <span style="font-size:0.75rem;color:#888;align-self:center;">Quick:</span>
-                <button type="button" onclick="setDays(['Monday','Wednesday','Friday'])" class="btn btn-sm btn-info">M-W-F</button>
-                <button type="button" onclick="setDays(['Tuesday','Thursday'])" class="btn btn-sm btn-info">T-TH</button>
-                <button type="button" onclick="setDays(['Monday','Tuesday','Wednesday','Thursday','Friday'])" class="btn btn-sm btn-info">Mon–Fri</button>
-                <button type="button" onclick="setDays(['Saturday'])" class="btn btn-sm btn-info">Sat</button>
-                <button type="button" onclick="setDays([])" class="btn btn-sm btn-secondary">Clear</button>
+            <div style="position:relative;">
+                <div id="days-toggle" onclick="toggleDaysDropdown()"
+                    style="border:1.5px solid #dde0ec;border-radius:9px;padding:10px 14px;background:#fafbff;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:0.92rem;">
+                    <span id="days-label" style="color:#aaa;">— Select days —</span>
+                    <span>▾</span>
+                </div>
+                <div id="days-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid #dde0ec;border-radius:9px;z-index:100;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,0.1);margin-top:4px;">
+                    <?php foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $d): ?>
+                    <label style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:0.88rem;transition:background 0.15s;"
+                           onmouseover="this.style.background='#f1f8e9'" onmouseout="this.style.background='transparent'">
+                        <input type="checkbox" name="days_of_week[]" value="<?= $d ?>"
+                               onchange="updateDaysLabel()"
+                               style="accent-color:#2e7d32;width:16px;height:16px;">
+                        <?= $d ?>
+                    </label>
+                    <?php endforeach; ?>
+                </div>
             </div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
@@ -147,18 +139,29 @@ while ($s = $schedules->fetch_assoc()) $sched_by_day[$s['day_of_week']][] = $s;
 </div>
 </div>
 <script>
-function setDays(days) {
-    document.querySelectorAll('input[name="days_of_week[]"]').forEach(cb => {
-        cb.checked = days.includes(cb.value);
-        cb.closest('label').style.borderColor = cb.checked ? '#2e7d32' : '#eee';
-        cb.closest('label').style.background  = cb.checked ? '#e8f5e9' : '#f4f6fb';
-    });
+function toggleDaysDropdown() {
+    const dd = document.getElementById('days-dropdown');
+    dd.style.display = dd.style.display === 'none' ? 'block' : 'none';
 }
-document.querySelectorAll('input[name="days_of_week[]"]').forEach(cb => {
-    cb.addEventListener('change', function() {
-        this.closest('label').style.borderColor = this.checked ? '#2e7d32' : '#eee';
-        this.closest('label').style.background  = this.checked ? '#e8f5e9' : '#f4f6fb';
-    });
+
+function updateDaysLabel() {
+    const checked = [...document.querySelectorAll('input[name="days_of_week[]"]:checked')].map(cb => cb.value.substring(0,3));
+    const label = document.getElementById('days-label');
+    if (checked.length === 0) {
+        label.textContent = '— Select days —';
+        label.style.color = '#aaa';
+    } else {
+        label.textContent = checked.join(', ');
+        label.style.color = '#333';
+    }
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    const wrapper = document.getElementById('days-toggle')?.closest('.form-group');
+    if (wrapper && !wrapper.contains(e.target)) {
+        document.getElementById('days-dropdown').style.display = 'none';
+    }
 });
 </script>
 
