@@ -175,7 +175,7 @@ if ($selected_subject) {
             <?php if ($enrolled_students->num_rows > 0): ?>
             <div class="table-responsive">
                 <table>
-                    <thead><tr><th>Name</th><th>Status</th><th>Time</th><th>Type</th></tr></thead>
+                    <thead><tr><th>Name</th><th>Status</th><th>Time</th><th>Type</th><th>Reason</th></tr></thead>
                     <tbody>
                     <?php $enrolled_students->data_seek(0); while($st = $enrolled_students->fetch_assoc()): ?>
                     <?php $att = $attendance_records[$st['id']] ?? null; ?>
@@ -187,6 +187,7 @@ if ($selected_subject) {
                         <td><?php if ($att): ?><span class="badge badge-<?= $att['status'] ?>"><?= ucfirst($att['status']) ?></span><?php else: ?><span class="badge badge-absent">Absent</span><?php endif; ?></td>
                         <td><?= $att ? $att['time_in'] : '—' ?></td>
                         <td><?php if ($att): ?><span class="badge" style="background:<?= $att['is_manual']?'#f5f5f5':'#e8f5e9' ?>;color:<?= $att['is_manual']?'#777':'#2e7d32' ?>;"><?= $att['is_manual']?'Manual':'Face' ?></span><?php endif; ?></td>
+                        <td style="font-size:0.78rem;color:#888;"><?= $att && !empty($att['manual_reason']) ? htmlspecialchars($att['manual_reason']) : '—' ?></td>
                     </tr>
                     <?php endwhile; ?>
                     </tbody>
