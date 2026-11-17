@@ -25,7 +25,29 @@ if (!preg_match('/^[a-f0-9]{64}$/', $token)) {
         $stmt->bind_param('s', $tokenHash);
         $stmt->execute();
         $success = ($stmt->affected_rows === 1);
-        if (!$success) $expired = true;
+        if (!$success) {
+            $expired = true;
+        } else {
+            // Send welcome email after successful verification
+            try {
+                $stu = $conn->query("SELECT full_name, student_id, course, year_level, email, google_email FROM students WHERE email_verification_token_hash IS NULL AND email_verified_at IS NOT NULL ORDER BY email_verified_at DESC LIMIT 1");
+                if (!$stu) {
+                    // fallback: get by token hash was just cleared, fetch by recent verified_at
+                    $stu = $conn->query("SELECT full_name, student_id, course, year_level, email, google_email FROM students WHERE email_verified_at >= DATE_SUB(NOW(), INTERVAL 5 SECOND) LIMIT 1");
+                }
+                if ($stu && $stu->num_rows > 0) {
+                    $s = $stu->fetch_assoc();
+                    $toEmail = $s['google_email'] ?: $s['email'];
+                    if ($toEmail) {
+                        require_once __DIR__ . '/config/mailer.php';
+                        $html = buildWelcomeEmail($s['full_name'], $s['student_id'], $s['course'], intval($s['year_level']));
+                        sendMail($toEmail, $s['full_name'], '🎓 Welcome to AttendEase!', $html);
+                    }
+                }
+            } catch (Exception $e) {
+                error_log('Welcome email error: ' . $e->getMessage());
+            }
+        }
     } else {
         $expired = true;
     }

@@ -1,8 +1,4 @@
 <?php
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
-
-require_once __DIR__ . '/../vendor/autoload.php';
 
 // Load .env if not already loaded
 if (empty($_ENV['MAIL_HOST'])) {
@@ -17,58 +13,56 @@ if (empty($_ENV['MAIL_HOST'])) {
 }
 
 /**
- * Send an email using Brevo SMTP credentials from .env
- * 
- * @param string $toEmail  Recipient email address
- * @param string $toName   Recipient name
- * @param string $subject  Email subject
- * @param string $htmlBody HTML content of the email
- * @return array ['success' => bool, 'error' => string]
+ * Send an email using Brevo HTTP API (no SMTP port needed)
  */
 function sendMail(string $toEmail, string $toName, string $subject, string $htmlBody): array {
-    // Load .env values
-    $host       = $_ENV['MAIL_HOST']         ?? 'smtp-relay.brevo.com';
-    $port       = intval($_ENV['MAIL_PORT']  ?? 587);
-    $username   = $_ENV['MAIL_USERNAME']      ?? '';
-    $password   = $_ENV['MAIL_PASSWORD']      ?? '';
-    $fromAddr   = $_ENV['MAIL_FROM_ADDRESS']  ?? $username;
-    $fromName   = $_ENV['MAIL_FROM_NAME']     ?? 'AttendEase';
+    $apiKey   = $_ENV['BREVO_API_KEY']       ?? $_ENV['MAIL_PASSWORD'] ?? '';
+    $fromAddr = $_ENV['MAIL_FROM_ADDRESS']    ?? '';
+    $fromName = $_ENV['MAIL_FROM_NAME']       ?? 'AttendEase';
 
-    $mail = new PHPMailer(true);
+    $payload = json_encode([
+        'sender'      => ['name' => $fromName, 'email' => $fromAddr],
+        'to'          => [['email' => $toEmail, 'name' => $toName]],
+        'subject'     => $subject,
+        'htmlContent' => $htmlBody,
+        'textContent' => strip_tags($htmlBody),
+    ]);
 
-    try {
-        // Server settings
-        $mail->isSMTP();
-        $mail->Host       = $host;
-        $mail->SMTPAuth   = true;
-        $mail->Username   = $username;
-        $mail->Password   = $password;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $port;
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => [
+            'accept: application/json',
+            'api-key: ' . $apiKey,
+            'content-type: application/json',
+        ],
+        CURLOPT_TIMEOUT        => 15,
+    ]);
 
-        // Recipients
-        $mail->setFrom($fromAddr, $fromName);
-        $mail->addAddress($toEmail, $toName);
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
 
-        // Content
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $htmlBody;
-        $mail->AltBody = strip_tags($htmlBody);
-
-        $mail->send();
-        return ['success' => true, 'error' => ''];
-
-    } catch (Exception $e) {
-        return ['success' => false, 'error' => $mail->ErrorInfo];
+    if ($curlErr) {
+        return ['success' => false, 'error' => 'cURL error: ' . $curlErr];
     }
+
+    if ($httpCode < 200 || $httpCode >= 300) {
+        $data = json_decode($response, true);
+        return ['success' => false, 'error' => $data['message'] ?? $response];
+    }
+
+    return ['success' => true, 'error' => ''];
 }
 
 /**
  * Build a welcome email HTML for a newly registered student
  */
 function buildWelcomeEmail(string $fullName, string $studentId, string $course, int $yearLevel): string {
-    $baseUrl = rtrim($_ENV['APP_BASE_URL'] ?? 'http://10.33.207.129/AttendanceSystem', '/');
+    $baseUrl  = rtrim($_ENV['APP_BASE_URL'] ?? '', '/');
     $loginUrl = $baseUrl . '/student_login.php';
     return "
     <div style='font-family: Arial, sans-serif; max-width: 560px; margin: 0 auto; border: 1px solid #e0e0e0; border-radius: 12px; overflow: hidden;'>
