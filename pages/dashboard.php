@@ -29,9 +29,11 @@ while($r = $trend->fetch_assoc()) {
 }
 
 $recent = $conn->query("
-    SELECT s.full_name, s.student_id, s.course, a.time_in, a.status, a.subject
+    SELECT s.full_name, s.student_id, s.course, a.time_in, a.status, 
+           COALESCE(a.subject, sub.subject_name, '—') as subject
     FROM attendance a 
-    JOIN students s ON a.student_id = s.id 
+    JOIN students s ON a.student_id = s.id
+    LEFT JOIN subjects sub ON a.subject_id = sub.id
     WHERE a.date = '$today' 
     ORDER BY a.created_at DESC 
     LIMIT 15
