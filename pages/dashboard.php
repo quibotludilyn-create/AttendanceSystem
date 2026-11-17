@@ -159,9 +159,9 @@ new Chart(document.getElementById('trendChart'), {
             <?php while($row = $recent->fetch_assoc()): ?>
                 <tr>
                     <td><?= htmlspecialchars($row['student_id']) ?></td>
-                    <td><?= htmlspecialchars($row['full_name']) ?></td>
-                    <td><?= htmlspecialchars($row['course']) ?></td>
-                    <td><?= htmlspecialchars($row['subject']) ?></td>
+                    <td><?= htmlspecialchars($row['full_name'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($row['course'] ?? '') ?></td>
+                    <td><?= htmlspecialchars($row['subject'] ?? '—') ?></td>
                     <td><?= $row['time_in'] ?></td>
                     <td>
                         <span class="badge badge-<?= $row['status'] ?>">
