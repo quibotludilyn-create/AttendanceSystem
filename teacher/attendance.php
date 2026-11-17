@@ -1,9 +1,10 @@
 <?php
 require_once 'layout.php';
 
-// Handle AJAX manual attendance POST
-if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance']) && (isset($_SERVER['HTTP_X_REQUESTED_WITH']) || isset($_POST['ajax']))) {
-    header('Content-Type: application/json');
+// Handle manual attendance POST
+$msg = ''; $err = '';
+
+if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance'])) {
     $stu_id  = intval($_POST['student_id']);
     $sub_id  = intval($_POST['subject_id']);
     $status  = in_array($_POST['status'],['present','late','absent']) ? $_POST['status'] : 'present';
@@ -24,12 +25,7 @@ if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance']) &&
     $conn->query("INSERT INTO notifications (recipient_type,recipient_id,title,message,type)
                   VALUES ('student',$stu_id,'Attendance Updated',
                   'Your attendance was manually marked as $status by your teacher for ".date('F d, Y', strtotime($date))."','manual')");
-    echo json_encode(['success' => true, 'message' => $msg]);
-    exit;
 }
-
-// Handle regular manual attendance POST (non-AJAX)
-$msg = ''; $err = '';
 $today = date('Y-m-d');
 
 if ($_SERVER['REQUEST_METHOD']==='POST' && isset($_POST['manual_attendance'])) {
@@ -204,7 +200,7 @@ if ($selected_subject) {
                 <span style="margin-left:8px;background:#fff3e0;color:#e65100;padding:3px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;">For face recognition failures</span>
             </div>
             <div id="manual-msg" style="display:none;padding:10px 14px;border-radius:8px;margin-bottom:12px;font-size:0.88rem;font-weight:600;"></div>
-            <form id="manual-form">
+            <form id="manual-form" method="POST" action="attendance.php?subject=<?= $selected_subject ?>&date=<?= $selected_date ?>&camera_stopped=1">
                 <input type="hidden" name="subject_id" value="<?= $selected_subject ?>">
                 <input type="hidden" name="manual_attendance" value="1">
                 <div class="form-group">
@@ -234,7 +230,7 @@ if ($selected_subject) {
                     <label>Reason *</label>
                     <input type="text" name="reason" class="form-control" placeholder="e.g. Face recognition failed due to poor lighting" required>
                 </div>
-                <button type="button" onclick="saveManual()" class="btn btn-warning btn-block">✏️ Save Manual Attendance</button>
+                <button type="submit" class="btn btn-warning btn-block">✏️ Save Manual Attendance</button>
             </form>
         </div>
     </div>
@@ -243,7 +239,37 @@ if ($selected_subject) {
 </div>
 
 <script src="../assets/js/face-api.min.js"></script>
+<?php if (!isset($_GET['camera_stopped'])): ?>
 <script src="../assets/js/face-recognition.js"></script>
+<?php else: ?>
+<script>
+// Camera was stopped — don't auto-start
+document.addEventListener('DOMContentLoaded', () => {
+    const statusEl = document.getElementById('status');
+    if (statusEl) {
+        statusEl.textContent = '⏹ Camera stopped.';
+        statusEl.className   = 'recognition-status status-loading';
+    }
+    const btn = document.getElementById('btn-stop-camera');
+    if (btn) {
+        btn.textContent = '▶ Restart Camera';
+        btn.onclick     = () => { window.location.href = 'attendance.php'; };
+    }
+    <?php if ($msg): ?>
+    // Show success message
+    const msgEl = document.getElementById('manual-msg');
+    if (msgEl) {
+        msgEl.style.display    = 'block';
+        msgEl.style.background = '#e8f5e9';
+        msgEl.style.color      = '#2e7d32';
+        msgEl.style.border     = '1px solid #a5d6a7';
+        msgEl.textContent      = '✅ <?= addslashes($msg) ?>';
+        setTimeout(() => { msgEl.style.display = 'none'; }, 4000);
+    }
+    <?php endif; ?>
+});
+</script>
+<?php endif; ?>
 <script>
 function loadOverride() {
     const subject = document.getElementById('override-subject').value;
