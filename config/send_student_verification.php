@@ -69,17 +69,8 @@ function sendStudentVerificationEmail(mysqli $conn, int $studentId, string $emai
     $mail->SMTPAuth = true;
     $mail->Username = $_ENV['MAIL_USERNAME'];
     $mail->Password = str_replace(' ', '', $_ENV['MAIL_PASSWORD']);
-    $mail->Port     = (int) ($_ENV['MAIL_PORT'] ?? 587);
-    $mail->SMTPSecure = ($mail->Port === 465)
-        ? \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS
-        : \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->SMTPOptions = [
-        'ssl' => [
-            'verify_peer'       => false,
-            'verify_peer_name'  => false,
-            'allow_self_signed' => true,
-        ],
-    ];
+    $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
+    $mail->Port = (int) $_ENV['MAIL_PORT'];
 
     $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
     $mail->addAddress($email);
