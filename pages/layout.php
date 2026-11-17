@@ -46,11 +46,13 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                         <span class="nav-icon">📋</span> Reports
                     </a>
                 </li>
+                <?php /* Location Settings hidden from admin sidebar
                 <li>
                     <a href="location_settings.php" class="<?= $current_page === 'location_settings' ? 'active' : '' ?>">
                         <span class="nav-icon">📍</span> Location Settings
                     </a>
                 </li>
+                */ ?>
                 <li>
                     <a href="teachers.php" class="<?= $current_page === 'teachers' ? 'active' : '' ?>">
                         <span class="nav-icon">👨‍🏫</span> Teachers
