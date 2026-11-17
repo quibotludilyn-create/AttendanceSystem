@@ -46,6 +46,19 @@ if (isset($_GET['delete'])) {
     $msg = "Schedule deleted.";
 }
 
+// Delete group of schedules (same subject+time+room, multiple days)
+if (isset($_GET['delete_group'])) {
+    $ids = array_map('intval', explode(',', $_GET['delete_group']));
+    $ids = array_filter($ids);
+    if (!empty($ids)) {
+        $ids_str = implode(',', $ids);
+        $conn->query("DELETE FROM schedules WHERE id IN ($ids_str)");
+        $msg = "Schedule group deleted.";
+    }
+    header('Location: schedules.php');
+    exit;
+}
+
 $subjects = $conn->query("SELECT * FROM subjects WHERE teacher_id=$teacher_id AND is_active=1 ORDER BY subject_name");
 $schedules = $conn->query("
     SELECT sch.*, sub.subject_name, sub.section, sub.course, sub.year_level
@@ -54,8 +67,22 @@ $schedules = $conn->query("
     ORDER BY FIELD(sch.day_of_week,'Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'), sch.start_time
 ");
 $days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+// Group schedules by subject+time+room for merged display
+$grouped = [];
 $sched_by_day = [];
-while ($s = $schedules->fetch_assoc()) $sched_by_day[$s['day_of_week']][] = $s;
+while ($s = $schedules->fetch_assoc()) {
+    $sched_by_day[$s['day_of_week']][] = $s;
+    // Create group key: subject_id + start_time + end_time + room
+    $gkey = $s['subject_id'] . '|' . $s['start_time'] . '|' . $s['end_time'] . '|' . $s['room'];
+    if (!isset($grouped[$gkey])) {
+        $grouped[$gkey] = $s;
+        $grouped[$gkey]['days'] = [];
+        $grouped[$gkey]['ids'] = [];
+    }
+    $grouped[$gkey]['days'][] = $s['day_of_week'];
+    $grouped[$gkey]['ids'][]  = $s['id'];
+}
 ?>
 
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
@@ -111,28 +138,31 @@ while ($s = $schedules->fetch_assoc()) $sched_by_day[$s['day_of_week']][] = $s;
 <!-- Weekly Schedule -->
 <div class="card">
     <div class="card-title">📅 Weekly Schedule</div>
-    <?php if (empty($sched_by_day)): ?>
+    <?php if (empty($grouped)): ?>
     <div class="empty-state"><div class="empty-icon">🗓️</div><p>No schedules yet.</p></div>
     <?php else: ?>
-    <?php foreach($days as $day): ?>
-    <?php if (!isset($sched_by_day[$day])) continue; ?>
-    <div style="margin-bottom:16px;">
-        <div style="font-weight:700;font-size:0.82rem;color:#1b5e20;background:#e8f5e9;padding:7px 12px;border-radius:8px;margin-bottom:8px;">
-            📅 <?= $day ?>
-        </div>
-        <?php foreach($sched_by_day[$day] as $sch): ?>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:#f9fafb;border-radius:8px;margin-bottom:6px;border-left:3px solid #2e7d32;">
-            <div>
-                <div style="font-weight:700;font-size:0.88rem;"><?= htmlspecialchars($sch['subject_name']) ?></div>
-                <div style="font-size:0.76rem;color:#666;">
-                    Section <?= htmlspecialchars($sch['section']) ?> &nbsp;·&nbsp;
-                    <?= date('g:i A', strtotime($sch['start_time'])) ?> – <?= date('g:i A', strtotime($sch['end_time'])) ?>
-                    <?php if ($sch['room']): ?>&nbsp;·&nbsp; 🏫 <?= htmlspecialchars($sch['room']) ?><?php endif; ?>
-                </div>
+    <?php 
+    $dayOrder = ['Monday'=>0,'Tuesday'=>1,'Wednesday'=>2,'Thursday'=>3,'Friday'=>4,'Saturday'=>5,'Sunday'=>6];
+    $dayAbbr  = ['Monday'=>'Mon','Tuesday'=>'Tue','Wednesday'=>'Wed','Thursday'=>'Thu','Friday'=>'Fri','Saturday'=>'Sat','Sunday'=>'Sun'];
+    foreach ($grouped as $gkey => $sch): 
+        // Sort days in week order
+        usort($sch['days'], fn($a,$b) => $dayOrder[$a] - $dayOrder[$b]);
+        $daysStr = implode(', ', array_map(fn($d) => $dayAbbr[$d], $sch['days']));
+        $idsStr  = implode(',', $sch['ids']);
+    ?>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f9fafb;border-radius:8px;margin-bottom:8px;border-left:3px solid #2e7d32;">
+        <div>
+            <div style="font-weight:700;font-size:0.88rem;"><?= htmlspecialchars($sch['subject_name']) ?></div>
+            <div style="font-size:0.76rem;color:#666;">
+                Section <?= htmlspecialchars($sch['section']) ?> &nbsp;·&nbsp;
+                📅 <strong><?= $daysStr ?></strong> &nbsp;·&nbsp;
+                <?= date('g:i A', strtotime($sch['start_time'])) ?> – <?= date('g:i A', strtotime($sch['end_time'])) ?>
+                <?php if ($sch['room']): ?>&nbsp;·&nbsp; 🏫 <?= htmlspecialchars($sch['room']) ?><?php endif; ?>
             </div>
-            <a href="?delete=<?= $sch['id'] ?>" onclick="return confirm('Delete this schedule?')" class="btn btn-danger btn-sm">🗑️</a>
         </div>
-        <?php endforeach; ?>
+        <a href="?delete_group=<?= urlencode($idsStr) ?>" 
+           onclick="return confirm('Delete all <?= count($sch['days']) ?> day(s) for this schedule?')" 
+           class="btn btn-danger btn-sm">🗑️</a>
     </div>
     <?php endforeach; ?>
     <?php endif; ?>
