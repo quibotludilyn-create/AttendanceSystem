@@ -1,7 +1,5 @@
 <?php
 
-require_once dirname(__DIR__) . '/vendor/autoload.php';
-
 // Load .env if not already loaded
 if (empty($_ENV['MAIL_HOST'])) {
     $envFile = dirname(__DIR__) . '/.env';
@@ -16,29 +14,13 @@ if (empty($_ENV['MAIL_HOST'])) {
 
 function sendStudentVerificationEmail(mysqli $conn, int $studentId, string $email): void
 {
-    $required = [
-        'APP_BASE_URL',
-        'MAIL_HOST',
-        'MAIL_PORT',
-        'MAIL_USERNAME',
-        'MAIL_PASSWORD',
-        'MAIL_FROM_ADDRESS',
-        'MAIL_FROM_NAME',
-    ];
-
-    foreach ($required as $key) {
-        if (empty($_ENV[$key])) {
-            throw new RuntimeException("Missing .env setting: $key");
-        }
-    }
-
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         throw new RuntimeException('Invalid recipient email.');
     }
 
-    $token = bin2hex(random_bytes(32));
+    $token     = bin2hex(random_bytes(32));
     $tokenHash = hash('sha256', $token);
-    $expires = date('Y-m-d H:i:s', time() + 86400);
+    $expires   = date('Y-m-d H:i:s', time() + 86400);
 
     $stmt = $conn->prepare(
         'UPDATE students
@@ -47,43 +29,51 @@ function sendStudentVerificationEmail(mysqli $conn, int $studentId, string $emai
              email_verified_at = NULL
          WHERE id = ?'
     );
-
-    if (!$stmt) {
-        throw new RuntimeException($conn->error);
-    }
-
+    if (!$stmt) throw new RuntimeException($conn->error);
     $stmt->bind_param('ssi', $tokenHash, $expires, $studentId);
-
-    if (!$stmt->execute()) {
-        throw new RuntimeException($stmt->error);
-    }
-
+    if (!$stmt->execute()) throw new RuntimeException($stmt->error);
     $stmt->close();
 
-    $verifyUrl = rtrim($_ENV['APP_BASE_URL'], '/')
+    $verifyUrl = rtrim($_ENV['APP_BASE_URL'] ?? '', '/')
         . '/verify_email.php?token=' . urlencode($token);
 
-    $mail = new \PHPMailer\PHPMailer\PHPMailer(true);
-    $mail->isSMTP();
-    $mail->Host = $_ENV['MAIL_HOST'];
-    $mail->SMTPAuth = true;
-    $mail->Username = $_ENV['MAIL_USERNAME'];
-    $mail->Password = str_replace(' ', '', $_ENV['MAIL_PASSWORD']);
-    $mail->SMTPSecure = \PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_STARTTLS;
-    $mail->Port = (int) $_ENV['MAIL_PORT'];
+    $fromEmail = $_ENV['MAIL_FROM_ADDRESS'] ?? '';
+    $fromName  = $_ENV['MAIL_FROM_NAME']    ?? 'AttendEase';
+    $apiKey    = $_ENV['BREVO_API_KEY']     ?? $_ENV['MAIL_PASSWORD'] ?? '';
 
-    $mail->setFrom($_ENV['MAIL_FROM_ADDRESS'], $_ENV['MAIL_FROM_NAME']);
-    $mail->addAddress($email);
-    $mail->isHTML(true);
-    $mail->Subject = 'Verify your AttendEase email';
-    $mail->Body = '<p>Click to verify your email address:</p><p><a href="'
-        . htmlspecialchars($verifyUrl, ENT_QUOTES, 'UTF-8')
-        . '">Verify email</a></p>';
-    $mail->AltBody = "Verify your email: $verifyUrl";
+    $payload = json_encode([
+        'sender'      => ['name' => $fromName, 'email' => $fromEmail],
+        'to'          => [['email' => $email]],
+        'subject'     => 'Verify your AttendEase email',
+        'htmlContent' => '<p>Click to verify your email address:</p>
+                          <p><a href="' . htmlspecialchars($verifyUrl, ENT_QUOTES, 'UTF-8') . '">Verify email</a></p>',
+        'textContent' => "Verify your email: $verifyUrl",
+    ]);
 
-    try {
-        $mail->send();
-    } catch (\PHPMailer\PHPMailer\Exception $e) {
-        throw new RuntimeException('SMTP send failed: ' . $e->getMessage(), 0, $e);
+    $ch = curl_init('https://api.brevo.com/v3/smtp/email');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => [
+            'accept: application/json',
+            'api-key: ' . $apiKey,
+            'content-type: application/json',
+        ],
+        CURLOPT_TIMEOUT        => 15,
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr) {
+        throw new RuntimeException('API request failed: ' . $curlErr);
+    }
+
+    if ($httpCode < 200 || $httpCode >= 300) {
+        $data = json_decode($response, true);
+        throw new RuntimeException('Brevo API error: ' . ($data['message'] ?? $response));
     }
 }
