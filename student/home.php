@@ -302,7 +302,7 @@ new Chart(document.getElementById('trendChart'), {
             <tbody>
             <?php while($r = $today_recs->fetch_assoc()): ?>
                 <tr>
-                    <td><?= htmlspecialchars($r['subject']) ?></td>
+                    <td><?= htmlspecialchars($r['subject'] ?? '—') ?></td>
                     <td><?= $r['time_in'] ?></td>
                     <td><span class="s-badge badge-<?= $r['status'] ?>"><?= ucfirst($r['status']) ?></span></td>
                 </tr>
@@ -330,7 +330,7 @@ new Chart(document.getElementById('trendChart'), {
             <?php while($r = $recent->fetch_assoc()): ?>
                 <tr>
                     <td><?= date('M d', strtotime($r['date'])) ?></td>
-                    <td><?= htmlspecialchars($r['subject']) ?></td>
+                    <td><?= htmlspecialchars($r['subject'] ?? '—') ?></td>
                     <td><?= $r['time_in'] ?></td>
                     <td><span class="s-badge badge-<?= $r['status'] ?>"><?= ucfirst($r['status']) ?></span></td>
                 </tr>
