@@ -122,7 +122,7 @@ $summary = $conn->query("
                         <?php if ($r['location_verified']): ?>
                             <span style="color:#00a87a; font-size:0.8rem;">✅ Within Campus</span>
                         <?php else: ?>
-                            <span style="color:#e65100; font-size:0.8rem;">📍 Outside Area</span>
+                            <span style="color:#888; font-size:0.8rem;">� Recorded</span>
                         <?php endif; ?>
                     </td>
                     <td><span class="s-badge badge-<?= $r['status'] ?>"><?= ucfirst($r['status']) ?></span></td>
