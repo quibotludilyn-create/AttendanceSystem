@@ -19,10 +19,12 @@ if ($filter_status)  $where[] = "status = '" . $conn->real_escape_string($filter
 $where_sql = implode(' AND ', $where);
 
 $records = $conn->query("
-    SELECT date, subject, time_in, status, location_verified
-    FROM attendance
+    SELECT a.date, COALESCE(a.subject, sub.subject_name, '—') as subject, 
+           a.time_in, a.status, a.location_verified
+    FROM attendance a
+    LEFT JOIN subjects sub ON a.subject_id = sub.id
     WHERE $where_sql
-    ORDER BY date DESC, time_in DESC
+    ORDER BY a.date DESC, a.time_in DESC
 ");
 
 // Summary for filtered period
@@ -114,7 +116,7 @@ $summary = $conn->query("
                 <tr>
                     <td><?= date('M d, Y', strtotime($r['date'])) ?></td>
                     <td style="color:var(--muted);"><?= date('D', strtotime($r['date'])) ?></td>
-                    <td><?= htmlspecialchars($r['subject']) ?></td>
+                    <td><?= htmlspecialchars($r['subject'] ?? '—') ?></td>
                     <td><?= $r['time_in'] ?></td>
                     <td>
                         <?php if ($r['location_verified']): ?>
