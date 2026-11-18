@@ -11,9 +11,11 @@ $dayOfWeek = date('l'); // e.g. Monday
 
 // Today's records
 $today_recs = $conn->query("
-    SELECT subject, time_in, status FROM attendance
-    WHERE student_id=$sid_db AND date='$today'
-    ORDER BY time_in ASC
+    SELECT COALESCE(a.subject, sub.subject_name, '—') as subject, a.time_in, a.status 
+    FROM attendance a
+    LEFT JOIN subjects sub ON a.subject_id = sub.id
+    WHERE a.student_id=$sid_db AND a.date='$today'
+    ORDER BY a.time_in ASC
 ");
 
 // This month summary
@@ -71,9 +73,11 @@ $upcoming = $conn->query("
 
 // Last 5 records
 $recent = $conn->query("
-    SELECT date, subject, time_in, status FROM attendance
-    WHERE student_id=$sid_db
-    ORDER BY date DESC, time_in DESC
+    SELECT a.date, COALESCE(a.subject, sub.subject_name, '—') as subject, a.time_in, a.status 
+    FROM attendance a
+    LEFT JOIN subjects sub ON a.subject_id = sub.id
+    WHERE a.student_id=$sid_db
+    ORDER BY a.date DESC, a.time_in DESC
     LIMIT 5
 ");
 ?>
