@@ -120,9 +120,9 @@ $summary = $conn->query("
                     <td><?= $r['time_in'] ?></td>
                     <td>
                         <?php if ($r['location_verified']): ?>
-                            <span style="color:#00a87a; font-size:0.8rem;">✅ Verified</span>
+                            <span style="color:#00a87a; font-size:0.8rem;">✅ Within Campus</span>
                         <?php else: ?>
-                            <span style="color:#aaa; font-size:0.8rem;">—</span>
+                            <span style="color:#e65100; font-size:0.8rem;">📍 Outside Area</span>
                         <?php endif; ?>
                     </td>
                     <td><span class="s-badge badge-<?= $r['status'] ?>"><?= ucfirst($r['status']) ?></span></td>
