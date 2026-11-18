@@ -51,11 +51,12 @@ $trend = $conn->query("
     WHERE student_id=$sid_db AND date >= DATE_SUB(CURDATE(), INTERVAL 6 DAY)
     GROUP BY date ORDER BY date ASC
 ");
-$trend_labels = $trend_present = $trend_late = [];
+$trend_labels = $trend_present = $trend_late = $trend_absent = [];
 while($r = $trend->fetch_assoc()) {
     $trend_labels[]  = date('M d', strtotime($r['date']));
-    $trend_present[] = intval($r['present']) + intval($r['late']); // attended
-    $trend_late[]    = intval($r['absent']);
+    $trend_present[] = intval($r['present']);
+    $trend_late[]    = intval($r['late']);
+    $trend_absent[]  = intval($r['absent']);
 }
 
 // Upcoming classes today
@@ -276,14 +277,20 @@ new Chart(document.getElementById('trendChart'), {
         labels: <?= json_encode($trend_labels) ?>,
         datasets: [
             {
-                label: 'Attended',
+                label: 'Present',
                 data: <?= json_encode($trend_present) ?>,
                 borderColor: '#00a87a', backgroundColor: 'rgba(0,168,122,0.1)',
                 tension: 0.4, fill: true, pointRadius: 4
             },
             {
-                label: 'Absent',
+                label: 'Late',
                 data: <?= json_encode($trend_late) ?>,
+                borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,0.1)',
+                tension: 0.4, fill: true, pointRadius: 4
+            },
+            {
+                label: 'Absent',
+                data: <?= json_encode($trend_absent) ?>,
                 borderColor: '#e53935', backgroundColor: 'rgba(229,57,53,0.1)',
                 tension: 0.4, fill: true, pointRadius: 4
             }
