@@ -13,7 +13,7 @@ $filter_status  = $_GET['status']  ?? '';
 
 $where = ["student_id = $sid_db"];
 if ($filter_month)   $where[] = "DATE_FORMAT(date,'%Y-%m') = '" . $conn->real_escape_string($filter_month) . "'";
-if ($filter_subject) $where[] = "subject LIKE '%" . $conn->real_escape_string($filter_subject) . "%'";
+if ($filter_subject) $where[] = "(a.subject LIKE '%" . $conn->real_escape_string($filter_subject) . "%' OR sub.subject_name LIKE '%" . $conn->real_escape_string($filter_subject) . "%')";
 if ($filter_status)  $where[] = "status = '" . $conn->real_escape_string($filter_status) . "'";
 
 $where_sql = implode(' AND ', $where);
@@ -51,9 +51,24 @@ $summary = $conn->query("
         </div>
         <div class="s-form-group" style="margin:0; flex:1; min-width:140px;">
             <label>Subject</label>
-            <input type="text" name="subject" class="s-input"
-                   placeholder="All subjects"
-                   value="<?= htmlspecialchars($filter_subject) ?>">
+            <select name="subject" class="s-input">
+                <option value="">All subjects</option>
+                <?php
+                $enrolled_subs = $conn->query("
+                    SELECT DISTINCT sub.subject_name 
+                    FROM enrollments e 
+                    JOIN subjects sub ON e.subject_id = sub.id 
+                    WHERE e.student_id = $sid_db 
+                    ORDER BY sub.subject_name
+                ");
+                while($es = $enrolled_subs->fetch_assoc()):
+                ?>
+                <option value="<?= htmlspecialchars($es['subject_name']) ?>"
+                    <?= $filter_subject === $es['subject_name'] ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($es['subject_name']) ?>
+                </option>
+                <?php endwhile; ?>
+            </select>
         </div>
         <div class="s-form-group" style="margin:0; min-width:120px;">
             <label>Status</label>
