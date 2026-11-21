@@ -1229,11 +1229,14 @@
                     <span class="feat-tag">PHP + MySQL</span>
                 </div>
             </div>
-            <div class="feat-card reveal d3">
-                <div class="feat-icon-box">📋</div>
-                <div class="feat-title">Printable Reports</div>
-                <div class="feat-desc">Filter attendance by date, subject, or status. Print formatted PDF-ready reports directly from the browser.</div>
-                <span class="feat-tag">Print API</span>
+            <div class="feat-card reveal d3" style="background-image:url('assets/img/printer.png');background-size:cover;background-position:center;position:relative;">
+                <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
+                <div style="position:relative;z-index:1;">
+                    <div class="feat-icon-box">📋</div>
+                    <div class="feat-title">Printable Reports</div>
+                    <div class="feat-desc">Filter attendance by date, subject, or status. Print formatted PDF-ready reports directly from the browser.</div>
+                    <span class="feat-tag">Print API</span>
+                </div>
             </div>
         </div>
     </div>
