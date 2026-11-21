@@ -1242,7 +1242,7 @@
 
     <div class="cta-cards">
         <a href="student_login.php" class="cta-card">
-            <span class="cta-card-icon"><img src="assets/img/student.png" style="width:60px;height:60px;object-fit:contain;" alt="Student"></span>
+            <span class="cta-card-icon"><img src="assets/img/student.png" style="width:80px;height:80px;object-fit:contain;" alt="Student"></span>
             <span class="cta-card-label">STUDENT PORTAL</span>
             <h3>Student Login</h3>
             <p>Already registered? Login with your Gmail, password, and face scan to record attendance.</p>
