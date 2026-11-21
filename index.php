@@ -1223,7 +1223,7 @@
             <div class="feat-card reveal d2" style="background-image:url('assets/img/adminbg.png');background-size:cover;background-position:center;position:relative;">
                 <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
                 <div style="position:relative;z-index:1;">
-                    <div class="feat-icon-box">📊</div>
+                    <div class="feat-icon-box"><img src="assets/img/Dashboard.png" style="width:60px;height:60px;object-fit:contain;" alt="Dashboard"></div>
                     <div class="feat-title">Admin Dashboard</div>
                     <div class="feat-desc">Full control panel for managing students, viewing daily attendance, configuring GPS zones, and printing reports.</div>
                     <span class="feat-tag">PHP + MySQL</span>
