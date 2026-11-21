@@ -1398,10 +1398,10 @@
                                 <select id="fb-role"
                                         style="width:100%;padding:10px 13px;border:1.5px solid #e0e0e0;border-radius:9px;font-size:0.9rem;outline:none;background:white;transition:border-color 0.2s;"
                                         onfocus="this.style.borderColor='var(--blue-mid)'" onblur="this.style.borderColor='#e0e0e0'">
-                                    <option value="student">👨‍🎓 Student</option>
-                                    <option value="teacher">👨‍🏫 Teacher</option>
-                                    <option value="admin">🛡️ Admin</option>
-                                    <option value="other">👤 Other</option>
+                                    <option value="student"> Student</option>
+                                    <option value="teacher"> Teacher</option>
+                                    <option value="admin"> Admin</option>
+                                    <option value="other"> Other</option>
                                 </select>
                             </div>
                         </div>
