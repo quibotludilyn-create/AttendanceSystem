@@ -1310,7 +1310,7 @@
 
                 <?php
                 $feedbacks = [
-                    ['name'=>'Maria Santos','role'=>'Student','rating'=>5,'message'=>'AttendEase made it so easy to track my attendance! The face recognition feature is amazing and very accurate.','initial'=>'M','color'=>'#e53935'],
+                    ['name'=>'Maria Santos','role'=>'Student','rating'=>5,'message'=>'AttendEase made it so easy to track my attendance! The face recognition feature is amazing and very accurate.','initial'=>'M','color'=>'#e53935', 'image'=>'assets/img/maria.png'],
                     ['name'=>'Juan Dela Cruz','role'=>'Student','rating'=>5,'message'=>'No more worrying about forgetting to sign in. The system is fast and works perfectly even on my phone.','initial'=>'J','color'=>'#1565c0'],
                     ['name'=>'Ana Reyes','role'=>'Teacher','rating'=>5,'message'=>'As a teacher, I love how I can see real-time attendance. It saves me so much time compared to manual checking.','initial'=>'A','color'=>'#2e7d32'],
                     ['name'=>'Carlos Mendoza','role'=>'Student','rating'=>4,'message'=>'The location-based attendance is a great feature. It ensures that only students physically present can mark their attendance.','initial'=>'C','color'=>'#7b1fa2'],
@@ -1333,9 +1333,13 @@
                                 <?= htmlspecialchars($fb['message']) ?>
                             </p>
                             <div style="display:flex;align-items:center;gap:12px;padding-left:8px;">
-                                <div style="width:40px;height:40px;border-radius:50%;background:<?= $fb['color'] ?>;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;font-weight:700;flex-shrink:0;">
+                                <!-- <div style="width:40px;height:40px;border-radius:50%;background:<?= $fb['color'] ?>;display:flex;align-items:center;justify-content:center;font-size:1rem;color:white;font-weight:700;flex-shrink:0;">
                                     <?= $fb['initial'] ?>
-                                </div>
+                                </div> -->
+                                <img src="<?= htmlspecialchars($fb['image']) ?>"
+                                    alt="<?= htmlspecialchars($fb['name']) ?>"
+                                    style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+
                                 <div>
                                     <div style="font-weight:700;font-size:0.88rem;color:var(--navy);"><?= htmlspecialchars($fb['name']) ?></div>
                                     <div style="font-size:0.74rem;color:#aaa;text-transform:capitalize;"><?= htmlspecialchars($fb['role']) ?></div>
