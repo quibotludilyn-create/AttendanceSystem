@@ -991,7 +991,7 @@
         <a href="#features">Features</a>
         <a href="student_signup.php">Sign Up</a>
         <a href="teacher_login.php" style="color:rgba(255,255,255,0.75);">👨‍🏫 Teacher</a>
-        <a href="student_login.php" class="btn-nav">👨‍🎓 Student Login</a>
+        <a href="student_login.php" class="btn-nav"><img src="assets/img/student.png"style="width:20px;height:20px;object-fit:contain;vertical-align:middle;margin-right:5px" alt="Student"> Student Login</a>
     </div>
 </nav>
 
@@ -1026,7 +1026,7 @@
 
             <div class="hero-cta">
                 <a href="student_login.php" class="cta-primary">
-                    👨‍🎓 Student Login
+                     <img src="assets/img/student.png" style="width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:6px;" alt="Student"> Student Login
                 </a>
                 <a href="student_signup.php" class="cta-secondary">
                     📝 Create Account
@@ -1250,7 +1250,7 @@
         </a>
 
         <a href="student_signup.php" class="cta-card">
-            <span class="cta-card-icon">📝</span>
+            <span class="cta-card-icon"><img src="assets/img/student.png" style="width:40px;height:40px;object-fit:contain;" alt="Student"></span>
             <span class="cta-card-label">FIRST TIME?</span>
             <h3>Create Account</h3>
             <p>New student? Verify your student ID, set a password, and register your face to get started.</p>
