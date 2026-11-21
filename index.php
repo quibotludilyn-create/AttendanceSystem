@@ -1277,7 +1277,7 @@
         </a>
 
         <a href="teacher_login.php" class="cta-card" style="border-color:rgba(165,214,167,0.3);">
-            <span class="cta-card-icon">👨‍🏫</span>
+            <span class="cta-card-icon"><img src="assets/img/teacher1.png" style="width:120px;height:120px;object-fit:contain;" alt="Teacher"></span>
             <span class="cta-card-label" style="background:rgba(46,125,50,0.2);border-color:rgba(165,214,167,0.4);color:#a5d6a7;">TEACHER PORTAL</span>
             <h3>Teacher Login</h3>
             <p>Manage your classes, take attendance, set location, and view reports for your subjects.</p>
