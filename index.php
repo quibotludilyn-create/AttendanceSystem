@@ -1190,7 +1190,7 @@
                 <span class="feat-tag">face-api.js</span>
                 </div>
             </div>
-            <div class="feat-card reveal d2">
+            <div class="feat-card reveal d2" style="background-image:url('assets/img/boundary_check.png');background-size:cover;background-position:center;position:relative;">
                 <div class="feat-icon-box">📍</div>
                 <div class="feat-title">GPS Boundary Check</div>
                 <div class="feat-desc">Admin sets the allowed GPS radius. Students outside campus are blocked — no proxy attendance possible.</div>
