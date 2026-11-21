@@ -1211,11 +1211,14 @@
                     <span class="feat-tag">CSS Filter</span>
                 </div>
             </div>
-            <div class="feat-card reveal d1">
-                <div class="feat-icon-box">🔒</div>
-                <div class="feat-title">Secure Accounts</div>
-                <div class="feat-desc">Passwords are hashed with bcrypt. Face descriptors are stored as encrypted vectors — not raw images.</div>
-                <span class="feat-tag">PHP bcrypt</span>
+            <div class="feat-card reveal d1" style="background-image:url('assets/img/secureAccounts.png');background-size:cover;background-position:center;position:relative;">
+                <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
+                <div style="position:relative;z-index:1;">
+                    <div class="feat-icon-box">🔒</div>
+                    <div class="feat-title">Secure Accounts</div>
+                    <div class="feat-desc">Passwords are hashed with bcrypt. Face descriptors are stored as encrypted vectors — not raw images.</div>
+                    <span class="feat-tag">PHP bcrypt</span>
+                </div>
             </div>
             <div class="feat-card reveal d2">
                 <div class="feat-icon-box">📊</div>
