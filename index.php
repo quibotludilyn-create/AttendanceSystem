@@ -990,7 +990,7 @@
         <a href="#how-it-works">How It Works</a>
         <a href="#features">Features</a>
         <a href="student_signup.php">Sign Up</a>
-        <a href="teacher_login.php" style="color:rgba(255,255,255,0.75);"><img src="assets/img/teacher.png" style="width:36px;height:36px;object-fit:contain;vertical-align:middle;margin-right:5px" alt="Teacher"> Teacher</a>
+        <a href="teacher_login.php" style="color:rgba(255,255,255,0.75);"><img src="assets/img/teacher.png" style="width:50px;height:50px;object-fit:contain;vertical-align:middle;margin-right:5px" alt="Teacher"> Teacher</a>
         <a href="student_login.php" class="btn-nav"><img src="assets/img/girl_student.png" style="width:50px;height:36px;object-fit:contain;vertical-align:middle;margin-right:5px" alt="Student"> Student Login</a>
     </div>
 </nav>
