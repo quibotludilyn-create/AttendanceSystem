@@ -1181,23 +1181,27 @@
         </div>
 
         <div class="feat-grid">
+            
             <div class="feat-card reveal d1" style="background-image:url('assets/img/face_recognition.png');background-size:cover;background-position:center;position:relative;">
                 <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
                 <div style="position:relative;z-index:1;">
-                <div class="feat-icon-box"><img src="assets/img/Robot.png" style="width:40px;height:40px;object-fit:contain;" alt="AI"></div>
-                <div class="feat-title">AI Face Recognition</div>
-                <div class="feat-desc">Uses face-api.js TinyFaceDetector — fast, lightweight, and runs entirely in the browser. No cloud needed.</div>
-                <span class="feat-tag">face-api.js</span>
+                    <div class="feat-icon-box"><img src="assets/img/Robot.png" style="width:40px;height:40px;object-fit:contain;" alt="AI"></div>
+                    <div class="feat-title">AI Face Recognition</div>
+                    <div class="feat-desc">Uses face-api.js TinyFaceDetector — fast, lightweight, and runs entirely in the browser. No cloud needed.</div>
+                    <span class="feat-tag">face-api.js</span>
                 </div>
             </div>
+
             <div class="feat-card reveal d2" style="background-image:url('assets/img/boundary_check.png');background-size:cover;background-position:center;position:relative;">
                 <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
                 <div style="position:relative;z-index:1;">
-                <div class="feat-icon-box"><img src="assets/img/gps.png" style="width:40px;height:40px;object-fit:contain;" alt="GPS"></div>
-                <div class="feat-title">GPS Boundary Check</div>
-                <div class="feat-desc">Admin sets the allowed GPS radius. Students outside campus are blocked — no proxy attendance possible.</div>
-                <span class="feat-tag">Geolocation API</span>
+                    <div class="feat-icon-box"><img src="assets/img/gps.png" style="width:40px;height:40px;object-fit:contain;" alt="GPS"></div>
+                    <div class="feat-title">GPS Boundary Check</div>
+                    <div class="feat-desc">Admin sets the allowed GPS radius. Students outside campus are blocked — no proxy attendance possible.</div>
+                    <span class="feat-tag">Geolocation API</span>
+                </div>
             </div>
+
             <div class="feat-card reveal d3">
                 <div class="feat-icon-box">🌗</div>
                 <div class="feat-title">Low-Light Adaptive</div>
