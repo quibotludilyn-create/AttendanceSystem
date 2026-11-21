@@ -1026,7 +1026,7 @@
 
             <div class="hero-cta">
                 <a href="student_login.php" class="cta-primary">
-                     <img src="assets/img/student.png" style="width:22px;height:22px;object-fit:contain;vertical-align:middle;margin-right:6px;" alt="Student"> Student Login
+                     <img src="assets/img/girl_student.png" style="width:50px;height:36px;object-fit:contain;vertical-align:middle;margin-right:6px;" alt="Student"> Student Login
                 </a>
                 <a href="student_signup.php" class="cta-secondary">
                     📝 Create Account
