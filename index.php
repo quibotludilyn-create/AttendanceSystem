@@ -1250,7 +1250,7 @@
         </a>
 
         <a href="student_signup.php" class="cta-card">
-            <span class="cta-card-icon">📝</span>
+            <span class="cta-card-icon"></span>
             <span class="cta-card-label">FIRST TIME?</span>
             <h3>Create Account</h3>
             <p>New student? Verify your student ID, set a password, and register your face to get started.</p>
