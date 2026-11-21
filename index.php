@@ -1195,7 +1195,7 @@
             <div class="feat-card reveal d2" style="background-image:url('assets/img/boundary_check.png');background-size:cover;background-position:center;position:relative;">
                 <div style="position:absolute;inset:0;background:rgba(0,8,30,0.72);border-radius:16px;"></div>
                 <div style="position:relative;z-index:1;">
-                    <div class="feat-icon-box"><img src="assets/img/GPS.png" style="width:40px;height:40px;object-fit:contain;" alt="GPS"></div>
+                    <div class="feat-icon-box"><img src="assets/img/GPS.png" style="width:50px;height:50px;object-fit:contain;" alt="GPS"></div>
                     <div class="feat-title">GPS Boundary Check</div>
                     <div class="feat-desc">Admin sets the allowed GPS radius. Students outside campus are blocked — no proxy attendance possible.</div>
                     <span class="feat-tag">Geolocation API</span>
