@@ -1029,7 +1029,7 @@
                      <img src="assets/img/girl_student.png" style="width:50px;height:36px;object-fit:contain;vertical-align:middle;margin-right:6px;" alt="Student"> Student Login
                 </a>
                 <a href="student_signup.php" class="cta-secondary">
-                    📝 Create Account
+                    Create Account
                 </a>
             </div>
 
@@ -1250,7 +1250,7 @@
         </a>
 
         <a href="student_signup.php" class="cta-card">
-            <span class="cta-card-icon"></span>
+            <span class="cta-card-icon"><img src="assets/img/create_account.png" style="width:80px;height:80px;object-fit:contain;" alt="Create Account"></span>
             <span class="cta-card-label">FIRST TIME?</span>
             <h3>Create Account</h3>
             <p>New student? Verify your student ID, set a password, and register your face to get started.</p>
