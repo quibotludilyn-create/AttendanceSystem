@@ -1314,7 +1314,7 @@
                     ['name'=>'Juan Dela Cruz','role'=>'Student','rating'=>5,'message'=>'No more worrying about forgetting to sign in. The system is fast and works perfectly even on my phone.','initial'=>'J','color'=>'#1565c0', 'image'=>'assets/img/juan.png'],
                     ['name'=>'Ana Reyes','role'=>'Teacher','rating'=>5,'message'=>'As a teacher, I love how I can see real-time attendance. It saves me so much time compared to manual checking.','initial'=>'A','color'=>'#2e7d32', 'image'=>'assets/img/ana.png'],
                     ['name'=>'Carlos Mendoza','role'=>'Student','rating'=>4,'message'=>'The location-based attendance is a great feature. It ensures that only students physically present can mark their attendance.','initial'=>'C','color'=>'#7b1fa2', 'image'=>'assets/img/carlos.png'],
-                    ['name'=>'Rosa Lim','role'=>'Teacher','rating'=>5,'message'=>'Very intuitive interface. My students adapted to it quickly and attendance records are always accurate.','initial'=>'R','color'=>'#e65100'],
+                    ['name'=>'Rosa Lim','role'=>'Teacher','rating'=>5,'message'=>'Very intuitive interface. My students adapted to it quickly and attendance records are always accurate.','initial'=>'R','color'=>'#e65100', 'image'=>'assets/img/rosa.png'],
                     ['name'=>'Miguel Torres','role'=>'Student','rating'=>5,'message'=>'I can check my attendance records anytime. The notifications keep me updated whenever my attendance is marked.','initial'=>'M','color'=>'#00838f'],
                 ];
                 ?>
