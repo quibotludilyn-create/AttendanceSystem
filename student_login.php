@@ -177,8 +177,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .feat-icon {
             width: 48px; height: 48px;
             border-radius: 12px;
-            background: linear-gradient(145deg, #b9c9ec, #9fb6e3);
-            border: 1px solid rgba(218,229,255,0.4);
+            background: linear-gradient(145deg, #6e82b7, #5d74a8);
+            border: 1px solid rgba(195,210,245,0.38);
             box-shadow: 0 3px 10px rgba(8,20,69,0.18);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
