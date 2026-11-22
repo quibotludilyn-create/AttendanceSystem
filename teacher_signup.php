@@ -79,6 +79,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .links a{color:#2e7d32;text-decoration:none;font-weight:600;}
         .note{background:#f1f8e9;border-radius:10px;padding:12px 14px;font-size:0.78rem;color:#558b2f;line-height:1.6;margin-bottom:16px;}
         @media(max-width:500px){.grid2{grid-template-columns:1fr;}}
+        body{background-color:#030b14;background-image:radial-gradient(ellipse at 10% 12%,rgba(0,229,190,0.2),transparent 38%),radial-gradient(ellipse at 90% 86%,rgba(0,125,220,0.2),transparent 42%),linear-gradient(135deg,#030b14,#071827 60%,#062b34);}
+        body::before{background-image:linear-gradient(rgba(100,255,218,0.055) 1px,transparent 1px),linear-gradient(90deg,rgba(100,255,218,0.055) 1px,transparent 1px);}
+        .brand .logo{background:rgba(8,28,40,0.72);border:1px solid rgba(100,255,218,0.24);box-shadow:0 0 28px rgba(0,229,190,0.16);}
+        .brand h1 span{color:#64ffda;}
+        .card{background:linear-gradient(155deg,rgba(11,29,42,0.97),rgba(6,17,28,0.98));border:1px solid rgba(100,255,218,0.2);box-shadow:0 24px 70px rgba(0,0,0,0.42),0 0 34px rgba(0,229,190,0.08);backdrop-filter:blur(16px);}
+        .badge{background:rgba(0,229,190,0.1);border:1px solid rgba(100,255,218,0.26);color:#64ffda;}
+        .card-head h2{color:#effcff;}
+        .card-head p{color:#91aab6;}
+        .fg label{color:#c6d9e0;}
+        .fg input,.fg select{border:1px solid #24404e;color:#effcff;background:#0b1c28;}
+        .fg input::placeholder{color:#67818e;}
+        .fg input:focus,.fg select:focus{border-color:#64ffda;box-shadow:0 0 0 3px rgba(100,255,218,0.12);background:#0d2230;}
+        .str-bar{background:#1b303c;}
+        .str-lbl{color:#8ca8b5;}
+        .match-msg{color:#8ca8b5;}
+        .btn{background:linear-gradient(110deg,#00bfa5,#087fce);box-shadow:0 8px 26px rgba(0,191,165,0.2);}
+        .btn:hover{opacity:1;filter:brightness(1.12);box-shadow:0 12px 32px rgba(0,191,165,0.3);}
+        .err{background:rgba(229,57,53,0.12);border-color:rgba(255,120,120,0.28);color:#ff9b9f;}
+        .suc{background:rgba(0,229,190,0.1);border-color:rgba(100,255,218,0.28);color:#7bffdc;}
+        .links{color:#8ca8b5;}
+        .links a{color:#64ffda;}
+        .note{background:rgba(0,229,190,0.08);border:1px solid rgba(100,255,218,0.16);color:#a7d7d2;}
     </style>
 </head>
 <body>
@@ -160,14 +182,14 @@ function checkStr(pw){
     const f=document.getElementById('str-fill'),l=document.getElementById('str-lbl');
     let s=0;
     if(pw.length>=8)s++;if(pw.length>=12)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
-    const lvl=[{p:'0%',c:'#eee',t:'Enter a password'},{p:'25%',c:'#ef5350',t:'Weak'},{p:'50%',c:'#ffa726',t:'Fair'},{p:'75%',c:'#66bb6a',t:'Good'},{p:'100%',c:'#2e7d32',t:'Strong 💪'}][Math.min(s,4)];
+    const lvl=[{p:'0%',c:'#8ca8b5',t:'Enter a password'},{p:'25%',c:'#ff737a',t:'Weak'},{p:'50%',c:'#ffc46b',t:'Fair'},{p:'75%',c:'#7be8bd',t:'Good'},{p:'100%',c:'#64ffda',t:'Strong 💪'}][Math.min(s,4)];
     f.style.width=lvl.p;f.style.background=lvl.c;l.textContent=lvl.t;l.style.color=lvl.c;
 }
 function checkMatch(){
     const v1=document.getElementById('pw1').value,v2=document.getElementById('pw2').value,el=document.getElementById('match-msg');
     if(!v2)return;
     el.textContent=v1===v2?'✅ Passwords match':'❌ Passwords do not match';
-    el.style.color=v1===v2?'#2e7d32':'#e53935';
+    el.style.color=v1===v2?'#64ffda':'#ff737a';
 }
 function validateForm(){
     const v1=document.getElementById('pw1').value,v2=document.getElementById('pw2').value;
