@@ -177,8 +177,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .feat-icon {
             width: 48px; height: 48px;
             border-radius: 12px;
-            background: #dce8f7;
-            border: 1px solid rgba(255,255,255,0.5);
+            background: linear-gradient(145deg, #b9c9ec, #9fb6e3);
+            border: 1px solid rgba(218,229,255,0.4);
+            box-shadow: 0 3px 10px rgba(8,20,69,0.18);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
