@@ -999,7 +999,6 @@
             .hiw-grid::before { display: none; }
             .feat-grid     { grid-template-columns: repeat(2, 1fr); }
             .stats-inner   { grid-template-columns: repeat(2, 1fr); }
-            .fc-1, .fc-2, .fc-3 { display: none; }
         }
 
         @media (max-width: 600px) {
@@ -1009,6 +1008,17 @@
             .brand-name { font-size: 1rem; }
             .nav-menu { right: 4%; }
             .hero-inner { gap: 32px; padding: 92px 5% 56px; }
+            .phone-mockup,
+            .phone-body { width: 170px; }
+            .float-card {
+                max-width: 130px;
+                padding: 7px 9px;
+                font-size: 0.68rem;
+                white-space: normal;
+            }
+            .fc-1 { top: 18px; right: -22px; }
+            .fc-2 { bottom: 35px; left: -22px; }
+            .fc-3 { top: 50%; right: -22px; }
             .hero-h1 { font-size: clamp(1.7rem, 7vw, 2rem); }
             .hero-pill { max-width: 100%; padding: 6px 12px; font-size: 0.68rem; }
             .hiw-grid   { grid-template-columns: 1fr; }
