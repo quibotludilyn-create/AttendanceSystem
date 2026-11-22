@@ -79,6 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .btn-register:hover{background:#f1f8e9;border-color:#2e7d32;}
         .bottom-links{display:flex;justify-content:center;gap:16px;padding-top:16px;border-top:1px solid #f0f0f0;}
         .bottom-links a{color:#aaa;font-size:0.78rem;text-decoration:none;transition:color 0.2s;}
+        .bottom-links img{width:24px;height:24px;object-fit:contain;vertical-align:middle;}
         .bottom-links a:hover{color:#2e7d32;}
         .bottom-links .sep{color:#e0e0e0;}
         @media(max-width:900px){.left-panel{display:none;}.right-panel{width:100%;min-width:0;padding:40px 28px;}}
@@ -147,7 +148,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bottom-links">
         <a href="index.php">← Home</a>
         <span class="sep">|</span>
-        <a href="student_login.php">👨‍🎓 Student Login</a>
+        <a href="student_login.php"><img src="assets/img/students.png" alt=""> Student Login</a>
         <span class="sep">|</span>
         <a href="admin/" style="color:#ddd;">Admin</a>
     </div>
