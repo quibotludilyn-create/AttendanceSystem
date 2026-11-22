@@ -101,6 +101,12 @@ $notif_count = $conn->query("
 
             .sidebar.open { left: 0 !important; }
 
+            .sidebar.open nav,
+            .sidebar.open .sidebar-footer {
+                display: block !important;
+                width: 100% !important;
+            }
+
             .sidebar nav ul {
                 flex-direction: column !important;
                 overflow-x: unset !important;
@@ -166,7 +172,7 @@ $notif_count = $conn->query("
             <h3>Face Recognition<br>Attendance System<br><small style="opacity:0.7;font-size:0.75rem;">Teacher Portal</small></h3>
         </div>
 
-        <nav>
+        <nav id="teacher-sidebar-menu">
             <ul>
                 <li>
                     <a href="dashboard.php" class="<?= $current_page==='dashboard' ?'active':'' ?>">
@@ -224,7 +230,8 @@ $notif_count = $conn->query("
     <!-- ── MAIN CONTENT ── -->
     <main class="main-content">
         <div class="topbar">
-            <button class="hamburger" onclick="toggleSidebar()" id="hamburger-btn">☰</button>
+            <button class="hamburger" type="button" onclick="toggleSidebar()" id="hamburger-btn"
+                    aria-expanded="false" aria-controls="teacher-sidebar-menu" aria-label="Open navigation menu">☰</button>
             <h4>
                 <?php
                 $titles = [
@@ -261,16 +268,22 @@ function toggleSidebar() {
     if (isOpen) {
         sidebar.classList.remove('open');
         overlay.classList.remove('show');
-        document.getElementById('hamburger-btn').textContent = '☰';
+        setSidebarButton(false);
     } else {
         sidebar.classList.add('open');
         overlay.classList.add('show');
-        document.getElementById('hamburger-btn').textContent = '✕';
+        setSidebarButton(true);
     }
+}
+function setSidebarButton(isOpen) {
+    const button = document.getElementById('hamburger-btn');
+    button.textContent = isOpen ? '✕' : '☰';
+    button.setAttribute('aria-expanded', String(isOpen));
+    button.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
 }
 function closeSidebar() {
     document.querySelector('.sidebar').classList.remove('open');
     document.getElementById('sidebar-overlay').classList.remove('show');
-    document.getElementById('hamburger-btn').textContent = '☰';
+    setSidebarButton(false);
 }
 </script>
