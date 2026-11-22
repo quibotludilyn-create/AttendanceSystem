@@ -17,13 +17,10 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
 </head>
 <body>
 <div class="wrapper">
-    <aside class="sidebar">
+    <aside class="sidebar admin-sidebar">
         <div class="sidebar-header">
             <span class="sidebar-icon"><img src="../assets/img/logo.png" style="width:44px;height:44px;object-fit:cover;border-radius:8px;" alt="Logo"></span>
             <h3>Face Recognition<br>Attendance Monitoring<br>System</h3>
-            <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="admin-sidebar-menu" aria-label="Open navigation menu">
-                ☰
-            </button>
         </div>
         <nav id="admin-sidebar-menu">
             <ul>
@@ -97,27 +94,12 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </a>
         </div>
     </aside>
-    <script>
-        const sidebar = document.querySelector('.sidebar');
-        const sidebarToggle = document.querySelector('.sidebar-toggle');
-
-        sidebarToggle.addEventListener('click', () => {
-            const isOpen = sidebar.classList.toggle('is-open');
-            sidebarToggle.setAttribute('aria-expanded', String(isOpen));
-            sidebarToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-        });
-
-        document.querySelectorAll('#admin-sidebar-menu a').forEach(link => {
-            link.addEventListener('click', () => {
-                sidebar.classList.remove('is-open');
-                sidebarToggle.setAttribute('aria-expanded', 'false');
-                sidebarToggle.setAttribute('aria-label', 'Open navigation menu');
-            });
-        });
-    </script>
+    <div class="admin-sidebar-overlay" id="admin-sidebar-overlay" onclick="closeAdminSidebar()" aria-hidden="true"></div>
 
     <main class="main-content">
         <div class="topbar">
+            <button class="admin-hamburger" type="button" onclick="toggleAdminSidebar()"
+                    aria-expanded="false" aria-controls="admin-sidebar-menu" aria-label="Open navigation menu">☰</button>
             <h4>
                 <?php
                 $titles = [
@@ -139,5 +121,27 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
                 <?= date('F d, Y') ?>
             </div>
         </div>
+<script>
+function toggleAdminSidebar() {
+    const sidebar = document.querySelector('.admin-sidebar');
+    const isOpen = sidebar.classList.toggle('is-open');
+    document.getElementById('admin-sidebar-overlay').classList.toggle('show', isOpen);
+    setAdminSidebarButton(isOpen);
+}
+function setAdminSidebarButton(isOpen) {
+    const button = document.querySelector('.admin-hamburger');
+    button.textContent = isOpen ? '✕' : '☰';
+    button.setAttribute('aria-expanded', String(isOpen));
+    button.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+}
+function closeAdminSidebar() {
+    document.querySelector('.admin-sidebar').classList.remove('is-open');
+    document.getElementById('admin-sidebar-overlay').classList.remove('show');
+    setAdminSidebarButton(false);
+}
+document.querySelectorAll('#admin-sidebar-menu a').forEach(link => {
+    link.addEventListener('click', closeAdminSidebar);
+});
+</script>
 <!-- Notifications script loaded at body level so DOM is ready -->
 <script src="../assets/js/notifications.js"></script>
