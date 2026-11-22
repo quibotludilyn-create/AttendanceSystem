@@ -23,6 +23,13 @@
 
 .students-layout > .card { min-width: 0; }
 
+.teacher-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
 @media (max-width: 768px) {
     .wrapper { flex-direction: column; }
 
@@ -123,6 +130,7 @@
     }
 
     .dashboard-charts { grid-template-columns: 1fr; }
+    .teacher-stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
     /* Table scroll */
     .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -140,6 +148,10 @@
     .sidebar { width: 200px !important; }
     .main-content { margin-left: 200px !important; padding: 16px !important; }
     .stats-grid { grid-template-columns: repeat(2, 1fr) !important; }
+}
+
+@media (min-width: 769px) and (max-width: 1400px) {
+    .teacher-stats-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 
 @media (max-width: 1024px) {

@@ -73,7 +73,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 ?>
 
 <!-- ── TOP STATS BAR ──────────────────────────────── -->
-<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:20px;">
+<div class="teacher-stats-grid">
     <div class="stat-card green" style="flex-direction:row;gap:10px;align-items:center;">
         <div class="stat-icon" style="background:#e8f5e9;font-size:1.3rem;">📚</div>
         <div class="stat-info"><h3><?= $total_subjects ?></h3><p>My Subjects</p></div>
