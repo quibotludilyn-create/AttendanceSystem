@@ -133,7 +133,7 @@ $total_steps = 4;
     <link rel="stylesheet" href="assets/css/style.css">
     <style>
         body {
-            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 50%, #388e3c 100%);
+            background: linear-gradient(135deg, #050818 0%, #0d1b6e 50%, #1a237e 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
@@ -152,7 +152,7 @@ $total_steps = 4;
 
         .signup-header { text-align: center; margin-bottom: 24px; }
         .signup-icon   { font-size: 2.8rem; margin-bottom: 6px; }
-        .signup-header h2 { font-size: 1.25rem; color: #1b5e20; margin-bottom: 3px; }
+        .signup-header h2 { font-size: 1.25rem; color: #1a237e; margin-bottom: 3px; }
         .signup-header p  { color: #888; font-size: 0.84rem; }
 
         /* ── Progress ── */
@@ -183,21 +183,21 @@ $total_steps = 4;
         .prog-label { font-size: 0.68rem; color: #bbb; font-weight: 600; text-align: center; }
         .prog-line  { flex: 1; height: 3px; background: #e0e0e0; margin-bottom: 20px; max-width: 40px; transition: background 0.4s; }
 
-        .prog-step.active .prog-num   { background: #1b5e20; color: white; box-shadow: 0 0 0 4px #c8e6c9; }
-        .prog-step.done   .prog-num   { background: #43a047; color: white; }
-        .prog-step.active .prog-label { color: #1b5e20; font-weight: 700; }
-        .prog-step.done   .prog-label { color: #43a047; }
-        .prog-line.done               { background: #43a047; }
+        .prog-step.active .prog-num   { background: #1a237e; color: white; box-shadow: 0 0 0 4px #c5d0f0; }
+        .prog-step.done   .prog-num   { background: #1565c0; color: white; }
+        .prog-step.active .prog-label { color: #1a237e; font-weight: 700; }
+        .prog-step.done   .prog-label { color: #1565c0; }
+        .prog-line.done               { background: #1565c0; }
 
         /* ── Student info box ── */
         .stu-box {
-            background: #f1f8e9;
-            border: 1px solid #a5d6a7;
+            background: #f0f4ff;
+            border: 1px solid #c5d0f0;
             border-radius: 10px;
             padding: 13px 16px;
             margin-bottom: 18px;
         }
-        .stu-box .sn { font-weight: 700; color: #1b5e20; font-size: 0.97rem; }
+        .stu-box .sn { font-weight: 700; color: #1a237e; font-size: 0.97rem; }
         .stu-box .sd { font-size: 0.81rem; color: #555; margin-top: 2px; }
 
         /* ── Password strength ── */
@@ -230,7 +230,7 @@ $total_steps = 4;
             z-index: 10;
             transition: border-color 0.4s, border-style 0.4s;
         }
-        .face-guide.ready   { border-color: #66bb6a; border-style: solid; }
+        .face-guide.ready   { border-color: #64b5f6; border-style: solid; }
         .face-guide.pulse   { animation: pulse-border 1s infinite; }
         @keyframes pulse-border {
             0%,100% { border-color: rgba(255,255,255,0.4); }
@@ -262,7 +262,7 @@ $total_steps = 4;
         }
         .cs-load    { background: #e3f2fd; color: #0277bd; }
         .cs-wait    { background: #fff8e1; color: #e65100; }
-        .cs-go      { background: #e8f5e9; color: #2e7d32; }
+        .cs-go      { background: #e8edff; color: #1a237e; }
         .cs-fail    { background: #ffebee; color: #c62828; }
 
         /* Progress dots for liveness */
@@ -271,13 +271,13 @@ $total_steps = 4;
             width: 12px; height: 12px; border-radius: 50%;
             background: #e0e0e0; transition: background 0.3s, transform 0.3s;
         }
-        .ldot.done    { background: #43a047; transform: scale(1.2); }
+        .ldot.done    { background: #1565c0; transform: scale(1.2); }
         .ldot.active  { background: #1a237e; animation: ldot-pulse 0.8s infinite; }
         @keyframes ldot-pulse { 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.4); } }
 
         /* ── Buttons ── */
         .btn-green {
-            background: linear-gradient(135deg, #2e7d32, #43a047);
+            background: linear-gradient(135deg, #1a237e, #1565c0);
             color: white; padding: 13px; font-size: 1rem;
             border: none; border-radius: 8px; width: 100%;
             cursor: pointer; font-weight: 600;
@@ -287,7 +287,7 @@ $total_steps = 4;
         .btn-green:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
         .bottom-link { text-align: center; margin-top: 18px; font-size: 0.82rem; color: #999; }
-        .bottom-link a { color: #1b5e20; font-weight: 600; text-decoration: none; }
+        .bottom-link a { color: #1a237e; font-weight: 600; text-decoration: none; }
 
         /* ── Success (Step 4) ── */
         .done-box { text-align: center; padding: 10px 0; }
@@ -416,7 +416,7 @@ $total_steps = 4;
                 <span id="cap-pct">0%</span>
             </div>
             <div style="height:8px;background:#eee;border-radius:4px;overflow:hidden;">
-                <div id="cap-bar" style="height:100%;width:0%;background:#2e7d32;border-radius:4px;transition:width 0.3s;"></div>
+                <div id="cap-bar" style="height:100%;width:0%;background:#1565c0;border-radius:4px;transition:width 0.3s;"></div>
             </div>
         </div>
 
@@ -445,7 +445,7 @@ $total_steps = 4;
     <?php elseif ($step === 4): ?>
         <div class="done-box">
             <div class="done-icon">🎉</div>
-            <h2 style="color:#1b5e20;margin:12px 0 8px;">Account Created!</h2>
+            <h2 style="color:#1a237e;margin:12px 0 8px;">Account Created!</h2>
             <p style="color:#555;margin-bottom:18px;">
                 Your account and face are registered. You can now login.
             </p>
@@ -461,7 +461,7 @@ $total_steps = 4;
                 if (!empty($display_gmail)): ?>
                 <div class="sd" style="margin-top:4px;">📧 <?= htmlspecialchars($display_gmail) ?></div>
                 <?php endif; ?>
-                <div class="sd" style="margin-top:6px;color:#2e7d32;">
+                <div class="sd" style="margin-top:6px;color:#1a237e;">
                     ✅ Face Registered &nbsp; ✅ Password Set
                 </div>
             </div>
@@ -576,13 +576,13 @@ function startLivePreview() {
             if (det) {
                 guide.className     = 'face-guide ready';
                 banner.textContent  = '😊 Face detected! Click "Start Registration"';
-                banner.style.background = 'rgba(46,125,50,0.75)';
+                banner.style.background = 'rgba(21,101,192,0.75)';
 
                 // Draw a simple box
                 const scaleX = canvas.width  / video.videoWidth;
                 const scaleY = canvas.height / video.videoHeight;
                 const b = det.box;
-                ctx.strokeStyle = '#66bb6a';
+                ctx.strokeStyle = '#64b5f6';
                 ctx.lineWidth   = 3;
                 ctx.strokeRect(b.x * scaleX, b.y * scaleY, b.width * scaleX, b.height * scaleY);
             } else {
@@ -639,7 +639,7 @@ function runCapture() {
             // Face found!
             goodFrames++;
             guide.className    = 'face-guide ready';
-            banner.style.background = 'rgba(46,125,50,0.75)';
+            banner.style.background = 'rgba(21,101,192,0.75)';
             banner.textContent = `✅ Scanning... ${goodFrames}/${NEEDED}`;
             camStat.textContent = `✅ Face detected! Hold still... (${goodFrames}/${NEEDED})`;
             camStat.className   = 'camera-status cs-go';
@@ -656,7 +656,7 @@ function runCapture() {
             const scaleX = canvas.width  / video.videoWidth;
             const scaleY = canvas.height / video.videoHeight;
             const b = det.detection.box;
-            ctx.strokeStyle = '#66bb6a';
+            ctx.strokeStyle = '#64b5f6';
             ctx.lineWidth   = 3;
             ctx.strokeRect(b.x * scaleX, b.y * scaleY, b.width * scaleX, b.height * scaleY);
 
@@ -710,7 +710,7 @@ async function finishRegistration() {
 
         if (data.success) {
             banner.textContent      = '🎉 Face registered!';
-            banner.style.background = 'rgba(46,125,50,0.9)';
+            banner.style.background = 'rgba(21,101,192,0.9)';
             camStat.textContent     = '✅ Done! Redirecting...';
             camStat.className       = 'camera-status cs-go';
             setTimeout(() => { window.location.href = 'student_signup_done.php'; }, 1000);
@@ -770,8 +770,8 @@ function checkStr(pw) {
         {p:'0%',   c:'#eee',    t:'Enter a password'},
         {p:'25%',  c:'#ef5350', t:'Weak'},
         {p:'50%',  c:'#ffa726', t:'Fair'},
-        {p:'75%',  c:'#66bb6a', t:'Good'},
-        {p:'100%', c:'#2e7d32', t:'Strong 💪'},
+        {p:'75%',  c:'#64b5f6', t:'Good'},
+        {p:'100%', c:'#1565c0', t:'Strong 💪'},
     ][Math.min(s, 4)];
     fill.style.width      = lvl.p;
     fill.style.background = lvl.c;
@@ -785,7 +785,7 @@ function checkMatch() {
     const el = document.getElementById('match-msg');
     if (!el || !v2) return;
     el.textContent = v1 === v2 ? '✅ Passwords match' : '❌ Passwords do not match';
-    el.style.color = v1 === v2 ? '#2e7d32' : '#c62828';
+    el.style.color = v1 === v2 ? '#1565c0' : '#c62828';
 }
 
 function validatePw() {
