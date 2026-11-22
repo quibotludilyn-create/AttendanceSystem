@@ -6,6 +6,15 @@
 /* ── Mobile sidebar collapse ── */
 .sidebar-toggle { display: none; }
 
+.dashboard-charts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.dashboard-charts > .card { min-width: 0; }
+
 @media (max-width: 768px) {
     .wrapper { flex-direction: column; }
 
@@ -104,6 +113,8 @@
     .grid-2 {
         grid-template-columns: 1fr !important;
     }
+
+    .dashboard-charts { grid-template-columns: 1fr; }
 
     /* Table scroll */
     .table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; }

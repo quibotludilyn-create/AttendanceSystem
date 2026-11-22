@@ -60,14 +60,14 @@ $recent = $conn->query("
 </div>
 
 <!-- Charts Row -->
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+<div class="dashboard-charts">
     <!-- Donut Chart: Today's Attendance -->
     <div class="card" style="margin-bottom:0;">
         <div class="card-title">🍩 Today's Overview</div>
         <div style="position:relative;height:220px;display:flex;align-items:center;justify-content:center;">
             <canvas id="donutChart"></canvas>
         </div>
-        <div style="display:flex;justify-content:center;gap:16px;margin-top:12px;font-size:0.78rem;font-weight:600;">
+        <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 16px;margin-top:12px;font-size:0.78rem;font-weight:600;">
             <span style="color:#43a047;">● Present (<?= $present_today ?>)</span>
             <span style="color:#ffa726;">● Late (<?= $late_today ?>)</span>
             <span style="color:#e53935;">● Absent (<?= $absent_today ?>)</span>
