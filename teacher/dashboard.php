@@ -75,7 +75,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 <!-- ── TOP STATS BAR ──────────────────────────────── -->
 <div class="teacher-stats-grid">
     <div class="stat-card green" style="flex-direction:row;gap:10px;align-items:center;">
-        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;">📚</div>
+        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;"><img src="../assets/img/books.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
         <div class="stat-info"><h3><?= $total_subjects ?></h3><p>My Subjects</p></div>
     </div>
     <div class="stat-card blue" style="flex-direction:row;gap:10px;align-items:center;">
@@ -83,11 +83,11 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         <div class="stat-info"><h3><?= $total_students ?></h3><p>Total Students</p></div>
     </div>
     <div class="stat-card green" style="flex-direction:row;gap:10px;align-items:center;">
-        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;">✅</div>
+        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;"><img src="../assets/img/check_verified.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
         <div class="stat-info"><h3><?= $present_today ?></h3><p>Present Today</p></div>
     </div>
     <div class="stat-card orange" style="flex-direction:row;gap:10px;align-items:center;">
-        <div class="stat-icon" style="background:#fff3e0;font-size:1.3rem;">⏰</div>
+        <div class="stat-icon" style="background:#fff3e0;font-size:1.3rem;"><img src="../assets/img/clock.png" alt="" style="width:32px;height:32px;object-fit:contain;"></div>
         <div class="stat-info"><h3><?= $late_today ?></h3><p>Late Today</p></div>
     </div>
     <div class="stat-card red" style="flex-direction:row;gap:10px;align-items:center;">
