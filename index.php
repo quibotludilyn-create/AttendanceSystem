@@ -1088,7 +1088,7 @@
                     <span class="fc-value">Within campus</span>
                 </div>
                 <div class="float-card fc-3">
-                    <span class="fc-icon">⏰</span>
+                    <span class="fc-icon"><img src="assets/img/clock.png" alt="Time" style="width:24px;height:24px;object-fit:contain;"></span>
                     <span class="fc-label">Time In</span><br>
                     <span class="fc-value">7:58 AM</span>
                 </div>
