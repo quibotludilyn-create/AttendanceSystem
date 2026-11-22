@@ -58,7 +58,7 @@ $students = $conn->query("SELECT * FROM students ORDER BY full_name ASC");
     <div class="alert alert-danger">❌ <?= $error_msg ?></div>
 <?php endif; ?>
 
-<div class="grid-2">
+<div class="students-layout">
     <!-- ── Add Student Form ── -->
     <div class="card">
         <div class="card-title">➕ Add New Student</div>
