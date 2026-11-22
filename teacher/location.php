@@ -64,7 +64,7 @@ $defZoom = $defLoc ? 18 : 13;
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
 <?php if ($err): ?><div class="alert alert-danger">❌ <?= htmlspecialchars($err) ?></div><?php endif; ?>
 
-<div class="grid-2">
+<div class="teacher-page-grid">
 <!-- Set Location Form -->
 <div class="card">
     <div class="card-title" id="form-title">📍 Set Classroom Location</div>
@@ -139,8 +139,8 @@ $defZoom = $defLoc ? 18 : 13;
     <?php if ($locations->num_rows > 0): ?>
     <?php while($loc = $locations->fetch_assoc()): ?>
     <div style="background:<?= $loc['is_active']?'#e8f5e9':'#f9f9f9' ?>;border:1px solid <?= $loc['is_active']?'#c8e6c9':'#eee' ?>;border-radius:10px;padding:14px;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-            <div>
+        <div class="teacher-location-item" style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div class="teacher-location-info">
                 <div style="font-weight:700;color:#1b5e20;font-size:0.92rem;">
                     <?= $loc['is_active'] ? '🟢' : '⚪' ?> <?= htmlspecialchars($loc['name']) ?>
                 </div>
@@ -151,7 +151,7 @@ $defZoom = $defLoc ? 18 : 13;
                     📍 <?= $loc['latitude'] ?>, <?= $loc['longitude'] ?> &nbsp;·&nbsp; Radius: <strong><?= $loc['radius_meters'] ?>m</strong>
                 </div>
             </div>
-            <div style="display:flex;gap:6px;">
+            <div class="teacher-location-actions" style="display:flex;gap:6px;">
                 <button type="button" class="btn btn-primary btn-sm"
                     onclick="editLoc(<?= $loc['id'] ?>, <?= htmlspecialchars(json_encode($loc['name'])) ?>, <?= floatval($loc['latitude']) ?>, <?= floatval($loc['longitude']) ?>, <?= intval($loc['radius_meters']) ?>, <?= intval($loc['subject_id'] ?? 0) ?>)">
                     ✏️ Edit
@@ -210,6 +210,11 @@ $defZoom = $defLoc ? 18 : 13;
     transition:background 0.2s;
 }
 .map-search-wrap button:hover { background:#1b5e20; }
+@media (max-width:480px) {
+    .map-search-wrap { flex-direction:column; }
+    .map-search-wrap input,
+    .map-search-wrap button { width:100%; }
+}
 /* Map container */
 #map {
     width:100%; height:320px; border-radius:12px; overflow:hidden;

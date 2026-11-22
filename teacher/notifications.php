@@ -59,7 +59,7 @@ $unread = $conn->query("SELECT COUNT(*) as c FROM notifications WHERE recipient_
 $type_icons = ['attendance'=>'📋','schedule'=>'🗓️','system'=>'⚙️','manual'=>'✏️'];
 ?>
 
-<div style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
+<div class="teacher-notification-filters" style="display:flex;align-items:center;gap:12px;margin-bottom:18px;flex-wrap:wrap;">
     <a href="?filter=all"    class="btn btn-primary" style="<?= $filter==='all'   ?'':'opacity:0.5;' ?>">All</a>
     <a href="?filter=unread" class="btn btn-warning" style="<?= $filter==='unread'?'':'opacity:0.6;' ?>">
         Unread <?php if($unread>0): ?><span style="background:#e53935;color:white;border-radius:10px;padding:1px 7px;font-size:0.65rem;margin-left:4px;"><?= $unread ?></span><?php endif; ?>
@@ -81,7 +81,7 @@ $type_icons = ['attendance'=>'📋','schedule'=>'🗓️','system'=>'⚙️','ma
 
     <?php if ($notifs->num_rows > 0): ?>
     <form method="POST" id="bulk-form">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee;">
+        <div class="teacher-notification-bulk-controls" style="display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee;">
             <label style="display:flex;align-items:center;gap:6px;font-size:0.85rem;font-weight:600;color:#555;cursor:pointer;">
                 <input type="checkbox" id="select-all" style="width:16px;height:16px;cursor:pointer;">
                 Select All
@@ -94,21 +94,21 @@ $type_icons = ['attendance'=>'📋','schedule'=>'🗓️','system'=>'⚙️','ma
             </button>
         </div>
         <?php while($n = $notifs->fetch_assoc()): ?>
-        <div style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
+        <div class="teacher-notification-item" style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
             <input type="checkbox" name="selected[]" value="<?= $n['id'] ?>" class="notif-cb"
                    style="width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:#2e7d32;">
-            <a href="?read=<?= $n['id'] ?>" style="display:flex;gap:14px;padding:14px;border-radius:12px;flex:1;text-decoration:none;color:inherit;background:<?= $n['is_read']?'#fafafa':'#f1f8e9' ?>;border:1px solid <?= $n['is_read']?'#eee':'#c8e6c9' ?>;transition:background 0.2s;">
+            <a class="teacher-notification-link" href="?read=<?= $n['id'] ?>" style="display:flex;gap:14px;padding:14px;border-radius:12px;flex:1;text-decoration:none;color:inherit;background:<?= $n['is_read']?'#fafafa':'#f1f8e9' ?>;border:1px solid <?= $n['is_read']?'#eee':'#c8e6c9' ?>;transition:background 0.2s;">
                 <div style="font-size:1.6rem;flex-shrink:0;margin-top:2px;"><?= $type_icons[$n['type']] ?? '🔔' ?></div>
                 <div style="flex:1;">
                     <div style="font-size:0.88rem;font-weight:<?= $n['is_read']?'500':'700' ?>;color:#1b5e20;"><?= htmlspecialchars($n['title']) ?></div>
-                    <div style="font-size:0.81rem;color:#555;margin-top:3px;line-height:1.5;"><?= htmlspecialchars($n['message']) ?></div>
+                    <div class="teacher-notification-message" style="font-size:0.81rem;color:#555;margin-top:3px;line-height:1.5;"><?= htmlspecialchars($n['message']) ?></div>
                     <div style="font-size:0.72rem;color:#aaa;margin-top:4px;"><?= date('F d, Y · h:i A', strtotime($n['created_at'])) ?></div>
                 </div>
                 <?php if (!$n['is_read']): ?>
                 <div style="width:8px;height:8px;border-radius:50%;background:#2e7d32;flex-shrink:0;margin-top:6px;"></div>
                 <?php endif; ?>
             </a>
-            <a href="?delete=<?= $n['id'] ?>" onclick="return confirm('Delete this notification?')"
+            <a class="teacher-notification-delete" href="?delete=<?= $n['id'] ?>" onclick="return confirm('Delete this notification?')"
                style="padding:10px 12px;border-radius:10px;background:#ffebee;color:#e53935;
                       text-decoration:none;font-size:0.9rem;border:1px solid #ffcdd2;flex-shrink:0;">
                 🗑️

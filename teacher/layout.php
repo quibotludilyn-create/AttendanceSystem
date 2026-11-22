@@ -120,12 +120,78 @@ $notif_count = $conn->query("
         .teacher-subject-table { min-width: 640px; }
         .teacher-enrollment-table { min-width: 720px; }
 
+        .teacher-page-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .teacher-page-grid > .card { min-width: 0; }
+        .teacher-form-row {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .teacher-schedule-item { flex-wrap: wrap; gap: 8px; }
+        .teacher-schedule-info { min-width: 0; flex: 1 1 200px; }
+
+        .teacher-report-stats {
+            grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+            margin-bottom: 20px;
+        }
+        .teacher-profile-stats {
+            grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+            margin-bottom: 20px;
+        }
+        .teacher-report-table { min-width: 860px; }
+        .teacher-student-rate-table { min-width: 680px; }
+
+        .teacher-location-item { flex-wrap: wrap; gap: 8px; }
+        .teacher-location-info { min-width: 0; flex: 1 1 180px; }
+        .teacher-location-actions { flex-shrink: 0; }
+
+        .teacher-notification-filters,
+        .teacher-notification-bulk-controls { flex-wrap: wrap; }
+        .teacher-notification-link { min-width: 0; }
+        .teacher-notification-link > div:nth-child(2) { min-width: 0; }
+        .teacher-notification-message { overflow-wrap: anywhere; }
+
+        @media (max-width: 1024px) {
+            .teacher-page-grid { grid-template-columns: minmax(0, 1fr); }
+            .teacher-report-stats { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+            .teacher-profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+        }
+
         @media (max-width: 1024px) {
             .teacher-classes-layout { grid-template-columns: minmax(0, 1fr); }
         }
 
         @media (max-width: 480px) {
             .teacher-class-form-grid { grid-template-columns: minmax(0, 1fr); }
+            .teacher-form-row { grid-template-columns: minmax(0, 1fr); }
+            .teacher-location-actions { width: 100%; justify-content: flex-end; }
+            .teacher-report-filters > .form-group {
+                flex: 1 1 100% !important;
+                width: 100%;
+                min-width: 0 !important;
+            }
+            .teacher-report-filter-actions { flex-wrap: wrap; }
+            .teacher-report-filter-actions .btn { flex: 1 1 auto; }
+            .teacher-report-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .teacher-profile-stats { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+            .teacher-profile-stats .stat-card,
+            .teacher-report-stats .stat-card { padding: 12px; gap: 8px; }
+            .teacher-profile-stats .stat-icon,
+            .teacher-report-stats .stat-icon { width: 42px; height: 42px; }
+            .teacher-profile-stats .stat-info h3,
+            .teacher-report-stats .stat-info h3 { font-size: 1.4rem; }
+            .teacher-notification-item {
+                display: grid !important;
+                grid-template-columns: 20px minmax(0, 1fr) auto;
+                align-items: start !important;
+                gap: 8px !important;
+            }
+            .teacher-notification-link { padding: 10px !important; gap: 8px !important; }
         }
 
         @media (max-width: 1024px) {

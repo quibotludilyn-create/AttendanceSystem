@@ -88,7 +88,7 @@ while ($s = $schedules->fetch_assoc()) {
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
 <?php if ($err): ?><div class="alert alert-danger">❌ <?= htmlspecialchars($err) ?></div><?php endif; ?>
 
-<div class="grid-2">
+<div class="teacher-page-grid">
 <!-- Add Schedule -->
 <div class="card">
     <div class="card-title">➕ Add Schedule</div>
@@ -126,7 +126,7 @@ while ($s = $schedules->fetch_assoc()) {
                 </div>
             </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="teacher-form-row">
             <div class="form-group"><label>Start Time *</label><input type="time" name="start_time" class="form-control" required></div>
             <div class="form-group"><label>End Time *</label><input type="time" name="end_time" class="form-control" required></div>
         </div>
@@ -150,8 +150,8 @@ while ($s = $schedules->fetch_assoc()) {
         $daysStr = implode(', ', array_map(fn($d) => $dayAbbr[$d], $sch['days']));
         $idsStr  = implode(',', $sch['ids']);
     ?>
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f9fafb;border-radius:8px;margin-bottom:8px;border-left:3px solid #2e7d32;">
-        <div>
+    <div class="teacher-schedule-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f9fafb;border-radius:8px;margin-bottom:8px;border-left:3px solid #2e7d32;">
+        <div class="teacher-schedule-info">
             <div style="font-weight:700;font-size:0.88rem;"><?= htmlspecialchars($sch['subject_name']) ?></div>
             <div style="font-size:0.76rem;color:#666;">
                 Section <?= htmlspecialchars($sch['section']) ?> &nbsp;·&nbsp;

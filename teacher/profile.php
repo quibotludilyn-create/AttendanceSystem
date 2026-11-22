@@ -60,14 +60,14 @@ $manual_att     = $conn->query("SELECT COUNT(*) as c FROM attendance WHERE teach
 </div>
 
 <!-- Stats -->
-<div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+<div class="stats-grid teacher-profile-stats">
     <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">📚</div><div class="stat-info"><h3><?= $total_classes ?></h3><p>Classes</p></div></div>
     <div class="stat-card blue">  <div class="stat-icon" style="background:#e3f2fd;">👥</div><div class="stat-info"><h3><?= $total_students ?></h3><p>Students</p></div></div>
     <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">📋</div><div class="stat-info"><h3><?= $total_att ?></h3><p>Attendance Records</p></div></div>
     <div class="stat-card orange"><div class="stat-icon" style="background:#fff3e0;">✏️</div><div class="stat-info"><h3><?= $manual_att ?></h3><p>Manual Records</p></div></div>
 </div>
 
-<div class="grid-2">
+<div class="teacher-page-grid">
 <!-- Edit Profile -->
 <div class="card">
     <div class="card-title">📋 Personal Information</div>

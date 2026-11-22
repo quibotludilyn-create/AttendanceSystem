@@ -67,7 +67,7 @@ if ($filter_subject) {
 <!-- Filter -->
 <div class="card">
     <div class="card-title">🔍 Filter Reports</div>
-    <form method="GET" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
+    <form method="GET" class="teacher-report-filters" style="display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;">
         <div class="form-group" style="margin:0;flex:1;min-width:150px;">
             <label>Subject</label>
             <select name="subject" class="form-control">
@@ -102,7 +102,7 @@ if ($filter_subject) {
                 <option value="absent"  <?= $filter_status==='absent' ?'selected':'' ?>>Absent</option>
             </select>
         </div>
-        <div style="display:flex;gap:8px;">
+        <div class="teacher-report-filter-actions" style="display:flex;gap:8px;">
             <button type="submit" class="btn btn-primary">🔍 Filter</button>
             <button type="button" onclick="printReport()" class="btn btn-success">🖨️ Print</button>
         </div>
@@ -110,7 +110,7 @@ if ($filter_subject) {
 </div>
 
 <!-- Summary -->
-<div class="stats-grid" style="grid-template-columns:repeat(5,1fr);">
+<div class="stats-grid teacher-report-stats">
     <div class="stat-card blue">  <div class="stat-icon" style="background:#e3f2fd;">📋</div><div class="stat-info"><h3><?= $summary['total']??0 ?></h3><p>Records</p></div></div>
     <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">✅</div><div class="stat-info"><h3><?= $summary['present']??0 ?></h3><p>Present</p></div></div>
     <div class="stat-card orange"><div class="stat-icon" style="background:#fff3e0;">⏰</div><div class="stat-info"><h3><?= $summary['late']??0 ?></h3><p>Late</p></div></div>
@@ -123,7 +123,7 @@ if ($filter_subject) {
     <div class="card-title">📄 Attendance Records — <?= htmlspecialchars($period_label) ?></div>
     <?php if ($records && $records->num_rows > 0): ?>
     <div class="table-responsive">
-        <table>
+        <table class="teacher-report-table">
             <thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Subject</th><th>Section</th><th>Date</th><th>Time</th><th>Status</th><th>Type</th></tr></thead>
             <tbody>
             <?php $i=1; while($r = $records->fetch_assoc()): ?>
@@ -152,7 +152,7 @@ if ($filter_subject) {
 <div class="card">
     <div class="card-title">📊 Attendance Rate per Student</div>
     <div class="table-responsive">
-        <table>
+        <table class="teacher-student-rate-table">
             <thead><tr><th>Student ID</th><th>Name</th><th>Sessions</th><th>Present</th><th>Late</th><th>Absent</th><th>Rate</th></tr></thead>
             <tbody>
             <?php while($p = $per_student->fetch_assoc()): ?>
