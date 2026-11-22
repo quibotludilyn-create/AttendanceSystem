@@ -177,13 +177,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .feat-icon {
             width: 48px; height: 48px;
             border-radius: 12px;
-            background: linear-gradient(145deg, #6e82b7, #5d74a8);
-            border: 1px solid rgba(195,210,245,0.38);
-            box-shadow: 0 3px 10px rgba(8,20,69,0.18);
+            background: linear-gradient(145deg, #263963, #19294d);
+            border: 1px solid rgba(137,165,220,0.38);
+            box-shadow: 0 3px 10px rgba(8,20,69,0.28), inset 0 0 10px rgba(108,150,230,0.1);
             display: flex; align-items: center; justify-content: center;
             flex-shrink: 0;
         }
-        .feat-icon img { width: 42px; height: 42px; object-fit: contain; }
+        .feat-icon img { width: 42px; height: 42px; object-fit: contain; filter: drop-shadow(0 1px 3px rgba(112,177,255,0.28)); }
         .feat-text strong { color: white; display: block; font-size: 0.84rem; margin-bottom: 1px; }
         .feat-text span   { font-size: 0.76rem; opacity: 0.6; }
 
