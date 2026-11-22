@@ -159,6 +159,7 @@ $cur = basename($_SERVER['PHP_SELF'], '.php');
             align-items: center;
             gap: 8px;
         }
+        .s-page-title img { width: 30px; height: 30px; object-fit: contain; flex: 0 0 auto; }
 
         /* ── CARDS ── */
         .s-card {

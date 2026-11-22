@@ -138,7 +138,7 @@ require_once 'layout.php';
     .fail-hint { background:#fff1f1; border-radius:8px; padding:10px 14px; font-size:0.8rem; color:#e53935; margin:10px 0; line-height:1.5; }
 </style>
 
-<div class="s-page-title">📷 Take Attendance</div>
+<div class="s-page-title"><img src="../assets/img/camera.png" alt=""> Take Attendance</div>
 
 <div class="scan-card">
 

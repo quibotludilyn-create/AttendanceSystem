@@ -83,7 +83,7 @@ $recent = $conn->query("
 ");
 ?>
 
-<div class="s-page-title">🏠 Dashboard</div>
+<div class="s-page-title"><img src="../assets/img/Dashboard.png" alt=""> Dashboard</div>
 
 <?php
 // Auto-mark absents for ended classes today
