@@ -118,21 +118,21 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 <!-- ── MY SUBJECTS ────────────────────────────────── -->
 <?php if ($subjects && $subjects->num_rows > 0): ?>
 <div class="card" style="margin-bottom:20px;">
-    <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;">
+    <div class="card-title teacher-subject-header">
         <div>
             🎓 My Subjects
             <div style="font-size:0.76rem;color:#888;font-weight:400;margin-top:2px;">Your assigned subjects and sections</div>
         </div>
-        <span style="background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:0.76rem;font-weight:700;"><?= $total_subjects ?> Subject<?= $total_subjects != 1 ? 's' : '' ?></span>
+        <span class="teacher-subject-count" style="background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:0.76rem;font-weight:700;"><?= $total_subjects ?> Subject<?= $total_subjects != 1 ? 's' : '' ?></span>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;">
+    <div class="teacher-subject-grid">
         <?php
         $subj_icons = ['💻','🗄️','🌐','📊','🔬','📐','📝','🎨','🧮'];
         $si = 0;
         while($s = $subjects->fetch_assoc()):
             $icon = $subj_icons[$si % count($subj_icons)]; $si++;
         ?>
-        <div style="border:1px solid #e8f5e9;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;background:#fafffe;">
+        <div class="teacher-subject-item" style="border:1px solid #e8f5e9;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;background:#fafffe;">
             <div style="width:40px;height:40px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"><?= $icon ?></div>
             <div style="flex:1;min-width:0;">
                 <div style="font-size:0.88rem;font-weight:700;color:#1b5e20;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= htmlspecialchars($s['subject_name']) ?></div>
@@ -150,10 +150,10 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 
     <!-- Today's Attendance Table -->
     <div class="card" style="margin-bottom:0;">
-        <div class="card-title" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+        <div class="card-title teacher-attendance-header">
             <div>📅 Today's Attendance — <?= date('F d, Y') ?></div>
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <input type="text" id="searchStudent" placeholder="🔍 Search Student..."
+            <div class="teacher-attendance-search">
+                <input class="teacher-attendance-search-input" type="text" id="searchStudent" placeholder="🔍 Search Student..."
                     style="padding:6px 12px;border:1px solid #ddd;border-radius:8px;font-size:0.82rem;outline:none;"
                     oninput="filterTable()">
             </div>

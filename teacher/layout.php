@@ -85,6 +85,30 @@ $notif_count = $conn->query("
             .teacher-attendance-panels { grid-template-columns: minmax(0, 1fr); }
         }
 
+        .teacher-subject-header,
+        .teacher-attendance-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .teacher-subject-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .teacher-subject-item { min-width: 0; }
+
+        .teacher-attendance-search { display: flex; width: min(100%, 220px); }
+        .teacher-attendance-search-input { width: 100%; min-width: 0; box-sizing: border-box; }
+
+        @media (max-width: 1024px) {
+            .teacher-subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        }
+
         /* ── Hamburger button ── */
         .hamburger {
             display: none;
@@ -97,6 +121,13 @@ $notif_count = $conn->query("
         }
 
         @media (max-width: 768px) {
+            .teacher-subject-grid { grid-template-columns: minmax(0, 1fr); }
+            .teacher-attendance-header {
+                align-items: stretch !important;
+                flex-direction: column;
+            }
+            .teacher-attendance-search { width: 100%; }
+
             .hamburger {
                 display: inline-flex !important;
                 align-items: center;
