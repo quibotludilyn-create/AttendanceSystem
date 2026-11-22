@@ -146,7 +146,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 <?php endif; ?>
 
 <!-- ── TODAY'S ATTENDANCE + DONUT ─────────────────── -->
-<div style="display:grid;grid-template-columns:1fr 300px;gap:18px;margin-bottom:20px;">
+<div class="teacher-attendance-panels">
 
     <!-- Today's Attendance Table -->
     <div class="card" style="margin-bottom:0;">

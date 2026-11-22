@@ -72,6 +72,19 @@ $notif_count = $conn->query("
             margin-right: 8px;
         }
 
+        .teacher-attendance-panels {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 300px;
+            gap: 18px;
+            margin-bottom: 20px;
+        }
+
+        .teacher-attendance-panels > .card { min-width: 0; }
+
+        @media (max-width: 1024px) {
+            .teacher-attendance-panels { grid-template-columns: minmax(0, 1fr); }
+        }
+
         /* ── Hamburger button ── */
         .hamburger {
             display: none;
