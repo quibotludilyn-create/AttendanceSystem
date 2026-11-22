@@ -21,8 +21,11 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
         <div class="sidebar-header">
             <span class="sidebar-icon"><img src="../assets/img/logo.png" style="width:44px;height:44px;object-fit:cover;border-radius:8px;" alt="Logo"></span>
             <h3>Face Recognition<br>Attendance Monitoring<br>System</h3>
+            <button class="sidebar-toggle" type="button" aria-expanded="false" aria-controls="admin-sidebar-menu" aria-label="Open navigation menu">
+                ☰
+            </button>
         </div>
-        <nav>
+        <nav id="admin-sidebar-menu">
             <ul>
                 <li>
                     <a href="dashboard.php" class="<?= $current_page === 'dashboard' ? 'active' : '' ?>">
@@ -94,6 +97,24 @@ $current_page = basename($_SERVER['PHP_SELF'], '.php');
             </a>
         </div>
     </aside>
+    <script>
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarToggle = document.querySelector('.sidebar-toggle');
+
+        sidebarToggle.addEventListener('click', () => {
+            const isOpen = sidebar.classList.toggle('is-open');
+            sidebarToggle.setAttribute('aria-expanded', String(isOpen));
+            sidebarToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+        });
+
+        document.querySelectorAll('#admin-sidebar-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                sidebar.classList.remove('is-open');
+                sidebarToggle.setAttribute('aria-expanded', 'false');
+                sidebarToggle.setAttribute('aria-label', 'Open navigation menu');
+            });
+        });
+    </script>
 
     <main class="main-content">
         <div class="topbar">
