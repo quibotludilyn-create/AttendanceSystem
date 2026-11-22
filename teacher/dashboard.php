@@ -75,7 +75,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
 <!-- ── TOP STATS BAR ──────────────────────────────── -->
 <div class="teacher-stats-grid">
     <div class="stat-card green" style="flex-direction:row;gap:10px;align-items:center;">
-        <div class="stat-icon" style="background:#e8f5e9;font-size:1.3rem;">📚</div>
+        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;">📚</div>
         <div class="stat-info"><h3><?= $total_subjects ?></h3><p>My Subjects</p></div>
     </div>
     <div class="stat-card blue" style="flex-direction:row;gap:10px;align-items:center;">
@@ -83,7 +83,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         <div class="stat-info"><h3><?= $total_students ?></h3><p>Total Students</p></div>
     </div>
     <div class="stat-card green" style="flex-direction:row;gap:10px;align-items:center;">
-        <div class="stat-icon" style="background:#e8f5e9;font-size:1.3rem;">✅</div>
+        <div class="stat-icon" style="background:#eaf0f6;font-size:1.3rem;">✅</div>
         <div class="stat-info"><h3><?= $present_today ?></h3><p>Present Today</p></div>
     </div>
     <div class="stat-card orange" style="flex-direction:row;gap:10px;align-items:center;">
@@ -94,17 +94,17 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         <div class="stat-icon" style="background:#ffebee;font-size:1.3rem;">❌</div>
         <div class="stat-info"><h3><?= $absent_today ?></h3><p>Absent Today</p></div>
     </div>
-    <div class="stat-card blue" style="flex-direction:row;gap:10px;align-items:center;border:2px solid #c8e6c9;">
+    <div class="stat-card blue" style="flex-direction:row;gap:10px;align-items:center;border:2px solid #cbd7e3;">
         <div style="position:relative;width:52px;height:52px;flex-shrink:0;">
             <canvas id="miniDonut" width="52" height="52"></canvas>
-            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#1b5e20;"><?= $attend_rate ?>%</div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:900;color:#314d70;"><?= $attend_rate ?>%</div>
         </div>
         <div class="stat-info"><h3><?= $attend_rate ?>%</h3><p>Attendance Rate</p></div>
     </div>
 </div>
 
 <!-- ── GREETING BANNER ────────────────────────────── -->
-<div class="card" style="background:linear-gradient(135deg,#1b5e20 0%,#2e7d32 60%,#388e3c 100%);color:white;border:none;margin-bottom:20px;overflow:hidden;position:relative;">
+<div class="card" style="background:linear-gradient(135deg,#263f60 0%,#4d7193 60%,#5e7f9e 100%);color:white;border:none;margin-bottom:20px;overflow:hidden;position:relative;">
     <div style="position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:5rem;opacity:0.15;">📅</div>
     <div>
         <h2 style="font-size:1.3rem;font-weight:800;margin-bottom:4px;">
@@ -123,7 +123,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
             🎓 My Subjects
             <div style="font-size:0.76rem;color:#888;font-weight:400;margin-top:2px;">Your assigned subjects and sections</div>
         </div>
-        <span class="teacher-subject-count" style="background:#e8f5e9;color:#2e7d32;padding:4px 12px;border-radius:20px;font-size:0.76rem;font-weight:700;"><?= $total_subjects ?> Subject<?= $total_subjects != 1 ? 's' : '' ?></span>
+        <span class="teacher-subject-count" style="background:#eaf0f6;color:#496a8a;padding:4px 12px;border-radius:20px;font-size:0.76rem;font-weight:700;"><?= $total_subjects ?> Subject<?= $total_subjects != 1 ? 's' : '' ?></span>
     </div>
     <div class="teacher-subject-grid">
         <?php
@@ -132,13 +132,13 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         while($s = $subjects->fetch_assoc()):
             $icon = $subj_icons[$si % count($subj_icons)]; $si++;
         ?>
-        <div class="teacher-subject-item" style="border:1px solid #e8f5e9;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;background:#fafffe;">
-            <div style="width:40px;height:40px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"><?= $icon ?></div>
+        <div class="teacher-subject-item" style="border:1px solid #dce5ed;border-radius:12px;padding:14px;display:flex;align-items:center;gap:12px;background:#f8fafc;">
+            <div style="width:40px;height:40px;border-radius:10px;background:#eaf0f6;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;"><?= $icon ?></div>
             <div style="flex:1;min-width:0;">
-                <div style="font-size:0.88rem;font-weight:700;color:#1b5e20;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= htmlspecialchars($s['subject_name']) ?></div>
+                <div style="font-size:0.88rem;font-weight:700;color:#314d70;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"><?= htmlspecialchars($s['subject_name']) ?></div>
                 <div style="font-size:0.74rem;color:#888;">Section <?= htmlspecialchars($s['section']) ?> · <?= $s['student_count'] ?> Students</div>
             </div>
-            <a href="attendance.php?subject=<?= $s['id'] ?>" style="background:#e8f5e9;color:#2e7d32;padding:5px 10px;border-radius:8px;text-decoration:none;font-size:0.76rem;font-weight:700;white-space:nowrap;">View →</a>
+            <a href="attendance.php?subject=<?= $s['id'] ?>" style="background:#eaf0f6;color:#496a8a;padding:5px 10px;border-radius:8px;text-decoration:none;font-size:0.76rem;font-weight:700;white-space:nowrap;">View →</a>
         </div>
         <?php endwhile; ?>
     </div>
@@ -196,14 +196,14 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         <div style="position:relative;height:160px;display:flex;align-items:center;justify-content:center;">
             <canvas id="donutChart"></canvas>
             <div style="position:absolute;text-align:center;">
-                <div style="font-size:1.4rem;font-weight:900;color:#1b5e20;"><?= $attend_rate ?>%</div>
+                <div style="font-size:1.4rem;font-weight:900;color:#314d70;"><?= $attend_rate ?>%</div>
                 <div style="font-size:0.68rem;color:#888;">Overall</div>
             </div>
         </div>
         <div style="margin-top:12px;display:flex;flex-direction:column;gap:6px;font-size:0.78rem;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
-                <span><span style="color:#43a047;">●</span> Present</span>
-                <strong style="color:#43a047;"><?= $present_today ?></strong>
+                <span><span style="color:#7294b5;">●</span> Present</span>
+                <strong style="color:#7294b5;"><?= $present_today ?></strong>
             </div>
             <div style="display:flex;justify-content:space-between;align-items:center;">
                 <span><span style="color:#ffa726;">●</span> Late</span>
@@ -215,7 +215,7 @@ $ab_all= intval($all_stats['absent']  ?? 0);
             </div>
         </div>
         <?php if ($attend_rate > 0): ?>
-        <div style="margin-top:12px;background:#e8f5e9;border-radius:8px;padding:8px 12px;font-size:0.76rem;color:#2e7d32;font-weight:600;">
+        <div style="margin-top:12px;background:#eaf0f6;border-radius:8px;padding:8px 12px;font-size:0.76rem;color:#496a8a;font-weight:600;">
             📈 <?= $attend_rate ?>% attendance rate today
         </div>
         <?php endif; ?>
@@ -233,16 +233,16 @@ $ab_all= intval($all_stats['absent']  ?? 0);
         $type_icons = ['attendance'=>'📋','schedule'=>'🗓️','system'=>'📢','manual'=>'✏️'];
         while($n = $notifs->fetch_assoc()): ?>
     <div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f5f5f5;align-items:flex-start;">
-        <div style="width:36px;height:36px;border-radius:10px;background:#e8f5e9;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">
+        <div style="width:36px;height:36px;border-radius:10px;background:#eaf0f6;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;">
             <?= $type_icons[$n['type']] ?? '🔔' ?>
         </div>
         <div style="flex:1;">
-            <div style="font-size:0.87rem;font-weight:<?= $n['is_read'] ? '400' : '600' ?>;color:#1b5e20;"><?= htmlspecialchars($n['title']) ?></div>
+            <div style="font-size:0.87rem;font-weight:<?= $n['is_read'] ? '400' : '600' ?>;color:#314d70;"><?= htmlspecialchars($n['title']) ?></div>
             <div style="font-size:0.78rem;color:#888;margin-top:2px;"><?= htmlspecialchars($n['message']) ?></div>
             <div style="font-size:0.72rem;color:#bbb;margin-top:2px;"><?= date('M d, Y · h:i A', strtotime($n['created_at'])) ?></div>
         </div>
         <?php if (!$n['is_read']): ?>
-        <div style="width:8px;height:8px;border-radius:50%;background:#2e7d32;flex-shrink:0;margin-top:4px;"></div>
+        <div style="width:8px;height:8px;border-radius:50%;background:#52799e;flex-shrink:0;margin-top:4px;"></div>
         <?php endif; ?>
     </div>
     <?php endwhile;
@@ -260,7 +260,7 @@ new Chart(document.getElementById('donutChart'), {
         labels: ['Present','Late','Absent'],
         datasets: [{
             data: [<?= $present_today ?>,<?= $late_today ?>,<?= $absent_today ?>],
-            backgroundColor: ['#43a047','#ffa726','#e53935'],
+            backgroundColor: ['#7294b5','#ffa726','#e53935'],
             borderWidth: 2, borderColor: '#fff'
         }]
     },
@@ -277,7 +277,7 @@ new Chart(document.getElementById('miniDonut'), {
     data: {
         datasets: [{
             data: [<?= $attended ?>, <?= $absent_today ?>],
-            backgroundColor: ['#43a047','#e0e0e0'],
+            backgroundColor: ['#7294b5','#e0e0e0'],
             borderWidth: 0
         }]
     },

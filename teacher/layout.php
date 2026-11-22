@@ -31,19 +31,19 @@ $notif_count = $conn->query("
     <link rel="stylesheet" href="../assets/css/style.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <style>
-        /* ── Teacher sidebar green theme override ── */
+        /* ── Teacher blue theme override ── */
         .sidebar {
-            background: linear-gradient(180deg, #1b5e20, #2e7d32) !important;
+            background: linear-gradient(180deg, #1f3552, #2c5076) !important;
         }
         .sidebar-header {
             background: rgba(0,0,0,0.15) !important;
         }
         .sidebar nav ul li a:hover,
         .sidebar nav ul li a.active {
-            border-left-color: #a5d6a7 !important;
+            border-left-color: #a8c2df !important;
             background: rgba(255,255,255,0.12) !important;
         }
-        .topbar h4 { color: #1b5e20; }
+        .topbar h4 { color: #314d70; }
 
         /* Notification badge */
         .notif-badge {
@@ -55,18 +55,28 @@ $notif_count = $conn->query("
         }
 
         /* Teacher-specific card title color */
-        .card-title { color: #1b5e20; border-bottom-color: #e8f5e9; }
+        .card-title { color: #314d70; border-bottom-color: #dce5ed; }
 
-        /* Stat card teacher colors */
-        .stat-card.teacher { border-left-color: #2e7d32; }
-        .stat-info h3 { color: #1b5e20; }
+        /* Teacher stats and controls */
+        .stat-card.teacher,
+        .stat-card.green,
+        .stat-card.blue { border-left-color: #5a7fa4; }
+        .stat-info h3 { color: #314d70; }
+        .form-control:focus { border-color: #6685a5; box-shadow: 0 0 0 3px rgba(102,133,165,0.12); }
+        .btn-primary,
+        .btn-success,
+        .btn-info { background: #4d7193; color: white; }
+        .badge-present { background: #e7eef5; color: #496a8a; }
+        .alert-success { background: #eaf0f6; border-color: #d2deea; color: #496a8a; }
+        .teacher-theme input[type="checkbox"],
+        .teacher-theme input[type="radio"] { accent-color: #5a7fa4; }
 
-        /* Table header green */
-        thead th { background: #2e7d32; }
+        /* Table header blue */
+        thead th { background: #405f82; }
 
         /* Topbar teacher badge */
         .topbar-badge {
-            background: #e8f5e9; color: #2e7d32;
+            background: #e9eff5; color: #496a8a;
             padding: 3px 10px; border-radius: 20px;
             font-size: 0.72rem; font-weight: 800;
             margin-right: 8px;
@@ -225,9 +235,9 @@ $notif_count = $conn->query("
                 width: 44px;
                 height: 44px;
                 margin: 0 !important;
-                color: #1b5e20 !important;
-                background: #e8f5e9;
-                border: 1px solid #c8e6c9;
+                color: #496a8a !important;
+                background: #e9eff5;
+                border: 1px solid #cbd7e3;
                 border-radius: 8px;
             }
 
@@ -263,7 +273,7 @@ $notif_count = $conn->query("
 
             .sidebar nav ul li a.active,
             .sidebar nav ul li a:hover {
-                border-left-color: #a5d6a7 !important;
+                border-left-color: #a8c2df !important;
                 background: rgba(255,255,255,0.12) !important;
             }
 
@@ -304,7 +314,7 @@ $notif_count = $conn->query("
         }
     </style>
 </head>
-<body>
+<body class="teacher-theme">
 <div class="wrapper">
 
     <!-- ── SIDEBAR ── -->

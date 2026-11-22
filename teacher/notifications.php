@@ -96,16 +96,16 @@ $type_icons = ['attendance'=>'📋','schedule'=>'🗓️','system'=>'⚙️','ma
         <?php while($n = $notifs->fetch_assoc()): ?>
         <div class="teacher-notification-item" style="display:flex;gap:10px;align-items:center;margin-bottom:8px;">
             <input type="checkbox" name="selected[]" value="<?= $n['id'] ?>" class="notif-cb"
-                   style="width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:#2e7d32;">
-            <a class="teacher-notification-link" href="?read=<?= $n['id'] ?>" style="display:flex;gap:14px;padding:14px;border-radius:12px;flex:1;text-decoration:none;color:inherit;background:<?= $n['is_read']?'#fafafa':'#f1f8e9' ?>;border:1px solid <?= $n['is_read']?'#eee':'#c8e6c9' ?>;transition:background 0.2s;">
+                   style="width:17px;height:17px;cursor:pointer;flex-shrink:0;accent-color:#5a7fa4;">
+            <a class="teacher-notification-link" href="?read=<?= $n['id'] ?>" style="display:flex;gap:14px;padding:14px;border-radius:12px;flex:1;text-decoration:none;color:inherit;background:<?= $n['is_read']?'#fafafa':'#eef2f7' ?>;border:1px solid <?= $n['is_read']?'#eee':'#d4dfeb' ?>;transition:background 0.2s;">
                 <div style="font-size:1.6rem;flex-shrink:0;margin-top:2px;"><?= $type_icons[$n['type']] ?? '🔔' ?></div>
                 <div style="flex:1;">
-                    <div style="font-size:0.88rem;font-weight:<?= $n['is_read']?'500':'700' ?>;color:#1b5e20;"><?= htmlspecialchars($n['title']) ?></div>
+                    <div style="font-size:0.88rem;font-weight:<?= $n['is_read']?'500':'700' ?>;color:#314d70;"><?= htmlspecialchars($n['title']) ?></div>
                     <div class="teacher-notification-message" style="font-size:0.81rem;color:#555;margin-top:3px;line-height:1.5;"><?= htmlspecialchars($n['message']) ?></div>
                     <div style="font-size:0.72rem;color:#aaa;margin-top:4px;"><?= date('F d, Y · h:i A', strtotime($n['created_at'])) ?></div>
                 </div>
                 <?php if (!$n['is_read']): ?>
-                <div style="width:8px;height:8px;border-radius:50%;background:#2e7d32;flex-shrink:0;margin-top:6px;"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:#52799e;flex-shrink:0;margin-top:6px;"></div>
                 <?php endif; ?>
             </a>
             <a class="teacher-notification-delete" href="?delete=<?= $n['id'] ?>" onclick="return confirm('Delete this notification?')"

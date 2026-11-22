@@ -116,7 +116,7 @@ $defZoom = $defLoc ? 18 : 13;
                 <div class="coord-box"><span>Longitude</span><span id="disp-lon">—</span></div>
             </div>
             <p style="color:#aaa;font-size:0.77rem;margin-top:6px;">
-                💡 Tap/click the map to drop the pin · Drag the pin to move it · The green circle shows the allowed radius.
+                💡 Tap/click the map to drop the pin · Drag the pin to move it · The blue circle shows the allowed radius.
             </p>
         </div>
         <div class="form-group">
@@ -138,11 +138,11 @@ $defZoom = $defLoc ? 18 : 13;
     <div class="card-title">📋 Saved Locations</div>
     <?php if ($locations->num_rows > 0): ?>
     <?php while($loc = $locations->fetch_assoc()): ?>
-    <div style="background:<?= $loc['is_active']?'#e8f5e9':'#f9f9f9' ?>;border:1px solid <?= $loc['is_active']?'#c8e6c9':'#eee' ?>;border-radius:10px;padding:14px;margin-bottom:10px;">
+    <div style="background:<?= $loc['is_active']?'#eaf0f6':'#f9f9f9' ?>;border:1px solid <?= $loc['is_active']?'#cbd7e3':'#eee' ?>;border-radius:10px;padding:14px;margin-bottom:10px;">
         <div class="teacher-location-item" style="display:flex;justify-content:space-between;align-items:flex-start;">
             <div class="teacher-location-info">
-                <div style="font-weight:700;color:#1b5e20;font-size:0.92rem;">
-                    <?= $loc['is_active'] ? '🟢' : '⚪' ?> <?= htmlspecialchars($loc['name']) ?>
+                <div style="font-weight:700;color:#314d70;font-size:0.92rem;">
+                    <?= $loc['is_active'] ? '🔵' : '⚪' ?> <?= htmlspecialchars($loc['name']) ?>
                 </div>
                 <div style="font-size:0.78rem;color:#666;margin-top:4px;">
                     <?php if ($loc['subject_name']): ?>
@@ -177,13 +177,13 @@ $defZoom = $defLoc ? 18 : 13;
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
-/* ── Custom green pin ── */
+/* ── Custom blue pin ── */
 .loc-pin {
     width:32px; height:42px; position:relative; cursor:pointer;
 }
 .loc-pin-head {
     width:32px; height:32px; border-radius:50% 50% 50% 0;
-    transform:rotate(-45deg); background:#2e7d32;
+    transform:rotate(-45deg); background:#52799e;
     border:3px solid #fff; box-shadow:0 3px 10px rgba(0,0,0,0.35);
     display:flex; align-items:center; justify-content:center;
     transition:background 0.2s;
@@ -192,7 +192,7 @@ $defZoom = $defLoc ? 18 : 13;
     content:'📍'; font-size:13px; transform:rotate(45deg); display:block;
 }
 .loc-pin-tail {
-    width:4px; height:12px; background:#2e7d32;
+    width:4px; height:12px; background:#52799e;
     margin:0 auto; border-radius:0 0 3px 3px;
 }
 /* Search box */
@@ -200,16 +200,16 @@ $defZoom = $defLoc ? 18 : 13;
     display:flex; gap:6px; margin-bottom:8px;
 }
 .map-search-wrap input {
-    flex:1; border:1.5px solid #c8e6c9; border-radius:9px;
+    flex:1; border:1.5px solid #cbd7e3; border-radius:9px;
     padding:9px 13px; font-size:0.88rem; outline:none; transition:border-color 0.2s;
 }
-.map-search-wrap input:focus { border-color:#2e7d32; box-shadow:0 0 0 3px rgba(46,125,50,0.12); }
+.map-search-wrap input:focus { border-color:#52799e; box-shadow:0 0 0 3px rgba(82,121,158,0.12); }
 .map-search-wrap button {
-    background:#2e7d32; color:white; border:none; border-radius:9px;
+    background:#4d7193; color:white; border:none; border-radius:9px;
     padding:9px 14px; font-size:0.88rem; cursor:pointer; white-space:nowrap;
     transition:background 0.2s;
 }
-.map-search-wrap button:hover { background:#1b5e20; }
+.map-search-wrap button:hover { background:#405f82; }
 @media (max-width:480px) {
     .map-search-wrap { flex-direction:column; }
     .map-search-wrap input,
@@ -218,28 +218,28 @@ $defZoom = $defLoc ? 18 : 13;
 /* Map container */
 #map {
     width:100%; height:320px; border-radius:12px; overflow:hidden;
-    border:2px solid #c8e6c9; position:relative; z-index:0;
-    box-shadow:0 2px 12px rgba(46,125,50,0.10);
+    border:2px solid #cbd7e3; position:relative; z-index:0;
+    box-shadow:0 2px 12px rgba(82,121,158,0.10);
 }
 /* Coord display under map */
 .coord-display {
     display:flex; gap:8px; margin-top:7px;
 }
 .coord-box {
-    flex:1; background:#f1f8e9; border:1px solid #c8e6c9; border-radius:8px;
-    padding:7px 10px; font-size:0.78rem; color:#2e7d32; font-weight:700;
+    flex:1; background:#eaf0f6; border:1px solid #cbd7e3; border-radius:8px;
+    padding:7px 10px; font-size:0.78rem; color:#496a8a; font-weight:700;
     text-align:center;
 }
 .coord-box span { display:block; font-size:0.68rem; color:#888; font-weight:400; }
 /* Radius slider styled */
-#rad-range { accent-color:#2e7d32; }
+#rad-range { accent-color:#5a7fa4; }
 </style>
 
 <script>
 let locMap = null, locMarker = null, locCircle = null;
 
-/* ── Custom green pin icon ── */
-function greenIcon() {
+/* ── Custom blue pin icon ── */
+function blueIcon() {
     return L.divIcon({
         className: '',
         html: '<div class="loc-pin"><div class="loc-pin-head"></div><div class="loc-pin-tail"></div></div>',
@@ -255,8 +255,8 @@ function updateCircle(lat, lon) {
     if (locCircle) locMap.removeLayer(locCircle);
     locCircle = L.circle([lat, lon], {
         radius: r,
-        color:       '#2e7d32',
-        fillColor:   '#4caf50',
+        color:       '#52799e',
+        fillColor:   '#7897b5',
         fillOpacity: 0.15,
         weight:      2,
         dashArray:   '6,4'
@@ -266,7 +266,7 @@ function updateCircle(lat, lon) {
 /* ── Drop / move the pin ── */
 function setLocMarker(lat, lon, pan) {
     if (locMarker) locMap.removeLayer(locMarker);
-    locMarker = L.marker([lat, lon], { icon: greenIcon(), draggable: true }).addTo(locMap);
+    locMarker = L.marker([lat, lon], { icon: blueIcon(), draggable: true }).addTo(locMap);
 
     locMarker.on('drag', function (ev) {
         const p = ev.target.getLatLng();
@@ -331,8 +331,8 @@ function searchPlace() {
 function showMapMsg(msg, type) {
     let el = document.getElementById('map-msg');
     if (!el) { el = document.createElement('div'); el.id = 'map-msg'; el.style.cssText='font-size:0.78rem;padding:6px 10px;border-radius:7px;margin-top:5px;'; document.getElementById('map').after(el); }
-    el.style.background = type==='warn' ? '#fff8e1' : '#e8f5e9';
-    el.style.color      = type==='warn' ? '#e65100' : '#2e7d32';
+    el.style.background = type==='warn' ? '#fff8e1' : '#eaf0f6';
+    el.style.color      = type==='warn' ? '#e65100' : '#496a8a';
     el.textContent = msg;
     setTimeout(() => { if(el) el.textContent=''; }, 4000);
 }
@@ -347,7 +347,7 @@ function getMyLocation() {
             const la = pos.coords.latitude, lo = pos.coords.longitude;
             setLocMarker(la, lo, true);
             el.textContent = '✅ ' + la.toFixed(5) + ', ' + lo.toFixed(5) + ' (±' + Math.round(pos.coords.accuracy) + 'm)';
-            el.style.color = '#2e7d32';
+            el.style.color = '#496a8a';
         },
         (err) => { el.textContent = '❌ GPS blocked — use the map to pin instead.'; el.style.color = '#e53935'; },
         { enableHighAccuracy: true, timeout: 15000 }
@@ -458,8 +458,8 @@ window.addEventListener('load', function () {
         const m   = L.map(el, { zoomControl:false, attributionControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false });
         L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v12/tiles/{z}/{x}/{y}?access_token=<?= htmlspecialchars($_ENV['MAPBOX_PUBLIC_TOKEN'] ?? '') ?>', { maxZoom:22, tileSize:512, zoomOffset:-1 }).addTo(m);
         m.setView([la, lo], 18);
-        L.marker([la, lo], { icon: greenIcon() }).addTo(m).bindPopup('<b>' + nm + '</b>').openPopup();
-        L.circle([la, lo], { radius:r, color:'#2e7d32', fillColor:'#4caf50', fillOpacity:0.15, weight:2, dashArray:'6,4' }).addTo(m);
+        L.marker([la, lo], { icon: blueIcon() }).addTo(m).bindPopup('<b>' + nm + '</b>').openPopup();
+        L.circle([la, lo], { radius:r, color:'#52799e', fillColor:'#7897b5', fillOpacity:0.15, weight:2, dashArray:'6,4' }).addTo(m);
         setTimeout(function(){ m.invalidateSize(); }, 200);
     });
 });

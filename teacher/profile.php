@@ -44,7 +44,7 @@ $manual_att     = $conn->query("SELECT COUNT(*) as c FROM attendance WHERE teach
 <?php if ($err): ?><div class="alert alert-danger">❌ <?= htmlspecialchars($err) ?></div><?php endif; ?>
 
 <!-- Profile Header -->
-<div class="card" style="background:linear-gradient(135deg,#1b5e20,#2e7d32);color:white;border:none;margin-bottom:20px;">
+<div class="card" style="background:linear-gradient(135deg,#263f60,#4d7193);color:white;border:none;margin-bottom:20px;">
     <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
         <div style="width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;font-size:2.2rem;flex-shrink:0;">
             👨‍🏫
@@ -53,7 +53,7 @@ $manual_att     = $conn->query("SELECT COUNT(*) as c FROM attendance WHERE teach
             <h2 style="font-size:1.2rem;font-weight:800;margin-bottom:4px;"><?= htmlspecialchars($t['full_name']) ?></h2>
             <p style="font-size:0.84rem;opacity:0.75;"><?= htmlspecialchars($t['employee_id']) ?> &nbsp;·&nbsp; <?= htmlspecialchars($t['department'] ?: 'No department') ?></p>
         </div>
-        <span class="badge badge-present" style="background:rgba(0,200,150,0.2);color:#a5d6a7;border:1px solid rgba(0,200,150,0.4);">
+        <span class="badge badge-present" style="background:rgba(96,139,180,0.18);color:#b6cbe0;border:1px solid rgba(96,139,180,0.3);">
             ✅ Active <?= $t['is_approved'] ? '· Approved' : '· Pending' ?>
         </span>
     </div>
@@ -61,9 +61,9 @@ $manual_att     = $conn->query("SELECT COUNT(*) as c FROM attendance WHERE teach
 
 <!-- Stats -->
 <div class="stats-grid teacher-profile-stats">
-    <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">📚</div><div class="stat-info"><h3><?= $total_classes ?></h3><p>Classes</p></div></div>
+    <div class="stat-card green"> <div class="stat-icon" style="background:#eaf0f6;">📚</div><div class="stat-info"><h3><?= $total_classes ?></h3><p>Classes</p></div></div>
     <div class="stat-card blue">  <div class="stat-icon" style="background:#e3f2fd;">👥</div><div class="stat-info"><h3><?= $total_students ?></h3><p>Students</p></div></div>
-    <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">📋</div><div class="stat-info"><h3><?= $total_att ?></h3><p>Attendance Records</p></div></div>
+    <div class="stat-card green"> <div class="stat-icon" style="background:#eaf0f6;">📋</div><div class="stat-info"><h3><?= $total_att ?></h3><p>Attendance Records</p></div></div>
     <div class="stat-card orange"><div class="stat-icon" style="background:#fff3e0;">✏️</div><div class="stat-info"><h3><?= $manual_att ?></h3><p>Manual Records</p></div></div>
 </div>
 
@@ -132,12 +132,12 @@ $manual_att     = $conn->query("SELECT COUNT(*) as c FROM attendance WHERE teach
 function pwStr(pw){
     const f=document.getElementById('sf'),l=document.getElementById('sl');
     let s=0;if(pw.length>=8)s++;if(pw.length>=12)s++;if(/[A-Z]/.test(pw))s++;if(/[0-9]/.test(pw))s++;if(/[^A-Za-z0-9]/.test(pw))s++;
-    const lv=[{p:'0%',c:'#eee',t:'Enter password'},{p:'25%',c:'#ef5350',t:'Weak'},{p:'50%',c:'#ffa726',t:'Fair'},{p:'75%',c:'#66bb6a',t:'Good'},{p:'100%',c:'#2e7d32',t:'Strong 💪'}][Math.min(s,4)];
+    const lv=[{p:'0%',c:'#a0b0b4',t:'Enter password'},{p:'25%',c:'#d48789',t:'Weak'},{p:'50%',c:'#d8b27b',t:'Fair'},{p:'75%',c:'#a0b7cc',t:'Good'},{p:'100%',c:'#a8c2df',t:'Strong 💪'}][Math.min(s,4)];
     f.style.width=lv.p;f.style.background=lv.c;l.textContent=lv.t;l.style.color=lv.c;
 }
 function chkMatch(){
     const v1=document.getElementById('np1').value,v2=document.getElementById('np2').value,el=document.getElementById('mm');
-    if(!v2)return;el.textContent=v1===v2?'✅ Match':'❌ No match';el.style.color=v1===v2?'#2e7d32':'#e53935';
+    if(!v2)return;el.textContent=v1===v2?'✅ Match':'❌ No match';el.style.color=v1===v2?'#a8c2df':'#d48789';
 }
 function validatePw(){
     const v1=document.getElementById('np1').value,v2=document.getElementById('np2').value;

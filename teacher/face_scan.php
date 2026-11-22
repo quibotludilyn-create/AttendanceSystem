@@ -24,7 +24,7 @@ $subject = $sub->fetch_assoc();
         body { font-family:'Segoe UI',sans-serif; background:#0a0e1a; color:white; min-height:100vh; }
 
         .top-bar {
-            background:linear-gradient(90deg,#1b5e20,#2e7d32);
+            background:linear-gradient(90deg,#263f60,#4d7193);
             padding:12px 24px;
             display:flex; align-items:center; justify-content:space-between;
             box-shadow:0 2px 10px rgba(0,0,0,0.3);
@@ -45,16 +45,16 @@ $subject = $sub->fetch_assoc();
             background:rgba(0,0,0,0.7); border-radius:12px; padding:12px 24px;
             text-align:center; backdrop-filter:blur(8px); min-width:280px;
         }
-        .cam-status { font-size:0.9rem; font-weight:700; color:#00c896; }
-        .cam-status.scanning { color:#00b4d8; animation: pulse 1s infinite; }
-        .cam-status.matched  { color:#00c896; }
+        .cam-status { font-size:0.9rem; font-weight:700; color:#a8c2df; }
+        .cam-status.scanning { color:#91abc2; animation: pulse 1s infinite; }
+        .cam-status.matched  { color:#a8c2df; }
         .cam-status.no-face  { color:#ffa726; }
         .cam-status.error    { color:#e53935; }
         @keyframes pulse { 0%,100%{ opacity:1; } 50%{ opacity:0.5; } }
 
         .match-banner {
             position:absolute; top:20px; left:50%; transform:translateX(-50%);
-            background:rgba(46,125,50,0.9); border-radius:12px; padding:14px 24px;
+            background:rgba(55,83,115,0.94); border-radius:12px; padding:14px 24px;
             text-align:center; backdrop-filter:blur(8px);
             font-size:1.1rem; font-weight:800;
             display:none; animation:slideDown 0.3s ease;
@@ -79,7 +79,7 @@ $subject = $sub->fetch_assoc();
             transition:background 0.2s;
         }
         .student-item:hover { background:rgba(255,255,255,0.03); }
-        .student-item.present { background:rgba(0,168,122,0.1); border-left:3px solid #00a87a; }
+        .student-item.present { background:rgba(105,147,189,0.12); border-left:3px solid #7897b5; }
         .student-item.late    { background:rgba(230,81,0,0.1);   border-left:3px solid #e65100; }
         .student-item.absent  { background:rgba(229,57,53,0.08); }
         .student-item.scanning { background:rgba(0,180,216,0.15); border-left:3px solid #00b4d8; animation:pulse 1s infinite; }
@@ -88,12 +88,12 @@ $subject = $sub->fetch_assoc();
         .stu-name   { font-size:0.85rem; font-weight:600; }
         .stu-id     { font-size:0.7rem; color:#9ca3af; }
         .stu-badge  { margin-left:auto; padding:3px 10px; border-radius:20px; font-size:0.68rem; font-weight:700; white-space:nowrap; }
-        .badge-present { background:#065f46; color:#6ee7b7; }
+        .badge-present { background:#263f60; color:#b6cbe0; }
         .badge-late    { background:#7c2d12; color:#fdba74; }
         .badge-absent  { background:#374151; color:#9ca3af; }
-        .badge-scanning{ background:#0c4a6e; color:#7dd3fc; }
+        .badge-scanning{ background:#2d4966; color:#b6cbe0; }
 
-        .btn-start { width:calc(100% - 24px); margin:12px; padding:12px; background:linear-gradient(135deg,#2e7d32,#43a047); color:white; border:none; border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; }
+        .btn-start { width:calc(100% - 24px); margin:12px; padding:12px; background:linear-gradient(135deg,#4d7193,#5e7f9e); color:white; border:none; border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; }
         .btn-start:hover { opacity:0.9; }
         .btn-stop  { width:calc(100% - 24px); margin:12px; padding:12px; background:rgba(229,57,53,0.2); color:#ef4444; border:1px solid rgba(229,57,53,0.4); border-radius:10px; font-size:0.95rem; font-weight:700; cursor:pointer; display:none; }
     </style>
@@ -126,7 +126,7 @@ $subject = $sub->fetch_assoc();
             <p id="scan-info">Select subject and start scanning</p>
         </div>
         <div class="stats-row">
-            <div class="stat-box"><div class="n" id="cnt-present" style="color:#00a87a;">0</div><div class="l">Present</div></div>
+            <div class="stat-box"><div class="n" id="cnt-present" style="color:#a8c2df;">0</div><div class="l">Present</div></div>
             <div class="stat-box"><div class="n" id="cnt-late"    style="color:#e65100;">0</div><div class="l">Late</div></div>
             <div class="stat-box"><div class="n" id="cnt-absent"  style="color:#9ca3af;">0</div><div class="l">Remaining</div></div>
         </div>
@@ -305,7 +305,7 @@ async function detectAndMatch() {
 
             // Draw box
             const b = det.detection.box;
-            ctx.strokeStyle = match.distance < 0.55 ? '#00c896' : '#ffa726';
+            ctx.strokeStyle = match.distance < 0.55 ? '#91abc2' : '#ffa726';
             ctx.lineWidth   = 3;
             ctx.strokeRect(b.x * scaleX, b.y * scaleY, b.width * scaleX, b.height * scaleY);
 

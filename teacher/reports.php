@@ -112,7 +112,7 @@ if ($filter_subject) {
 <!-- Summary -->
 <div class="stats-grid teacher-report-stats">
     <div class="stat-card blue">  <div class="stat-icon" style="background:#e3f2fd;">📋</div><div class="stat-info"><h3><?= $summary['total']??0 ?></h3><p>Records</p></div></div>
-    <div class="stat-card green"> <div class="stat-icon" style="background:#e8f5e9;">✅</div><div class="stat-info"><h3><?= $summary['present']??0 ?></h3><p>Present</p></div></div>
+    <div class="stat-card green"> <div class="stat-icon" style="background:#eaf0f6;">✅</div><div class="stat-info"><h3><?= $summary['present']??0 ?></h3><p>Present</p></div></div>
     <div class="stat-card orange"><div class="stat-icon" style="background:#fff3e0;">⏰</div><div class="stat-info"><h3><?= $summary['late']??0 ?></h3><p>Late</p></div></div>
     <div class="stat-card red">   <div class="stat-icon" style="background:#ffebee;">❌</div><div class="stat-info"><h3><?= $summary['absent']??0 ?></h3><p>Absent</p></div></div>
     <div class="stat-card" style="border-left-color:#9c27b0;"><div class="stat-icon" style="background:#f3e5f5;">✏️</div><div class="stat-info"><h3><?= $summary['manual_count']??0 ?></h3><p>Manual</p></div></div>
@@ -136,7 +136,7 @@ if ($filter_subject) {
                 <td><?= date('M d, Y', strtotime($r['date'])) ?></td>
                 <td><?= $r['time_in'] ?></td>
                 <td><span class="badge badge-<?= $r['status'] ?>"><?= ucfirst($r['status']) ?></span></td>
-                <td><span class="badge" style="background:<?= $r['is_manual']?'#f5f5f5':'#e8f5e9' ?>;color:<?= $r['is_manual']?'#777':'#2e7d32' ?>;"><?= $r['is_manual']?'Manual':'Face' ?></span></td>
+                <td><span class="badge" style="background:<?= $r['is_manual']?'#f5f5f5':'#eaf0f6' ?>;color:<?= $r['is_manual']?'#777':'#496a8a' ?>;"><?= $r['is_manual']?'Manual':'Face' ?></span></td>
             </tr>
             <?php endwhile; ?>
             </tbody>
@@ -166,9 +166,9 @@ if ($filter_subject) {
                 <td>
                     <div style="display:flex;align-items:center;gap:8px;">
                         <div style="flex:1;background:#eee;border-radius:3px;height:6px;overflow:hidden;">
-                            <div style="height:100%;width:<?= $p['pct'] ?>%;background:<?= $p['pct']>=75?'#2e7d32':($p['pct']>=50?'#ffa726':'#ef5350') ?>;border-radius:3px;"></div>
+                            <div style="height:100%;width:<?= $p['pct'] ?>%;background:<?= $p['pct']>=75?'#52799e':($p['pct']>=50?'#ffa726':'#ef5350') ?>;border-radius:3px;"></div>
                         </div>
-                        <span style="font-weight:700;font-size:0.82rem;color:<?= $p['pct']>=75?'#2e7d32':($p['pct']>=50?'#e65100':'#e53935') ?>;"><?= $p['pct'] ?>%</span>
+                        <span style="font-weight:700;font-size:0.82rem;color:<?= $p['pct']>=75?'#496a8a':($p['pct']>=50?'#e65100':'#e53935') ?>;"><?= $p['pct'] ?>%</span>
                     </div>
                 </td>
             </tr>
@@ -188,7 +188,7 @@ toggleDate('<?= $filter_period ?>');
 function printReport() {
     const content = document.getElementById('print-area').innerHTML;
     const win = window.open('','','width=900,height=700');
-    win.document.write(`<html><head><title>Attendance Report</title><style>body{font-family:Arial,sans-serif;font-size:12px;}table{width:100%;border-collapse:collapse;}th{background:#1b5e20;color:white;padding:8px;}td{padding:7px;border-bottom:1px solid #ddd;}</style></head><body><h2 style="color:#1b5e20;">Attendance Report — <?= htmlspecialchars($period_label) ?></h2>${content}</body></html>`);
+    win.document.write(`<html><head><title>Attendance Report</title><style>body{font-family:Arial,sans-serif;font-size:12px;}table{width:100%;border-collapse:collapse;}th{background:#405f82;color:white;padding:8px;}td{padding:7px;border-bottom:1px solid #ddd;}</style></head><body><h2 style="color:#314d70;">Attendance Report — <?= htmlspecialchars($period_label) ?></h2>${content}</body></html>`);
     win.document.close(); win.print();
 }
 </script>

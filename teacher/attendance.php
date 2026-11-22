@@ -109,7 +109,7 @@ if ($selected_subject) {
         <!-- Info + Log Side -->
         <div>
             <!-- Detected Student Card -->
-            <div id="detected-card" class="card" style="display:none; border:2px solid #2e7d32;">
+            <div id="detected-card" class="card" style="display:none; border:2px solid #52799e;">
                 <div class="card-title">✅ Student Detected</div>
                 <table style="font-size:0.9rem;">
                     <tr><td style="padding:6px;color:#666;width:90px;">Name:</td>    <td style="padding:6px;font-weight:600;" id="d-name">—</td></tr>
@@ -186,7 +186,7 @@ if ($selected_subject) {
                         </td>
                         <td><?php if ($att): ?><span class="badge badge-<?= $att['status'] ?>"><?= ucfirst($att['status']) ?></span><?php else: ?><span class="badge badge-absent">Absent</span><?php endif; ?></td>
                         <td><?= $att ? $att['time_in'] : '—' ?></td>
-                        <td><?php if ($att): ?><span class="badge" style="background:<?= $att['is_manual']?'#f5f5f5':'#e8f5e9' ?>;color:<?= $att['is_manual']?'#777':'#2e7d32' ?>;"><?= $att['is_manual']?'Manual':'Face' ?></span><?php endif; ?></td>
+                        <td><?php if ($att): ?><span class="badge" style="background:<?= $att['is_manual']?'#f5f5f5':'#eaf0f6' ?>;color:<?= $att['is_manual']?'#777':'#496a8a' ?>;"><?= $att['is_manual']?'Manual':'Face' ?></span><?php endif; ?></td>
                         <td style="font-size:0.78rem;color:#888;"><?= $att && !empty($att['manual_reason']) ? htmlspecialchars($att['manual_reason']) : '—' ?></td>
                     </tr>
                     <?php endwhile; ?>
@@ -264,9 +264,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const msgEl = document.getElementById('manual-msg');
     if (msgEl) {
         msgEl.style.display    = 'block';
-        msgEl.style.background = '#e8f5e9';
-        msgEl.style.color      = '#2e7d32';
-        msgEl.style.border     = '1px solid #a5d6a7';
+        msgEl.style.background = '#eaf0f6';
+        msgEl.style.color      = '#496a8a';
+        msgEl.style.border     = '1px solid #cbd7e3';
         msgEl.textContent      = '✅ <?= addslashes($msg) ?>';
         setTimeout(() => { msgEl.style.display = 'none'; }, 4000);
     }
@@ -375,9 +375,9 @@ function saveManual() {
     .then(r => r.json())
     .then(res => {
         msgEl.style.display     = 'block';
-        msgEl.style.background  = res.success ? '#e8f5e9' : '#ffebee';
-        msgEl.style.color       = res.success ? '#2e7d32' : '#c62828';
-        msgEl.style.border      = res.success ? '1px solid #a5d6a7' : '1px solid #ffcdd2';
+        msgEl.style.background  = res.success ? '#eaf0f6' : '#ffebee';
+        msgEl.style.color       = res.success ? '#496a8a' : '#c62828';
+        msgEl.style.border      = res.success ? '1px solid #cbd7e3' : '1px solid #ffcdd2';
         msgEl.textContent       = (res.success ? '✅ ' : '❌ ') + res.message;
 
         if (res.success) {

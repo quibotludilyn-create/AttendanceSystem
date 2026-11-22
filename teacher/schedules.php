@@ -116,10 +116,10 @@ while ($s = $schedules->fetch_assoc()) {
                 <div id="days-dropdown" style="display:none;position:absolute;top:100%;left:0;right:0;background:white;border:1.5px solid #dde0ec;border-radius:9px;z-index:100;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,0.1);margin-top:4px;">
                     <?php foreach(['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'] as $d): ?>
                     <label style="display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;font-size:0.88rem;transition:background 0.15s;"
-                           onmouseover="this.style.background='#f1f8e9'" onmouseout="this.style.background='transparent'">
+                           onmouseover="this.style.background='#eef2f7'" onmouseout="this.style.background='transparent'">
                         <input type="checkbox" name="days_of_week[]" value="<?= $d ?>"
                                onchange="updateDaysLabel()"
-                               style="accent-color:#2e7d32;width:16px;height:16px;">
+                               style="accent-color:#5a7fa4;width:16px;height:16px;">
                         <?= $d ?>
                     </label>
                     <?php endforeach; ?>
@@ -150,7 +150,7 @@ while ($s = $schedules->fetch_assoc()) {
         $daysStr = implode(', ', array_map(fn($d) => $dayAbbr[$d], $sch['days']));
         $idsStr  = implode(',', $sch['ids']);
     ?>
-    <div class="teacher-schedule-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f9fafb;border-radius:8px;margin-bottom:8px;border-left:3px solid #2e7d32;">
+    <div class="teacher-schedule-item" style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f9fafb;border-radius:8px;margin-bottom:8px;border-left:3px solid #5a7fa4;">
         <div class="teacher-schedule-info">
             <div style="font-weight:700;font-size:0.88rem;"><?= htmlspecialchars($sch['subject_name']) ?></div>
             <div style="font-size:0.76rem;color:#666;">
