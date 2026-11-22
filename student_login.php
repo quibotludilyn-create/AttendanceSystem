@@ -175,14 +175,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             backdrop-filter: blur(4px);
         }
         .feat-icon {
-            width: 36px; height: 36px;
-            border-radius: 9px;
-            background: rgba(0,180,216,0.15);
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            background: #dce8f7;
+            border: 1px solid rgba(255,255,255,0.5);
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
             flex-shrink: 0;
         }
-        .feat-icon img { width: 24px; height: 24px; object-fit: contain; }
+        .feat-icon img { width: 42px; height: 42px; object-fit: contain; }
         .feat-text strong { color: white; display: block; font-size: 0.84rem; margin-bottom: 1px; }
         .feat-text span   { font-size: 0.76rem; opacity: 0.6; }
 
