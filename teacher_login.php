@@ -51,6 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .features{display:flex;flex-direction:column;gap:12px;text-align:left;}
         .feat-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:11px 15px;color:rgba(255,255,255,0.8);font-size:0.85rem;backdrop-filter:blur(4px);}
         .feat-icon{width:36px;height:36px;border-radius:9px;background:rgba(46,125,50,0.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+        .feat-icon img{width:24px;height:24px;object-fit:contain;}
         .feat-text strong{color:white;display:block;font-size:0.83rem;margin-bottom:1px;}
         .feat-text span{font-size:0.74rem;opacity:0.6;}
 
@@ -130,11 +131,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>Manage your classes, take attendance, set location, and monitor your students — all in one place.</p>
         <div class="features">
             <div class="feat-item">
-                <div class="feat-icon">📚</div>
+                <div class="feat-icon"><img src="assets/img/books.png" alt=""></div>
                 <div class="feat-text"><strong>Class Management</strong><span>Add subjects, enroll students, set schedules</span></div>
             </div>
             <div class="feat-item">
-                <div class="feat-icon">📷</div>
+                <div class="feat-icon"><img src="assets/img/camera.png" alt=""></div>
                 <div class="feat-text"><strong>Manual Attendance</strong><span>Override attendance when face scan fails</span></div>
             </div>
             <div class="feat-item">
