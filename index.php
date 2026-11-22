@@ -1078,12 +1078,12 @@
 
                 <!-- Floating info cards -->
                 <div class="float-card fc-1">
-                    <span class="fc-icon">✅</span>
+                    <span class="fc-icon"><img src="assets/img/check_verified.png" alt="Verified" style="width:24px;height:24px;object-fit:contain;"></span>
                     <span class="fc-label">Face verified</span><br>
                     <span class="fc-value">Juan D. Cruz</span>
                 </div>
                 <div class="float-card fc-2">
-                    <span class="fc-icon">📍</span>
+                    <span class="fc-icon"><img src="assets/img/location.png" alt="Location" style="width:24px;height:24px;object-fit:contain;"></span>
                     <span class="fc-label">Location</span><br>
                     <span class="fc-value">Within campus</span>
                 </div>
