@@ -12,8 +12,6 @@ $student_section = $_SESSION['student_section'] ?? '';
 require_once 'layout.php';
 ?>
 <style>
-    body { background: var(--gray) !important; }
-
     .scan-card {
         background: white; border-radius: 18px;
         padding: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);
