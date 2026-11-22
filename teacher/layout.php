@@ -99,19 +99,16 @@ $notif_count = $conn->query("
             }
 
             .sidebar {
-                width: 260px !important;
-                height: 100vh !important;
-                position: fixed !important;
-                top: 0 !important;
-                left: -260px !important;
-                z-index: 9999 !important;
-                transition: left 0.3s ease !important;
+                width: 100% !important;
+                height: auto !important;
+                position: relative !important;
                 flex-direction: column !important;
-                overflow-y: auto !important;
+                align-items: stretch !important;
+                overflow: visible !important;
             }
 
-            .sidebar.open { left: 0 !important; }
-
+            .sidebar nav,
+            .sidebar-footer { display: none !important; }
             .sidebar.open nav,
             .sidebar.open .sidebar-footer {
                 display: block !important;
@@ -120,7 +117,8 @@ $notif_count = $conn->query("
 
             .sidebar nav ul {
                 flex-direction: column !important;
-                overflow-x: unset !important;
+                overflow: visible !important;
+                padding: 8px 0 !important;
             }
 
             .sidebar nav ul li a {
@@ -128,6 +126,12 @@ $notif_count = $conn->query("
                 border-bottom: none !important;
                 padding: 14px 20px !important;
                 white-space: nowrap !important;
+            }
+
+            .sidebar nav ul li a.active,
+            .sidebar nav ul li a:hover {
+                border-left-color: #a5d6a7 !important;
+                background: rgba(255,255,255,0.12) !important;
             }
 
             .sidebar-footer {
@@ -142,15 +146,6 @@ $notif_count = $conn->query("
                 padding: 12px !important;
                 width: 100% !important;
             }
-
-            .sidebar-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0,0,0,0.5);
-                z-index: 9998;
-            }
-            .sidebar-overlay.show { display: block !important; }
 
             .topbar {
                 display: flex !important;
@@ -184,6 +179,8 @@ $notif_count = $conn->query("
         <div class="sidebar-header">
             <span class="sidebar-icon"><img src="../assets/img/logo.png" style="width:44px;height:44px;object-fit:cover;border-radius:8px;" alt="Logo"></span>
             <h3>Face Recognition<br>Attendance System<br><small style="opacity:0.7;font-size:0.75rem;">Teacher Portal</small></h3>
+            <button class="hamburger" type="button" onclick="toggleSidebar()" id="hamburger-btn"
+                    aria-expanded="false" aria-controls="teacher-sidebar-menu" aria-label="Open navigation menu">☰</button>
         </div>
 
         <nav id="teacher-sidebar-menu">
@@ -244,8 +241,6 @@ $notif_count = $conn->query("
     <!-- ── MAIN CONTENT ── -->
     <main class="main-content">
         <div class="topbar">
-            <button class="hamburger" type="button" onclick="toggleSidebar()" id="hamburger-btn"
-                    aria-expanded="false" aria-controls="teacher-sidebar-menu" aria-label="Open navigation menu">☰</button>
             <h4>
                 <?php
                 $titles = [
@@ -270,24 +265,11 @@ $notif_count = $conn->query("
             </div>
         </div>
 
-<!-- Sidebar overlay for mobile -->
-<div class="sidebar-overlay" id="sidebar-overlay" onclick="closeSidebar()"></div>
-
 <script src="../assets/js/notifications.js"></script>
 <script>
 function toggleSidebar() {
-    const sidebar  = document.querySelector('.sidebar');
-    const overlay  = document.getElementById('sidebar-overlay');
-    const isOpen   = sidebar.classList.contains('open');
-    if (isOpen) {
-        sidebar.classList.remove('open');
-        overlay.classList.remove('show');
-        setSidebarButton(false);
-    } else {
-        sidebar.classList.add('open');
-        overlay.classList.add('show');
-        setSidebarButton(true);
-    }
+    const isOpen = document.querySelector('.sidebar').classList.toggle('open');
+    setSidebarButton(isOpen);
 }
 function setSidebarButton(isOpen) {
     const button = document.getElementById('hamburger-btn');
@@ -297,7 +279,9 @@ function setSidebarButton(isOpen) {
 }
 function closeSidebar() {
     document.querySelector('.sidebar').classList.remove('open');
-    document.getElementById('sidebar-overlay').classList.remove('show');
     setSidebarButton(false);
 }
+document.querySelectorAll('#teacher-sidebar-menu a').forEach(link => {
+    link.addEventListener('click', closeSidebar);
+});
 </script>
