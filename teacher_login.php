@@ -59,6 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .right-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2e7d32,#43a047,#00c896);}
         .form-header{margin-bottom:30px;}
         .portal-badge{display:inline-flex;align-items:center;gap:6px;background:#e8f5e9;color:#2e7d32;padding:5px 14px;border-radius:20px;font-size:0.72rem;font-weight:800;letter-spacing:1px;margin-bottom:14px;}
+        .portal-badge img{width:20px;height:20px;object-fit:contain;}
         .form-header h2{font-size:1.6rem;font-weight:900;color:#0a1a0a;margin-bottom:6px;letter-spacing:-0.5px;}
         .form-header p{color:#888;font-size:0.88rem;}
         .error-box{display:flex;align-items:flex-start;gap:10px;background:#fff1f1;border:1px solid #ffc9c9;border-left:4px solid #e53935;border-radius:10px;padding:12px 14px;font-size:0.84rem;color:#c62828;margin-bottom:20px;}
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <div class="right-panel">
     <div class="form-header">
-        <div class="portal-badge">👨‍🏫 TEACHER PORTAL</div>
+        <div class="portal-badge"><img src="assets/img/teacher.png" alt=""> TEACHER PORTAL</div>
         <h2>Teacher Login</h2>
         <p>Sign in to manage your classes and attendance</p>
     </div>
