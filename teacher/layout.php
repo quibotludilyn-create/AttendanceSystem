@@ -81,11 +81,22 @@ $notif_count = $conn->query("
             font-size: 1.5rem;
             cursor: pointer;
             padding: 8px;
-            margin-left: auto;
         }
 
         @media (max-width: 768px) {
-            .hamburger { display: block !important; }
+            .hamburger {
+                display: inline-flex !important;
+                align-items: center;
+                justify-content: center;
+                flex: 0 0 44px;
+                width: 44px;
+                height: 44px;
+                margin: 0 !important;
+                color: #1b5e20 !important;
+                background: #e8f5e9;
+                border: 1px solid #c8e6c9;
+                border-radius: 8px;
+            }
 
             .sidebar {
                 width: 260px !important;
@@ -145,7 +156,8 @@ $notif_count = $conn->query("
                 display: flex !important;
                 flex-direction: row !important;
                 align-items: center !important;
-                justify-content: space-between !important;
+                justify-content: flex-start !important;
+                gap: 12px !important;
                 padding: 12px 16px !important;
                 position: sticky !important;
                 top: 0 !important;
@@ -153,6 +165,8 @@ $notif_count = $conn->query("
                 background: white !important;
                 box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
             }
+
+            .topbar h4 { flex: 1; min-width: 0; }
 
             .topbar-user { display: none !important; }
 
