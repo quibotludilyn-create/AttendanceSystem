@@ -182,6 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             font-size: 1.1rem;
             flex-shrink: 0;
         }
+        .feat-icon img { width: 24px; height: 24px; object-fit: contain; }
         .feat-text strong { color: white; display: block; font-size: 0.84rem; margin-bottom: 1px; }
         .feat-text span   { font-size: 0.76rem; opacity: 0.6; }
 
@@ -222,6 +223,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             letter-spacing: 1px;
             margin-bottom: 14px;
         }
+        .portal-badge img { width: 20px; height: 20px; object-fit: contain; }
 
         .form-header h2 {
             font-size: 1.6rem;
@@ -243,7 +245,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             margin-bottom: 28px;
         }
         .sf-step { display: flex; flex-direction: column; align-items: center; flex: 1; gap: 4px; }
-        .sf-icon  { font-size: 1.2rem; }
+        .sf-icon  { font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
+        .sf-icon img { width: 24px; height: 24px; object-fit: contain; }
         .sf-lbl   { font-size: 0.6rem; font-weight: 700; color: #666; text-align: center; line-height: 1.3; }
         .sf-arrow { color: #ddd; font-size: 0.9rem; margin-bottom: 14px; flex-shrink: 0; }
 
@@ -361,6 +364,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: #aaa; font-size: 0.78rem;
             text-decoration: none; transition: color 0.2s;
         }
+        .bottom-links img { width: 24px; height: 24px; object-fit: contain; vertical-align: middle; }
         .bottom-links a:hover { color: #1565c0; }
         .bottom-links .sep { color: #e0e0e0; }
 
@@ -395,21 +399,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </p>
         <div class="features">
             <div class="feat-item">
-                <div class="feat-icon">🤖</div>
+                <div class="feat-icon"><img src="assets/img/AI_Face.png" alt=""></div>
                 <div class="feat-text">
                     <strong>AI Face Recognition</strong>
                     <span>Liveness detection — no photos can bypass</span>
                 </div>
             </div>
             <div class="feat-item">
-                <div class="feat-icon">📍</div>
+                <div class="feat-icon"><img src="assets/img/location_verified.png" alt=""></div>
                 <div class="feat-text">
                     <strong>GPS Location Verified</strong>
                     <span>Must be within campus to record attendance</span>
                 </div>
             </div>
             <div class="feat-item">
-                <div class="feat-icon">⚡</div>
+                <div class="feat-icon"><img src="assets/img/fast_notification.png" alt=""></div>
                 <div class="feat-text">
                     <strong>Instant Notifications</strong>
                     <span>Teacher & admin notified automatically</span>
@@ -423,7 +427,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <div class="right-panel">
 
     <div class="form-header">
-        <div class="portal-badge">👨‍🎓 STUDENT PORTAL</div>
+        <div class="portal-badge"><img src="assets/img/students.png" alt=""> STUDENT PORTAL</div>
         <h2>Welcome Back</h2>
         <p>Sign in to record your attendance</p>
     </div>
@@ -431,22 +435,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <!-- Step flow preview -->
     <div class="step-flow">
         <div class="sf-step">
-            <div class="sf-icon">🔐</div>
+            <div class="sf-icon"><img src="assets/img/signuponce.png" alt=""></div>
             <div class="sf-lbl">Enter<br>Credentials</div>
         </div>
         <div class="sf-arrow">›</div>
         <div class="sf-step">
-            <div class="sf-icon">📷</div>
+            <div class="sf-icon"><img src="assets/img/face_V.png" alt=""></div>
             <div class="sf-lbl">Face<br>Challenge</div>
         </div>
         <div class="sf-arrow">›</div>
         <div class="sf-step">
-            <div class="sf-icon">📍</div>
+            <div class="sf-icon"><img src="assets/img/location.png" alt=""></div>
             <div class="sf-lbl">Location<br>Check</div>
         </div>
         <div class="sf-arrow">›</div>
         <div class="sf-step">
-            <div class="sf-icon">✅</div>
+            <div class="sf-icon"><img src="assets/img/check_verified.png" alt=""></div>
             <div class="sf-lbl">Attendance<br>Recorded</div>
         </div>
     </div>
@@ -487,7 +491,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="bottom-links">
         <a href="index.php">← Home</a>
         <span class="sep">|</span>
-        <a href="teacher_login.php">👨‍🏫 Teacher Login</a>
+        <a href="teacher_login.php"><img src="assets/img/teacher.png" alt=""> Teacher Login</a>
         <span class="sep">|</span>
         <a href="admin/" style="color:#ddd;">Admin</a>
     </div>
