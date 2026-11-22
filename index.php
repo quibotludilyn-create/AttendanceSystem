@@ -77,6 +77,20 @@
             display: flex; align-items: center; gap: 6px;
         }
 
+        .nav-toggle {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 8px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
         .nav-menu a {
             color: rgba(255,255,255,0.8);
             text-decoration: none;
@@ -946,6 +960,30 @@
         /* ══════════════════════════════════════
            RESPONSIVE
         ══════════════════════════════════════ */
+        @media (max-width: 960px) {
+            .nav-toggle { display: inline-flex; }
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 68px;
+                right: 5%;
+                width: min(280px, 90vw);
+                flex-direction: column;
+                align-items: stretch;
+                gap: 4px;
+                padding: 12px;
+                background: rgba(10,14,46,0.98);
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 12px;
+                box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+            }
+            .nav-menu.open { display: flex; }
+            .nav-menu a { width: 100%; }
+            .nav-menu a img { width: 32px !important; height: 32px !important; }
+            .nav-menu a.btn-nav img { width: 34px !important; height: 30px !important; }
+            .nav-menu .btn-nav { justify-content: center; }
+        }
+
         @media (max-width: 900px) {
             .hero-inner    { grid-template-columns: 1fr; text-align: center; padding-top: 100px; }
             .hero-right    { order: -1; }
@@ -965,12 +1003,29 @@
         }
 
         @media (max-width: 600px) {
-            .hero-h1    { font-size: 2rem; }
+            .nav { padding: 0 4%; }
+            .nav-brand { gap: 7px; }
+            .brand-icon { width: 34px; height: 34px; }
+            .brand-name { font-size: 1rem; }
+            .nav-menu { right: 4%; }
+            .hero-inner { gap: 32px; padding: 92px 5% 56px; }
+            .hero-h1 { font-size: clamp(1.7rem, 7vw, 2rem); }
+            .hero-pill { max-width: 100%; padding: 6px 12px; font-size: 0.68rem; }
             .hiw-grid   { grid-template-columns: 1fr; }
             .feat-grid  { grid-template-columns: 1fr; }
-            .stats-inner{ grid-template-columns: repeat(2, 1fr); }
+            .stats-bar { padding: 20px 4%; }
+            .stats-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 10px; border-radius: 24px; }
+            .stat-item { gap: 8px; padding: 10px 6px; min-width: 0; }
+            .stat-item .sv img { width: 52px !important; height: 52px !important; }
+            .stat-item .sl { font-size: 0.72rem; line-height: 1.25; }
             .section    { padding: 60px 5%; }
-            .nav-menu a:not(.btn-nav) { display: none; }
+            .section-head { margin-bottom: 36px; }
+            .cta-section h2 { font-size: 2rem; }
+            .cta-cards { gap: 16px; }
+            .cta-card { width: 100%; max-width: 320px; padding: 26px 20px; }
+            #feedback.section { padding: 60px 5% !important; }
+            .feedback-fields { grid-template-columns: minmax(0, 1fr) !important; }
+            .feedback-form-card { padding: 20px !important; }
         }
     </style>
 </head>
@@ -986,7 +1041,8 @@
         </div>
         <span class="brand-name">Attend<span>Ease</span></span>
     </a>
-    <div class="nav-menu">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav-menu" aria-label="Open navigation menu">☰</button>
+    <div class="nav-menu" id="primary-nav-menu">
         <a href="#how-it-works">How It Works</a>
         <a href="#features">Features</a>
         <a href="student_signup.php">Sign Up</a>
@@ -1364,7 +1420,7 @@
             <div>
                 <div style="font-size:0.78rem;font-weight:800;color:var(--blue);letter-spacing:1px;margin-bottom:18px;text-transform:uppercase;">📝 Leave Your Feedback</div>
 
-                <div style="background:white;border-radius:18px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid #eef0f7;">
+                <div class="feedback-form-card" style="background:white;border-radius:18px;padding:28px;box-shadow:0 4px 20px rgba(0,0,0,0.08);border:1px solid #eef0f7;">
 
                     <div id="fb-success" style="display:none;background:#e8fdf5;border:1px solid #a5d6a7;border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;">
                         <div style="font-size:2rem;margin-bottom:6px;">🎉</div>
@@ -1386,7 +1442,7 @@
                             <input type="hidden" id="fb-rating" value="5">
                         </div>
 
-                        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+                        <div class="feedback-fields" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
                             <div>
                                 <label style="display:block;font-size:0.82rem;font-weight:700;color:#333;margin-bottom:6px;">Gmail Address *</label>
                                 <input type="email" id="fb-name" placeholder="your@gmail.com"
@@ -1449,6 +1505,25 @@
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+const navToggle = document.querySelector('.nav-toggle');
+const navMenu = document.getElementById('primary-nav-menu');
+function closeNavMenu() {
+    navMenu.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Open navigation menu');
+    navToggle.textContent = '☰';
+}
+navToggle.addEventListener('click', () => {
+    const isOpen = navMenu.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    navToggle.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+    navToggle.textContent = isOpen ? '✕' : '☰';
+});
+navMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', closeNavMenu));
+document.addEventListener('click', event => {
+    if (!nav.contains(event.target)) closeNavMenu();
 });
 
 // ── Scroll reveal ──
