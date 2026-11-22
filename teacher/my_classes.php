@@ -52,7 +52,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
 <?php if ($msg): ?><div class="alert alert-success">✅ <?= htmlspecialchars($msg) ?></div><?php endif; ?>
 <?php if ($err): ?><div class="alert alert-danger">❌ <?= htmlspecialchars($err) ?></div><?php endif; ?>
 
-<div class="grid-2">
+<div class="teacher-classes-layout">
 <!-- Add Subject -->
 <div class="card">
     <div class="card-title">➕ Add New Subject</div>
@@ -65,7 +65,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
             <label>Subject Name *</label>
             <input type="text" name="subject_name" class="form-control" placeholder="e.g. Introduction to Programming" required>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="teacher-class-form-grid">
             <div class="form-group">
                 <label>Section *</label>
                 <input type="text" name="section" class="form-control" placeholder="e.g. A" required>
@@ -75,7 +75,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
                 <input type="text" name="course" class="form-control" placeholder="BSIT">
             </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="teacher-class-form-grid">
             <div class="form-group">
                 <label>Year Level</label>
                 <select name="year_level" class="form-control">
@@ -87,7 +87,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
                 <input type="text" name="room" class="form-control" placeholder="Room 201">
             </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="teacher-class-form-grid">
             <div class="form-group">
                 <label>School Year</label>
                 <input type="text" name="school_year" class="form-control" value="<?= date('Y').'-'.(date('Y')+1) ?>">
@@ -110,7 +110,7 @@ $all_students = $conn->query("SELECT id, student_id, full_name, course, year_lev
     <div class="card-title">📚 My Subjects (<?= $subjects->num_rows ?>)</div>
     <?php if ($subjects->num_rows > 0): ?>
     <div class="table-responsive">
-        <table>
+        <table class="teacher-subject-table">
             <thead><tr><th>Code</th><th>Subject</th><th>Section</th><th>Year</th><th>Enrolled</th><th>Actions</th></tr></thead>
             <tbody>
             <?php while($s = $subjects->fetch_assoc()): ?>
@@ -177,7 +177,7 @@ function loadAttendanceCounts() {
                 wrap.innerHTML = '<div class="empty-state" style="padding:20px 0;"><div class="empty-icon">👥</div><p>No students enrolled yet.</p></div>';
                 return;
             }
-            let html = `<div class="table-responsive"><table>
+            let html = `<div class="table-responsive"><table class="teacher-enrollment-table">
                 <thead><tr><th>#</th><th>Student ID</th><th>Name</th><th>Course</th><th>Attendance</th><th>Action</th></tr></thead>
                 <tbody>`;
             data.students.forEach((s, i) => {

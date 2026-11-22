@@ -105,6 +105,29 @@ $notif_count = $conn->query("
         .teacher-attendance-search { display: flex; width: min(100%, 220px); }
         .teacher-attendance-search-input { width: 100%; min-width: 0; box-sizing: border-box; }
 
+        .teacher-classes-layout {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+        }
+
+        .teacher-classes-layout > .card { min-width: 0; }
+        .teacher-class-form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+        .teacher-subject-table { min-width: 640px; }
+        .teacher-enrollment-table { min-width: 720px; }
+
+        @media (max-width: 1024px) {
+            .teacher-classes-layout { grid-template-columns: minmax(0, 1fr); }
+        }
+
+        @media (max-width: 480px) {
+            .teacher-class-form-grid { grid-template-columns: minmax(0, 1fr); }
+        }
+
         @media (max-width: 1024px) {
             .teacher-subject-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
         }
